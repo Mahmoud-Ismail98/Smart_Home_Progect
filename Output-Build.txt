@@ -1,0 +1,14 @@
+﻿------ Build started: Project: smart_home, Configuration: Debug AVR ------
+Build started.
+Project "smart_home.cproj" (default targets):
+Target "PreBuildEvent" skipped, due to false condition; ('$(PreBuildEvent)'!='') was evaluated as (''!='').
+Target "CoreBuild" in file "C:\Program Files (x86)\Atmel\Atmel Studio 6.0\Vs\Compiler.targets" from project "H:\test\interview 2023\avr progect\my progect\smart_home\smart_home\smart_home.cproj" (target "Build" depends on it):
+	Using "RunCompilerTask" task from assembly "C:\Program Files (x86)\Atmel\Atmel Studio 6.0\Vs\Compiler.Task.dll".
+	Task "RunCompilerTask"
+		C:\Program Files (x86)\Atmel\Atmel Studio 6.0\make\make.exe all 
+	Done executing task "RunCompilerTask" -- FAILED.
+Done building target "CoreBuild" in project "smart_home.cproj" -- FAILED.
+Done building project "smart_home.cproj" -- FAILED.
+
+Build FAILED.
+========== Build: 0 succeeded or up-to-date, 1 failed, 0 skipped ==========
