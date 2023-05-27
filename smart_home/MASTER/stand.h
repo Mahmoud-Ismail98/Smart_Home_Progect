@@ -20,6 +20,12 @@
 		typedef float float32;
 		typedef double float64;
 
+	#define SET_BIT(REG,BIT) (REG|=(1<<BIT))
+	#define CLEAR_BIT(REG,BIT) (REG&=(~(1<<BIT)))
+	#define TOGEL_BIT(REG,BIT) (REG^=(1<<BIT))
+	#define IS_BIT_SET(REG,BIT) (REG&(1<<BIT))
+	#define IS_BIT_CLEAR(REG,BIT) (!(REG&(1<<BIT)))	
+
 
 
 #endif /* STAND_H_ */

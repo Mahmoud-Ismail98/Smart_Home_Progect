@@ -9,20 +9,6 @@
 #ifndef SMART_HOME_COFIG_H_
 #define SMART_HOME_COFIG_H_
 
-#include "stand.h"
-
-#define  OWNER_PIN 0
-#define  GUEST_PIN 1
-#define  ROOM1 (uint8)2
-#define  ROOM2 (uint8)3
-#define  ROOM3 (uint8)4
-#define  TV (uint8)5
-
-
-#define Login_status (uint16)0x20
-#define ADMIN_PASS_ADD (uint16)0x21
-#define Guest_PASS_ADD (uint16)0x25
-
 
 #define F_CPU 1000000U
 #include <avr/io.h>
@@ -35,6 +21,22 @@
 #include "lcd.h"
 #include "keypad.h"
 #include "TIMER0.h"
+#include "SPI.h"
+
+#define  OWNER_PIN 0
+#define  GUEST_PIN 1
+#define  ROOM1 (uint8)2
+#define  ROOM2 (uint8)3
+#define  ROOM3 (uint8)4
+#define  TV (uint8)5
+#define  AIR_COND (uint8)6
+
+#define Login_status (uint16)0x20
+#define ADMIN_PASS_ADD (uint16)0x21
+#define Guest_PASS_ADD (uint16)0x25
+
+
+
 //////////////////
 //define INPUT
 #define  Door_Sen      PINC0
@@ -61,8 +63,6 @@ void Create_Timing(void);
 uint8_t Sensors_Read(void);
 void Remaning_Time(void);
 void Cancling_Mode(void);
-void Microwave_Closed(void);
-void Microwave_Open(void);
 void Turn_Fan(void);
 void close_Fan(void);
 

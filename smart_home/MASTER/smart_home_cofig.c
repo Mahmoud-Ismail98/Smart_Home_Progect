@@ -32,7 +32,7 @@ void Device_Drive(void)
 void Starting_Program(void)
 { 
 	
-	Device_Drive();
+	//Device_Drive();
 	Start_Message();
 	Timer0_Intialization();
 }
@@ -86,28 +86,7 @@ void Remaning_Time(void)
 				  SEND_DATE(Arr_Time[2]+48);
 				  SEND_DATE(Arr_Time[3]+48);
 }
-void MIcrowave_Finish_task(void)
-{
-	              cli();   //mask all interupt globaally
-				  TCCR0=0x00;
-				  flag=0;
-			    GO_LOC(2,1);
-			    SEND_STRING("      ");	   
-		       SEND_STRING("00:00 ");
-				 Stop_Output();
-				  Buzzer_On;
-				  _delay_ms(300);
-				  Buzzer_Off;
-				  SEND_COMND(0x01);
-               	GO_LOC(3,1);
-			    SEND_STRING("welldone");
-					for (int j=0;j<=5;j++)
-               	{
-		          SEND_COMND(0x1C);
-	             	_delay_ms(30); 
-             	}
-				
-}
+
 
 ISR(TIMER0_OVF_vect)
 {

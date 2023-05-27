@@ -97,10 +97,10 @@
     <Compile Include="microconfg.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="microwave.c">
+    <Compile Include="smart_home_cofig.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="smart_home_cofig.h">
+    <Compile Include="SPI.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="stand.h">
