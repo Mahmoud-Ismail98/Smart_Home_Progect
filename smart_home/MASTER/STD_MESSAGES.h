@@ -8,19 +8,23 @@
 #define TV_STATUS 		0x15
 #define AIR_COND_STATUS 0x16
 
-#define ROOM1_TURN_ON    0x21
-#define ROOM2_TURN_ON    0x22
-#define ROOM3_TURN_ON    0x23
-#define ROOM4_TURN_ON    0x24
-#define TV_TURN_ON 		 0x25
-#define AIR_COND_TURN_ON 0x26
+#define OFFSET_MESSAGE   0x20 
 
-#define ROOM1_TURN_OFF    0x31
-#define ROOM2_TURN_OFF    0x32
-#define ROOM3_TURN_OFF    0x33
-#define ROOM4_TURN_OFF    0x34
-#define TV_TURN_OFF 	  0x35
-#define AIR_COND_TURN_OFF 0x36
+#define ROOM1_TURN_ON    0x21
+#define ROOM1_TURN_OFF   0x21
+#define ROOM2_TURN_ON    0x22
+#define ROOM2_TURN_OFF   0x23
+#define ROOM3_TURN_ON    0x24
+#define ROOM3_TURN_OFF   0x25
+#define TV_TURN_ON 		 0x27
+#define TV_TURN_OFF 	 0x28
+#define AIR_COND_TURN_ON 0x29
+#define AIR_COND_TURN_OFF 0x2A
+
+
+
+
+
 
 #define SET_TEMPERATURE 0x40
 

@@ -12,11 +12,11 @@
 #include "stand.h"
 
 
-#define ROOM1_PIN					(uint8)4
-#define ROOM2_PIN					(uint8)5
-#define ROOM3_PIN					(uint8)6
-#define TV_PIN						(uint8)3
-#define AIR_COND_PIN				(uint8)2
+#define ROOM1_PIN					(uint8)1
+#define ROOM2_PIN					(uint8)2
+#define ROOM3_PIN					(uint8)3
+#define TV_PIN						(uint8)4
+#define AIR_COND_PIN				(uint8)5
 
 
 

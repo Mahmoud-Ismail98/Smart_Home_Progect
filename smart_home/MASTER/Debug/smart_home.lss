@@ -3,29 +3,29 @@ smart_home.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000a48  00000000  00000000  00000094  2**1
+  0 .text         00000994  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000168  00800060  00000a48  00000adc  2**0
+  1 .data         00000156  00800060  00000994  00000a28  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000010  008001c8  008001c8  00000c44  2**0
+  2 .bss          00000011  008001b6  008001b6  00000b7e  2**0
                   ALLOC
-  3 .stab         00000954  00000000  00000000  00000c44  2**2
+  3 .stab         00000954  00000000  00000000  00000b80  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      0000014d  00000000  00000000  00001598  2**0
+  4 .stabstr      0000014d  00000000  00000000  000014d4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000160  00000000  00000000  000016e8  2**3
+  5 .debug_aranges 00000160  00000000  00000000  00001628  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000012b5  00000000  00000000  00001848  2**0
+  6 .debug_info   0000138e  00000000  00000000  00001788  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000682  00000000  00000000  00002afd  2**0
+  7 .debug_abbrev 00000789  00000000  00000000  00002b16  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000bfd  00000000  00000000  0000317f  2**0
+  8 .debug_line   00000c7a  00000000  00000000  0000329f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000020c  00000000  00000000  00003d7c  2**2
+  9 .debug_frame  00000270  00000000  00000000  00003f1c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000003f9  00000000  00000000  00003f88  2**0
+ 10 .debug_str    00000467  00000000  00000000  0000418c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000071b  00000000  00000000  00004381  2**0
+ 11 .debug_loc    000006f0  00000000  00000000  000045f3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,18 +65,18 @@ Disassembly of section .text:
   60:	11 e0       	ldi	r17, 0x01	; 1
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e8 e4       	ldi	r30, 0x48	; 72
-  68:	fa e0       	ldi	r31, 0x0A	; 10
+  66:	e4 e9       	ldi	r30, 0x94	; 148
+  68:	f9 e0       	ldi	r31, 0x09	; 9
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a8 3c       	cpi	r26, 0xC8	; 200
+  70:	a6 3b       	cpi	r26, 0xB6	; 182
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	11 e0       	ldi	r17, 0x01	; 1
-  78:	a8 ec       	ldi	r26, 0xC8	; 200
+  78:	a6 eb       	ldi	r26, 0xB6	; 182
   7a:	b1 e0       	ldi	r27, 0x01	; 1
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -84,1901 +84,1822 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	a8 3d       	cpi	r26, 0xD8	; 216
+  80:	a7 3c       	cpi	r26, 0xC7	; 199
   82:	b1 07       	cpc	r27, r17
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
   86:	0e 94 49 00 	call	0x92	; 0x92 <main>
-  8a:	0c 94 22 05 	jmp	0xa44	; 0xa44 <_exit>
+  8a:	0c 94 c8 04 	jmp	0x990	; 0x990 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <main>:
-volatile char key_pressed;
 uint8 Mode;
-#define	OWNER_MODE 0
-#define	GUEST_MODE 1
+uint8 SPI_RESPONSE;
+
 int main(void)
 {
-  92:	ef 92       	push	r14
-  94:	ff 92       	push	r15
-  96:	1f 93       	push	r17
-  98:	cf 93       	push	r28
-  9a:	df 93       	push	r29
-	// Start_Message();
-	//Device_Drive();
-   // Start_Message();
    	LCD_INISTIALIZATION();
-  9c:	0e 94 0f 04 	call	0x81e	; 0x81e <LCD_INISTIALIZATION>
-   	//GO_LOC(2,1);
+  92:	0e 94 a2 01 	call	0x344	; 0x344 <LCD_INISTIALIZATION>
+	SPI_vInitMaster();//initializes the communication protocol of SPI
+  96:	0e 94 74 04 	call	0x8e8	; 0x8e8 <SPI_vInitMaster>
+	
    	SEND_STRING("wellcome to smart");
-  a0:	80 e6       	ldi	r24, 0x60	; 96
-  a2:	90 e0       	ldi	r25, 0x00	; 0
-  a4:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
+  9a:	80 e6       	ldi	r24, 0x60	; 96
+  9c:	90 e0       	ldi	r25, 0x00	; 0
+  9e:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  a8:	8f e9       	ldi	r24, 0x9F	; 159
-  aa:	96 e8       	ldi	r25, 0x86	; 134
-  ac:	a1 e0       	ldi	r26, 0x01	; 1
-  ae:	81 50       	subi	r24, 0x01	; 1
-  b0:	90 40       	sbci	r25, 0x00	; 0
-  b2:	a0 40       	sbci	r26, 0x00	; 0
-  b4:	e1 f7       	brne	.-8      	; 0xae <main+0x1c>
-  b6:	00 c0       	rjmp	.+0      	; 0xb8 <main+0x26>
-  b8:	00 00       	nop
+  a2:	8f e9       	ldi	r24, 0x9F	; 159
+  a4:	96 e8       	ldi	r25, 0x86	; 134
+  a6:	a1 e0       	ldi	r26, 0x01	; 1
+  a8:	81 50       	subi	r24, 0x01	; 1
+  aa:	90 40       	sbci	r25, 0x00	; 0
+  ac:	a0 40       	sbci	r26, 0x00	; 0
+  ae:	e1 f7       	brne	.-8      	; 0xa8 <main+0x16>
+  b0:	00 c0       	rjmp	.+0      	; 0xb2 <main+0x20>
+  b2:	00 00       	nop
    	_delay_ms(500);
    	GO_LOC(2,3);
-  ba:	82 e0       	ldi	r24, 0x02	; 2
-  bc:	63 e0       	ldi	r22, 0x03	; 3
-  be:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
+  b4:	82 e0       	ldi	r24, 0x02	; 2
+  b6:	63 e0       	ldi	r22, 0x03	; 3
+  b8:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
    	SEND_STRING("home system");
-  c2:	82 e7       	ldi	r24, 0x72	; 114
-  c4:	90 e0       	ldi	r25, 0x00	; 0
-  c6:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-   	//_delay_ms(3000);
-   	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-  ca:	81 e0       	ldi	r24, 0x01	; 1
-  cc:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-   	
-	
+  bc:	82 e7       	ldi	r24, 0x72	; 114
+  be:	90 e0       	ldi	r25, 0x00	; 0
+  c0:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+
 	if (EEPROM_ui8ReadByteFromAddress(Login_status)==0xFF)
-  d0:	80 e2       	ldi	r24, 0x20	; 32
-  d2:	90 e0       	ldi	r25, 0x00	; 0
-  d4:	0e 94 25 03 	call	0x64a	; 0x64a <EEPROM_ui8ReadByteFromAddress>
-  d8:	8f 3f       	cpi	r24, 0xFF	; 255
-  da:	09 f0       	breq	.+2      	; 0xde <main+0x4c>
-  dc:	84 c0       	rjmp	.+264    	; 0x1e6 <main+0x154>
-	{
-
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-  de:	81 e0       	ldi	r24, 0x01	; 1
-  e0:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-			GO_LOC(2,1);
-  e4:	82 e0       	ldi	r24, 0x02	; 2
-  e6:	61 e0       	ldi	r22, 0x01	; 1
-  e8:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("Set Admin Pass");
-  ec:	8e e7       	ldi	r24, 0x7E	; 126
-  ee:	90 e0       	ldi	r25, 0x00	; 0
-  f0:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			GO_LOC(3,1);
-  f4:	83 e0       	ldi	r24, 0x03	; 3
-  f6:	61 e0       	ldi	r22, 0x01	; 1
-  f8:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("Admin Pass:");
-  fc:	8d e8       	ldi	r24, 0x8D	; 141
-  fe:	90 e0       	ldi	r25, 0x00	; 0
- 100:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			
-
-
-			while (pass_count<4)
- 104:	80 91 c8 01 	lds	r24, 0x01C8
- 108:	84 30       	cpi	r24, 0x04	; 4
- 10a:	08 f0       	brcs	.+2      	; 0x10e <main+0x7c>
- 10c:	80 c2       	rjmp	.+1280   	; 0x60e <main+0x57c>
-			{
-				key_pressed =keyfind();
- 10e:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 112:	80 93 d4 01 	sts	0x01D4, r24
-				 pass[pass_count]=(key_pressed-48);
- 116:	80 91 d4 01 	lds	r24, 0x01D4
- 11a:	e0 91 c8 01 	lds	r30, 0x01C8
- 11e:	f0 e0       	ldi	r31, 0x00	; 0
- 120:	e3 53       	subi	r30, 0x33	; 51
- 122:	fe 4f       	sbci	r31, 0xFE	; 254
- 124:	80 53       	subi	r24, 0x30	; 48
- 126:	80 83       	st	Z, r24
-				 SEND_DATE(key_pressed);
- 128:	80 91 d4 01 	lds	r24, 0x01D4
- 12c:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
- 130:	8f e5       	ldi	r24, 0x5F	; 95
- 132:	9a ee       	ldi	r25, 0xEA	; 234
- 134:	a0 e0       	ldi	r26, 0x00	; 0
- 136:	81 50       	subi	r24, 0x01	; 1
- 138:	90 40       	sbci	r25, 0x00	; 0
- 13a:	a0 40       	sbci	r26, 0x00	; 0
- 13c:	e1 f7       	brne	.-8      	; 0x136 <main+0xa4>
- 13e:	00 c0       	rjmp	.+0      	; 0x140 <main+0xae>
- 140:	00 00       	nop
-				 _delay_ms(300);
-				 pass_count++;
- 142:	80 91 c8 01 	lds	r24, 0x01C8
- 146:	8f 5f       	subi	r24, 0xFF	; 255
- 148:	80 93 c8 01 	sts	0x01C8, r24
-			GO_LOC(3,1);
-			SEND_STRING("Admin Pass:");
-			
-
-
-			while (pass_count<4)
- 14c:	84 30       	cpi	r24, 0x04	; 4
- 14e:	f8 f2       	brcs	.-66     	; 0x10e <main+0x7c>
-				 pass[pass_count]=(key_pressed-48);
-				 SEND_DATE(key_pressed);
-				 _delay_ms(300);
-				 pass_count++;
-			}
-			EEPROM_vWriteBlockToAddress(ADMIN_PASS_ADD,pass,4);
- 150:	81 e2       	ldi	r24, 0x21	; 33
- 152:	90 e0       	ldi	r25, 0x00	; 0
- 154:	6d ec       	ldi	r22, 0xCD	; 205
- 156:	71 e0       	ldi	r23, 0x01	; 1
- 158:	44 e0       	ldi	r20, 0x04	; 4
- 15a:	50 e0       	ldi	r21, 0x00	; 0
- 15c:	0e 94 50 03 	call	0x6a0	; 0x6a0 <EEPROM_vWriteBlockToAddress>
-			
-			//pass={0};
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 160:	81 e0       	ldi	r24, 0x01	; 1
- 162:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-			GO_LOC(2,1);
- 166:	82 e0       	ldi	r24, 0x02	; 2
- 168:	61 e0       	ldi	r22, 0x01	; 1
- 16a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("Set Guest Pass");
- 16e:	89 e9       	ldi	r24, 0x99	; 153
- 170:	90 e0       	ldi	r25, 0x00	; 0
- 172:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			GO_LOC(3,1);
- 176:	83 e0       	ldi	r24, 0x03	; 3
- 178:	61 e0       	ldi	r22, 0x01	; 1
- 17a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("guest Pass:");
- 17e:	88 ea       	ldi	r24, 0xA8	; 168
- 180:	90 e0       	ldi	r25, 0x00	; 0
- 182:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-
-			pass_count=0;
- 186:	10 92 c8 01 	sts	0x01C8, r1
-			while (pass_count<4)
-			{
-				key_pressed=keyfind();
- 18a:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 18e:	80 93 d4 01 	sts	0x01D4, r24
-				pass[pass_count]=(key_pressed-48);
- 192:	80 91 d4 01 	lds	r24, 0x01D4
- 196:	e0 91 c8 01 	lds	r30, 0x01C8
- 19a:	f0 e0       	ldi	r31, 0x00	; 0
- 19c:	e3 53       	subi	r30, 0x33	; 51
- 19e:	fe 4f       	sbci	r31, 0xFE	; 254
- 1a0:	80 53       	subi	r24, 0x30	; 48
- 1a2:	80 83       	st	Z, r24
-				SEND_DATE(key_pressed);
- 1a4:	80 91 d4 01 	lds	r24, 0x01D4
- 1a8:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
- 1ac:	8f e5       	ldi	r24, 0x5F	; 95
- 1ae:	9a ee       	ldi	r25, 0xEA	; 234
- 1b0:	a0 e0       	ldi	r26, 0x00	; 0
- 1b2:	81 50       	subi	r24, 0x01	; 1
- 1b4:	90 40       	sbci	r25, 0x00	; 0
- 1b6:	a0 40       	sbci	r26, 0x00	; 0
- 1b8:	e1 f7       	brne	.-8      	; 0x1b2 <main+0x120>
- 1ba:	00 c0       	rjmp	.+0      	; 0x1bc <main+0x12a>
- 1bc:	00 00       	nop
-				_delay_ms(300);
-				pass_count++;
- 1be:	80 91 c8 01 	lds	r24, 0x01C8
- 1c2:	8f 5f       	subi	r24, 0xFF	; 255
- 1c4:	80 93 c8 01 	sts	0x01C8, r24
-			SEND_STRING("Set Guest Pass");
-			GO_LOC(3,1);
-			SEND_STRING("guest Pass:");
-
-			pass_count=0;
-			while (pass_count<4)
- 1c8:	84 30       	cpi	r24, 0x04	; 4
- 1ca:	f8 f2       	brcs	.-66     	; 0x18a <main+0xf8>
-				pass[pass_count]=(key_pressed-48);
-				SEND_DATE(key_pressed);
-				_delay_ms(300);
-				pass_count++;
-			}
-			EEPROM_vWriteBlockToAddress(Guest_PASS_ADD,pass,4);
- 1cc:	85 e2       	ldi	r24, 0x25	; 37
- 1ce:	90 e0       	ldi	r25, 0x00	; 0
- 1d0:	6d ec       	ldi	r22, 0xCD	; 205
- 1d2:	71 e0       	ldi	r23, 0x01	; 1
- 1d4:	44 e0       	ldi	r20, 0x04	; 4
- 1d6:	50 e0       	ldi	r21, 0x00	; 0
- 1d8:	0e 94 50 03 	call	0x6a0	; 0x6a0 <EEPROM_vWriteBlockToAddress>
-		   EEPROM_vWriteByteToAddress(Login_status,0x00);
- 1dc:	80 e2       	ldi	r24, 0x20	; 32
- 1de:	90 e0       	ldi	r25, 0x00	; 0
- 1e0:	60 e0       	ldi	r22, 0x00	; 0
- 1e2:	0e 94 44 03 	call	0x688	; 0x688 <EEPROM_vWriteByteToAddress>
+  c4:	80 e2       	ldi	r24, 0x20	; 32
+  c6:	90 e0       	ldi	r25, 0x00	; 0
+  c8:	0e 94 b8 00 	call	0x170	; 0x170 <EEPROM_ui8ReadByteFromAddress>
+  cc:	8f 3f       	cpi	r24, 0xFF	; 255
+  ce:	11 f4       	brne	.+4      	; 0xd4 <main+0x42>
+	{		
+		vEnterFirstTime();
+  d0:	0e 94 21 02 	call	0x442	; 0x442 <vEnterFirstTime>
 	} 
-	//else
-	//{
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 1e6:	81 e0       	ldi	r24, 0x01	; 1
- 1e8:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-			GO_LOC(2,1);
- 1ec:	82 e0       	ldi	r24, 0x02	; 2
- 1ee:	61 e0       	ldi	r22, 0x01	; 1
- 1f0:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("selec mode");
- 1f4:	84 eb       	ldi	r24, 0xB4	; 180
- 1f6:	90 e0       	ldi	r25, 0x00	; 0
- 1f8:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			GO_LOC(3,1);
- 1fc:	83 e0       	ldi	r24, 0x03	; 3
- 1fe:	61 e0       	ldi	r22, 0x01	; 1
- 200:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("0:Owner 1:Guest");
- 204:	8f eb       	ldi	r24, 0xBF	; 191
- 206:	90 e0       	ldi	r25, 0x00	; 0
- 208:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
- 20c:	8f e7       	ldi	r24, 0x7F	; 127
- 20e:	9a e1       	ldi	r25, 0x1A	; 26
- 210:	a6 e0       	ldi	r26, 0x06	; 6
- 212:	81 50       	subi	r24, 0x01	; 1
- 214:	90 40       	sbci	r25, 0x00	; 0
- 216:	a0 40       	sbci	r26, 0x00	; 0
- 218:	e1 f7       	brne	.-8      	; 0x212 <main+0x180>
- 21a:	00 c0       	rjmp	.+0      	; 0x21c <main+0x18a>
- 21c:	00 00       	nop
-			_delay_ms(2000);
-			
-			key_pressed=keyfind();
- 21e:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 222:	80 93 d4 01 	sts	0x01D4, r24
-			if (key_pressed=='0')
- 226:	80 91 d4 01 	lds	r24, 0x01D4
- 22a:	80 33       	cpi	r24, 0x30	; 48
- 22c:	09 f0       	breq	.+2      	; 0x230 <main+0x19e>
- 22e:	7b c0       	rjmp	.+246    	; 0x326 <main+0x294>
-			{
-				
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 230:	81 e0       	ldi	r24, 0x01	; 1
- 232:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-			GO_LOC(2,1);
- 236:	82 e0       	ldi	r24, 0x02	; 2
- 238:	61 e0       	ldi	r22, 0x01	; 1
- 23a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("Owner mode");
- 23e:	8f ec       	ldi	r24, 0xCF	; 207
- 240:	90 e0       	ldi	r25, 0x00	; 0
- 242:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			GO_LOC(3,1);
- 246:	83 e0       	ldi	r24, 0x03	; 3
- 248:	61 e0       	ldi	r22, 0x01	; 1
- 24a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("Enter Pass:");
- 24e:	8a ed       	ldi	r24, 0xDA	; 218
- 250:	90 e0       	ldi	r25, 0x00	; 0
- 252:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
- 256:	8f e7       	ldi	r24, 0x7F	; 127
- 258:	9a e1       	ldi	r25, 0x1A	; 26
- 25a:	a6 e0       	ldi	r26, 0x06	; 6
- 25c:	81 50       	subi	r24, 0x01	; 1
- 25e:	90 40       	sbci	r25, 0x00	; 0
- 260:	a0 40       	sbci	r26, 0x00	; 0
- 262:	e1 f7       	brne	.-8      	; 0x25c <main+0x1ca>
- 264:	00 c0       	rjmp	.+0      	; 0x266 <main+0x1d4>
- 266:	00 00       	nop
-			_delay_ms(2000);
-			pass_count=0;
- 268:	10 92 c8 01 	sts	0x01C8, r1
-			while (pass_count<4)
-			{
-				key_pressed=keyfind();
- 26c:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 270:	80 93 d4 01 	sts	0x01D4, r24
-				pass[pass_count]=(key_pressed);
- 274:	80 91 d4 01 	lds	r24, 0x01D4
- 278:	e0 91 c8 01 	lds	r30, 0x01C8
- 27c:	f0 e0       	ldi	r31, 0x00	; 0
- 27e:	e3 53       	subi	r30, 0x33	; 51
- 280:	fe 4f       	sbci	r31, 0xFE	; 254
- 282:	80 83       	st	Z, r24
-				SEND_DATE(key_pressed);
- 284:	80 91 d4 01 	lds	r24, 0x01D4
- 288:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
- 28c:	8f e5       	ldi	r24, 0x5F	; 95
- 28e:	9a ee       	ldi	r25, 0xEA	; 234
- 290:	a0 e0       	ldi	r26, 0x00	; 0
- 292:	81 50       	subi	r24, 0x01	; 1
- 294:	90 40       	sbci	r25, 0x00	; 0
- 296:	a0 40       	sbci	r26, 0x00	; 0
- 298:	e1 f7       	brne	.-8      	; 0x292 <main+0x200>
- 29a:	00 c0       	rjmp	.+0      	; 0x29c <main+0x20a>
- 29c:	00 00       	nop
-				_delay_ms(300);
-				pass_count++;
- 29e:	80 91 c8 01 	lds	r24, 0x01C8
- 2a2:	8f 5f       	subi	r24, 0xFF	; 255
- 2a4:	80 93 c8 01 	sts	0x01C8, r24
-			SEND_STRING("Owner mode");
-			GO_LOC(3,1);
-			SEND_STRING("Enter Pass:");
-			_delay_ms(2000);
-			pass_count=0;
-			while (pass_count<4)
- 2a8:	84 30       	cpi	r24, 0x04	; 4
- 2aa:	00 f3       	brcs	.-64     	; 0x26c <main+0x1da>
- 2ac:	10 e0       	ldi	r17, 0x00	; 0
-				}
-				if (i==3)
-				{
-				    SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-				    GO_LOC(2,1);
-				    SEND_STRING("Owner Correct Pass");
- 2ae:	0f 2e       	mov	r0, r31
- 2b0:	f6 ef       	ldi	r31, 0xF6	; 246
- 2b2:	ef 2e       	mov	r14, r31
- 2b4:	f0 e0       	ldi	r31, 0x00	; 0
- 2b6:	ff 2e       	mov	r15, r31
- 2b8:	f0 2d       	mov	r31, r0
-			}
-			uint8 EEPROM_Pass;
-			uint8 i=0;
-			while(i<4)
-			{
-				EEPROM_Pass = EEPROM_ui8ReadByteFromAddress(ADMIN_PASS_ADD+i);
- 2ba:	c1 2f       	mov	r28, r17
- 2bc:	d0 e0       	ldi	r29, 0x00	; 0
- 2be:	ce 01       	movw	r24, r28
- 2c0:	81 96       	adiw	r24, 0x21	; 33
- 2c2:	0e 94 25 03 	call	0x64a	; 0x64a <EEPROM_ui8ReadByteFromAddress>
-				if (EEPROM_Pass==(pass[i]-48))
- 2c6:	90 e0       	ldi	r25, 0x00	; 0
- 2c8:	c3 53       	subi	r28, 0x33	; 51
- 2ca:	de 4f       	sbci	r29, 0xFE	; 254
- 2cc:	28 81       	ld	r18, Y
- 2ce:	30 e0       	ldi	r19, 0x00	; 0
- 2d0:	20 53       	subi	r18, 0x30	; 48
- 2d2:	30 40       	sbci	r19, 0x00	; 0
- 2d4:	82 17       	cp	r24, r18
- 2d6:	93 07       	cpc	r25, r19
- 2d8:	21 f4       	brne	.+8      	; 0x2e2 <main+0x250>
-				{
-					i++;
- 2da:	1f 5f       	subi	r17, 0xFF	; 255
-					GO_LOC(2,1);
-					SEND_STRING("Owner Rong Pass");
-					GO_LOC(3,1);					
-					break;
-				}
-				if (i==3)
- 2dc:	13 30       	cpi	r17, 0x03	; 3
- 2de:	01 f5       	brne	.+64     	; 0x320 <main+0x28e>
- 2e0:	10 c0       	rjmp	.+32     	; 0x302 <main+0x270>
-					i++;
-					
-				} 
-				else
-				{
-					SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 2e2:	81 e0       	ldi	r24, 0x01	; 1
- 2e4:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-					GO_LOC(2,1);
- 2e8:	82 e0       	ldi	r24, 0x02	; 2
- 2ea:	61 e0       	ldi	r22, 0x01	; 1
- 2ec:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-					SEND_STRING("Owner Rong Pass");
- 2f0:	86 ee       	ldi	r24, 0xE6	; 230
- 2f2:	90 e0       	ldi	r25, 0x00	; 0
- 2f4:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-					GO_LOC(3,1);					
- 2f8:	83 e0       	ldi	r24, 0x03	; 3
- 2fa:	61 e0       	ldi	r22, 0x01	; 1
- 2fc:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-					break;
- 300:	92 c0       	rjmp	.+292    	; 0x426 <main+0x394>
-				}
-				if (i==3)
-				{
-				    SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 302:	81 e0       	ldi	r24, 0x01	; 1
- 304:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-				    GO_LOC(2,1);
- 308:	82 e0       	ldi	r24, 0x02	; 2
- 30a:	61 e0       	ldi	r22, 0x01	; 1
- 30c:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				    SEND_STRING("Owner Correct Pass");
- 310:	c7 01       	movw	r24, r14
- 312:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				    Mode=OWNER_MODE;
- 316:	10 92 d3 01 	sts	0x01D3, r1
-				    DDRC|=(1<<OWNER_PIN);
- 31a:	a0 9a       	sbi	0x14, 0	; 20
-				    PORTC|=(1<<OWNER_PIN);
- 31c:	a8 9a       	sbi	0x15, 0	; 21
- 31e:	cd cf       	rjmp	.-102    	; 0x2ba <main+0x228>
-				_delay_ms(300);
-				pass_count++;
-			}
-			uint8 EEPROM_Pass;
-			uint8 i=0;
-			while(i<4)
- 320:	14 30       	cpi	r17, 0x04	; 4
- 322:	58 f2       	brcs	.-106    	; 0x2ba <main+0x228>
- 324:	80 c0       	rjmp	.+256    	; 0x426 <main+0x394>
-				}
 
-			}
-
-			} 
-			else if(key_pressed=='1')
- 326:	80 91 d4 01 	lds	r24, 0x01D4
- 32a:	81 33       	cpi	r24, 0x31	; 49
- 32c:	09 f0       	breq	.+2      	; 0x330 <main+0x29e>
- 32e:	7b c0       	rjmp	.+246    	; 0x426 <main+0x394>
-			{
-				
-				SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 330:	81 e0       	ldi	r24, 0x01	; 1
- 332:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-				GO_LOC(2,1);
- 336:	82 e0       	ldi	r24, 0x02	; 2
- 338:	61 e0       	ldi	r22, 0x01	; 1
- 33a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("Guest mode");
- 33e:	89 e0       	ldi	r24, 0x09	; 9
- 340:	91 e0       	ldi	r25, 0x01	; 1
- 342:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				GO_LOC(3,1);
- 346:	83 e0       	ldi	r24, 0x03	; 3
- 348:	61 e0       	ldi	r22, 0x01	; 1
- 34a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("Enter Pass:");
- 34e:	8a ed       	ldi	r24, 0xDA	; 218
- 350:	90 e0       	ldi	r25, 0x00	; 0
- 352:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
- 356:	8f e7       	ldi	r24, 0x7F	; 127
- 358:	9a e1       	ldi	r25, 0x1A	; 26
- 35a:	a6 e0       	ldi	r26, 0x06	; 6
- 35c:	81 50       	subi	r24, 0x01	; 1
- 35e:	90 40       	sbci	r25, 0x00	; 0
- 360:	a0 40       	sbci	r26, 0x00	; 0
- 362:	e1 f7       	brne	.-8      	; 0x35c <main+0x2ca>
- 364:	00 c0       	rjmp	.+0      	; 0x366 <main+0x2d4>
- 366:	00 00       	nop
-				_delay_ms(2000);
-				pass_count=0;
- 368:	10 92 c8 01 	sts	0x01C8, r1
-				while (pass_count<4)
-				{
-					key_pressed=keyfind();
- 36c:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 370:	80 93 d4 01 	sts	0x01D4, r24
-					pass[pass_count]=(key_pressed);
- 374:	80 91 d4 01 	lds	r24, 0x01D4
- 378:	e0 91 c8 01 	lds	r30, 0x01C8
- 37c:	f0 e0       	ldi	r31, 0x00	; 0
- 37e:	e3 53       	subi	r30, 0x33	; 51
- 380:	fe 4f       	sbci	r31, 0xFE	; 254
- 382:	80 83       	st	Z, r24
-					SEND_DATE(key_pressed);
- 384:	80 91 d4 01 	lds	r24, 0x01D4
- 388:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
- 38c:	8f e5       	ldi	r24, 0x5F	; 95
- 38e:	9a ee       	ldi	r25, 0xEA	; 234
- 390:	a0 e0       	ldi	r26, 0x00	; 0
- 392:	81 50       	subi	r24, 0x01	; 1
- 394:	90 40       	sbci	r25, 0x00	; 0
- 396:	a0 40       	sbci	r26, 0x00	; 0
- 398:	e1 f7       	brne	.-8      	; 0x392 <main+0x300>
- 39a:	00 c0       	rjmp	.+0      	; 0x39c <main+0x30a>
- 39c:	00 00       	nop
-					_delay_ms(300);
-					pass_count++;
- 39e:	80 91 c8 01 	lds	r24, 0x01C8
- 3a2:	8f 5f       	subi	r24, 0xFF	; 255
- 3a4:	80 93 c8 01 	sts	0x01C8, r24
-				SEND_STRING("Guest mode");
-				GO_LOC(3,1);
-				SEND_STRING("Enter Pass:");
-				_delay_ms(2000);
-				pass_count=0;
-				while (pass_count<4)
- 3a8:	84 30       	cpi	r24, 0x04	; 4
- 3aa:	00 f3       	brcs	.-64     	; 0x36c <main+0x2da>
- 3ac:	10 e0       	ldi	r17, 0x00	; 0
-					}
-					if(i==3)
-					{
-					SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-					GO_LOC(2,1);
-					SEND_STRING("Guest Correct Pass");
- 3ae:	0f 2e       	mov	r0, r31
- 3b0:	f4 e2       	ldi	r31, 0x24	; 36
- 3b2:	ef 2e       	mov	r14, r31
- 3b4:	f1 e0       	ldi	r31, 0x01	; 1
- 3b6:	ff 2e       	mov	r15, r31
- 3b8:	f0 2d       	mov	r31, r0
-				}
-				uint8 EEPROM_Pass;
-				uint8 i=0;
-				while(i<4)
-				{
-					EEPROM_Pass = EEPROM_ui8ReadByteFromAddress(Guest_PASS_ADD+i);
- 3ba:	c1 2f       	mov	r28, r17
- 3bc:	d0 e0       	ldi	r29, 0x00	; 0
- 3be:	ce 01       	movw	r24, r28
- 3c0:	85 96       	adiw	r24, 0x25	; 37
- 3c2:	0e 94 25 03 	call	0x64a	; 0x64a <EEPROM_ui8ReadByteFromAddress>
-					if (EEPROM_Pass==(pass[i]-48))
- 3c6:	90 e0       	ldi	r25, 0x00	; 0
- 3c8:	c3 53       	subi	r28, 0x33	; 51
- 3ca:	de 4f       	sbci	r29, 0xFE	; 254
- 3cc:	28 81       	ld	r18, Y
- 3ce:	30 e0       	ldi	r19, 0x00	; 0
- 3d0:	20 53       	subi	r18, 0x30	; 48
- 3d2:	30 40       	sbci	r19, 0x00	; 0
- 3d4:	82 17       	cp	r24, r18
- 3d6:	93 07       	cpc	r25, r19
- 3d8:	21 f4       	brne	.+8      	; 0x3e2 <main+0x350>
-					{
-						i++;
- 3da:	1f 5f       	subi	r17, 0xFF	; 255
-						GO_LOC(2,1);
-						SEND_STRING("Guest Rong Pass");
-						GO_LOC(3,1);
-						break;
-					}
-					if(i==3)
- 3dc:	13 30       	cpi	r17, 0x03	; 3
- 3de:	09 f5       	brne	.+66     	; 0x422 <main+0x390>
- 3e0:	10 c0       	rjmp	.+32     	; 0x402 <main+0x370>
-						i++;
-						
-					}
-					else
-					{
-						SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 3e2:	81 e0       	ldi	r24, 0x01	; 1
- 3e4:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-						GO_LOC(2,1);
- 3e8:	82 e0       	ldi	r24, 0x02	; 2
- 3ea:	61 e0       	ldi	r22, 0x01	; 1
- 3ec:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-						SEND_STRING("Guest Rong Pass");
- 3f0:	84 e1       	ldi	r24, 0x14	; 20
- 3f2:	91 e0       	ldi	r25, 0x01	; 1
- 3f4:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-						GO_LOC(3,1);
- 3f8:	83 e0       	ldi	r24, 0x03	; 3
- 3fa:	61 e0       	ldi	r22, 0x01	; 1
- 3fc:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-						break;
- 400:	12 c0       	rjmp	.+36     	; 0x426 <main+0x394>
-					}
-					if(i==3)
-					{
-					SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 402:	81 e0       	ldi	r24, 0x01	; 1
- 404:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-					GO_LOC(2,1);
- 408:	82 e0       	ldi	r24, 0x02	; 2
- 40a:	61 e0       	ldi	r22, 0x01	; 1
- 40c:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-					SEND_STRING("Guest Correct Pass");
- 410:	c7 01       	movw	r24, r14
- 412:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-					Mode=GUEST_MODE;
- 416:	81 e0       	ldi	r24, 0x01	; 1
- 418:	80 93 d3 01 	sts	0x01D3, r24
-					DDRC|=(1<<GUEST_PIN);
- 41c:	a1 9a       	sbi	0x14, 1	; 20
-					PORTC|=(1<<GUEST_PIN);
- 41e:	a9 9a       	sbi	0x15, 1	; 21
- 420:	cc cf       	rjmp	.-104    	; 0x3ba <main+0x328>
-					_delay_ms(300);
-					pass_count++;
-				}
-				uint8 EEPROM_Pass;
-				uint8 i=0;
-				while(i<4)
- 422:	14 30       	cpi	r17, 0x04	; 4
- 424:	50 f2       	brcs	.-108    	; 0x3ba <main+0x328>
-					PORTC|=(1<<GUEST_PIN);
-					}					
-				}				
-			}
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+  d4:	81 e0       	ldi	r24, 0x01	; 1
+  d6:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+	GO_LOC(2,1);
+  da:	82 e0       	ldi	r24, 0x02	; 2
+  dc:	61 e0       	ldi	r22, 0x01	; 1
+  de:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("selec mode");
+  e2:	8e e7       	ldi	r24, 0x7E	; 126
+  e4:	90 e0       	ldi	r25, 0x00	; 0
+  e6:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	GO_LOC(3,1);
+  ea:	83 e0       	ldi	r24, 0x03	; 3
+  ec:	61 e0       	ldi	r22, 0x01	; 1
+  ee:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("0:Owner 1:Guest");
+  f2:	89 e8       	ldi	r24, 0x89	; 137
+  f4:	90 e0       	ldi	r25, 0x00	; 0
+  f6:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+  fa:	8f e7       	ldi	r24, 0x7F	; 127
+  fc:	9a e1       	ldi	r25, 0x1A	; 26
+  fe:	a6 e0       	ldi	r26, 0x06	; 6
+ 100:	81 50       	subi	r24, 0x01	; 1
+ 102:	90 40       	sbci	r25, 0x00	; 0
+ 104:	a0 40       	sbci	r26, 0x00	; 0
+ 106:	e1 f7       	brne	.-8      	; 0x100 <main+0x6e>
+ 108:	00 c0       	rjmp	.+0      	; 0x10a <main+0x78>
+ 10a:	00 00       	nop
+	_delay_ms(2000);				
+	key_pressed=keyfind();
+ 10c:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 110:	80 93 c6 01 	sts	0x01C6, r24
+	SelectModePass(key_pressed);
+ 114:	80 91 c6 01 	lds	r24, 0x01C6
+ 118:	0e 94 0c 03 	call	0x618	; 0x618 <SelectModePass>
 			
 	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 426:	81 e0       	ldi	r24, 0x01	; 1
- 428:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
+ 11c:	81 e0       	ldi	r24, 0x01	; 1
+ 11e:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
 	GO_LOC(1,1);
- 42c:	81 e0       	ldi	r24, 0x01	; 1
- 42e:	61 e0       	ldi	r22, 0x01	; 1
- 430:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
+ 122:	81 e0       	ldi	r24, 0x01	; 1
+ 124:	61 e0       	ldi	r22, 0x01	; 1
+ 126:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
 	SEND_STRING("1:ROOM1 2:ROOM2");
- 434:	87 e3       	ldi	r24, 0x37	; 55
- 436:	91 e0       	ldi	r25, 0x01	; 1
- 438:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
+ 12a:	89 e9       	ldi	r24, 0x99	; 153
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
 	GO_LOC(2,1);
- 43c:	82 e0       	ldi	r24, 0x02	; 2
- 43e:	61 e0       	ldi	r22, 0x01	; 1
- 440:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
+ 132:	82 e0       	ldi	r24, 0x02	; 2
+ 134:	61 e0       	ldi	r22, 0x01	; 1
+ 136:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
 	SEND_STRING("3:ROOM3 4:ROOM4");	
- 444:	87 e4       	ldi	r24, 0x47	; 71
- 446:	91 e0       	ldi	r25, 0x01	; 1
- 448:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
+ 13a:	89 ea       	ldi	r24, 0xA9	; 169
+ 13c:	90 e0       	ldi	r25, 0x00	; 0
+ 13e:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
 	if (Mode==OWNER_MODE)
- 44c:	80 91 d3 01 	lds	r24, 0x01D3
- 450:	88 23       	and	r24, r24
- 452:	41 f4       	brne	.+16     	; 0x464 <main+0x3d2>
+ 142:	80 91 c2 01 	lds	r24, 0x01C2
+ 146:	81 30       	cpi	r24, 0x01	; 1
+ 148:	41 f4       	brne	.+16     	; 0x15a <main+0xc8>
 	{
 			GO_LOC(3,1);
- 454:	83 e0       	ldi	r24, 0x03	; 3
- 456:	61 e0       	ldi	r22, 0x01	; 1
- 458:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
+ 14a:	83 e0       	ldi	r24, 0x03	; 3
+ 14c:	61 e0       	ldi	r22, 0x01	; 1
+ 14e:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
 			SEND_STRING("5:TV 6:AIR_Condition");
- 45c:	87 e5       	ldi	r24, 0x57	; 87
- 45e:	91 e0       	ldi	r25, 0x01	; 1
- 460:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
+ 152:	89 eb       	ldi	r24, 0xB9	; 185
+ 154:	90 e0       	ldi	r25, 0x00	; 0
+ 156:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
 	}
 	key_pressed=keyfind();
- 464:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 468:	80 93 d4 01 	sts	0x01D4, r24
+ 15a:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 15e:	80 93 c6 01 	sts	0x01C6, r24
 	
-	switch(key_pressed)
- 46c:	80 91 d4 01 	lds	r24, 0x01D4
- 470:	82 33       	cpi	r24, 0x32	; 50
- 472:	79 f1       	breq	.+94     	; 0x4d2 <main+0x440>
- 474:	86 33       	cpi	r24, 0x36	; 54
- 476:	09 f4       	brne	.+2      	; 0x47a <main+0x3e8>
- 478:	55 c0       	rjmp	.+170    	; 0x524 <main+0x492>
- 47a:	81 33       	cpi	r24, 0x31	; 49
- 47c:	09 f0       	breq	.+2      	; 0x480 <main+0x3ee>
- 47e:	bf c0       	rjmp	.+382    	; 0x5fe <main+0x56c>
-	{
-		case '1':
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 480:	81 e0       	ldi	r24, 0x01	; 1
- 482:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-			GO_LOC(2,1);
- 486:	82 e0       	ldi	r24, 0x02	; 2
- 488:	61 e0       	ldi	r22, 0x01	; 1
- 48a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("ROOM State:");
- 48e:	8c e6       	ldi	r24, 0x6C	; 108
- 490:	91 e0       	ldi	r25, 0x01	; 1
- 492:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			GO_LOC(3,1);
- 496:	83 e0       	ldi	r24, 0x03	; 3
- 498:	61 e0       	ldi	r22, 0x01	; 1
- 49a:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("ON:1   OFF:2  RET:0");
- 49e:	88 e7       	ldi	r24, 0x78	; 120
- 4a0:	91 e0       	ldi	r25, 0x01	; 1
- 4a2:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			key_pressed=keyfind();
- 4a6:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 4aa:	80 93 d4 01 	sts	0x01D4, r24
-			
-			if (key_pressed=='1')
- 4ae:	80 91 d4 01 	lds	r24, 0x01D4
- 4b2:	81 33       	cpi	r24, 0x31	; 49
- 4b4:	19 f4       	brne	.+6      	; 0x4bc <main+0x42a>
-			{
-				DDRC|=(1<<ROOM1);
- 4b6:	a2 9a       	sbi	0x14, 2	; 20
-				PORTC|=(1<<ROOM1);
- 4b8:	aa 9a       	sbi	0x15, 2	; 21
- 4ba:	a1 c0       	rjmp	.+322    	; 0x5fe <main+0x56c>
-			} 
-			else if(key_pressed=='2')
- 4bc:	80 91 d4 01 	lds	r24, 0x01D4
- 4c0:	82 33       	cpi	r24, 0x32	; 50
- 4c2:	21 f4       	brne	.+8      	; 0x4cc <main+0x43a>
-			{
-				DDRC|=(1<<ROOM1);
- 4c4:	a2 9a       	sbi	0x14, 2	; 20
-				PORTC|=(0<<ROOM1);
- 4c6:	85 b3       	in	r24, 0x15	; 21
- 4c8:	85 bb       	out	0x15, r24	; 21
- 4ca:	99 c0       	rjmp	.+306    	; 0x5fe <main+0x56c>
-			}
-			else if(key_pressed=='0')
- 4cc:	80 91 d4 01 	lds	r24, 0x01D4
- 4d0:	96 c0       	rjmp	.+300    	; 0x5fe <main+0x56c>
-			{
-			}
-		break;	
-		
-				case '2':
-				SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 4d2:	81 e0       	ldi	r24, 0x01	; 1
- 4d4:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-				GO_LOC(2,1);
- 4d8:	82 e0       	ldi	r24, 0x02	; 2
- 4da:	61 e0       	ldi	r22, 0x01	; 1
- 4dc:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("ROOM State:");
- 4e0:	8c e6       	ldi	r24, 0x6C	; 108
- 4e2:	91 e0       	ldi	r25, 0x01	; 1
- 4e4:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				GO_LOC(3,1);
- 4e8:	83 e0       	ldi	r24, 0x03	; 3
- 4ea:	61 e0       	ldi	r22, 0x01	; 1
- 4ec:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("ON:1   OFF:2  RET:0");
- 4f0:	88 e7       	ldi	r24, 0x78	; 120
- 4f2:	91 e0       	ldi	r25, 0x01	; 1
- 4f4:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				key_pressed=keyfind();
- 4f8:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 4fc:	80 93 d4 01 	sts	0x01D4, r24
-				
-				if (key_pressed=='1')
- 500:	80 91 d4 01 	lds	r24, 0x01D4
- 504:	81 33       	cpi	r24, 0x31	; 49
- 506:	19 f4       	brne	.+6      	; 0x50e <main+0x47c>
-				{
-					DDRC|=(1<<ROOM2);
- 508:	a3 9a       	sbi	0x14, 3	; 20
-					PORTC|=(1<<ROOM2);
- 50a:	ab 9a       	sbi	0x15, 3	; 21
- 50c:	78 c0       	rjmp	.+240    	; 0x5fe <main+0x56c>
-				}
-				else if(key_pressed=='2')
- 50e:	80 91 d4 01 	lds	r24, 0x01D4
- 512:	82 33       	cpi	r24, 0x32	; 50
- 514:	21 f4       	brne	.+8      	; 0x51e <main+0x48c>
-				{
-					DDRC|=(1<<ROOM2);
- 516:	a3 9a       	sbi	0x14, 3	; 20
-					PORTC|=(0<<ROOM2);
- 518:	85 b3       	in	r24, 0x15	; 21
- 51a:	85 bb       	out	0x15, r24	; 21
- 51c:	70 c0       	rjmp	.+224    	; 0x5fe <main+0x56c>
-				}
-				else if(key_pressed=='0')
- 51e:	80 91 d4 01 	lds	r24, 0x01D4
- 522:	6d c0       	rjmp	.+218    	; 0x5fe <main+0x56c>
-				{
-				}
-				break;	
-				//air condition
-				case '6':
-				SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 524:	81 e0       	ldi	r24, 0x01	; 1
- 526:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-				GO_LOC(2,1);
- 52a:	82 e0       	ldi	r24, 0x02	; 2
- 52c:	61 e0       	ldi	r22, 0x01	; 1
- 52e:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("Air cond State:");
- 532:	8c e8       	ldi	r24, 0x8C	; 140
- 534:	91 e0       	ldi	r25, 0x01	; 1
- 536:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				GO_LOC(3,1);
- 53a:	83 e0       	ldi	r24, 0x03	; 3
- 53c:	61 e0       	ldi	r22, 0x01	; 1
- 53e:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("ON:1   OFF:2  RET:0");
- 542:	88 e7       	ldi	r24, 0x78	; 120
- 544:	91 e0       	ldi	r25, 0x01	; 1
- 546:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				GO_LOC(4,1);
- 54a:	84 e0       	ldi	r24, 0x04	; 4
- 54c:	61 e0       	ldi	r22, 0x01	; 1
- 54e:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("3:Set Temp");				
- 552:	8c e9       	ldi	r24, 0x9C	; 156
- 554:	91 e0       	ldi	r25, 0x01	; 1
- 556:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				key_pressed=keyfind();
- 55a:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 55e:	80 93 d4 01 	sts	0x01D4, r24
-				
-				if (key_pressed=='1')
- 562:	80 91 d4 01 	lds	r24, 0x01D4
- 566:	81 33       	cpi	r24, 0x31	; 49
- 568:	19 f4       	brne	.+6      	; 0x570 <main+0x4de>
-				{
-					DDRC|=(1<<AIR_COND);
- 56a:	a6 9a       	sbi	0x14, 6	; 20
-					PORTC|=(1<<AIR_COND);
- 56c:	ae 9a       	sbi	0x15, 6	; 21
- 56e:	47 c0       	rjmp	.+142    	; 0x5fe <main+0x56c>
-				}
-				else if(key_pressed=='2')
- 570:	80 91 d4 01 	lds	r24, 0x01D4
- 574:	82 33       	cpi	r24, 0x32	; 50
- 576:	21 f4       	brne	.+8      	; 0x580 <main+0x4ee>
-				{
-					DDRC|=(1<<AIR_COND);
- 578:	a6 9a       	sbi	0x14, 6	; 20
-					PORTC|=(0<<AIR_COND);
- 57a:	85 b3       	in	r24, 0x15	; 21
- 57c:	85 bb       	out	0x15, r24	; 21
- 57e:	3f c0       	rjmp	.+126    	; 0x5fe <main+0x56c>
-				}
-				else if(key_pressed=='3')
- 580:	80 91 d4 01 	lds	r24, 0x01D4
- 584:	83 33       	cpi	r24, 0x33	; 51
- 586:	d9 f5       	brne	.+118    	; 0x5fe <main+0x56c>
-				{
-				SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 588:	81 e0       	ldi	r24, 0x01	; 1
- 58a:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-				GO_LOC(2,1);
- 58e:	82 e0       	ldi	r24, 0x02	; 2
- 590:	61 e0       	ldi	r22, 0x01	; 1
- 592:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-				SEND_STRING("enter temp:");
- 596:	87 ea       	ldi	r24, 0xA7	; 167
- 598:	91 e0       	ldi	r25, 0x01	; 1
- 59a:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-				key_pressed=keyfind();
- 59e:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 5a2:	80 93 d4 01 	sts	0x01D4, r24
-				temp[0]=key_pressed;
- 5a6:	80 91 d4 01 	lds	r24, 0x01D4
- 5aa:	80 93 d1 01 	sts	0x01D1, r24
-				SEND_DATE(key_pressed);
- 5ae:	80 91 d4 01 	lds	r24, 0x01D4
- 5b2:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
- 5b6:	af e4       	ldi	r26, 0x4F	; 79
- 5b8:	b3 ec       	ldi	r27, 0xC3	; 195
- 5ba:	11 97       	sbiw	r26, 0x01	; 1
- 5bc:	f1 f7       	brne	.-4      	; 0x5ba <main+0x528>
- 5be:	00 c0       	rjmp	.+0      	; 0x5c0 <main+0x52e>
- 5c0:	00 00       	nop
-				_delay_ms(200);
-				key_pressed=keyfind();
- 5c2:	0e 94 6d 03 	call	0x6da	; 0x6da <keyfind>
- 5c6:	80 93 d4 01 	sts	0x01D4, r24
-				temp[1]=key_pressed;
- 5ca:	80 91 d4 01 	lds	r24, 0x01D4
- 5ce:	80 93 d2 01 	sts	0x01D2, r24
-				SEND_DATE(key_pressed);
- 5d2:	80 91 d4 01 	lds	r24, 0x01D4
- 5d6:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
- 5da:	8f e4       	ldi	r24, 0x4F	; 79
- 5dc:	93 ec       	ldi	r25, 0xC3	; 195
- 5de:	01 97       	sbiw	r24, 0x01	; 1
- 5e0:	f1 f7       	brne	.-4      	; 0x5de <main+0x54c>
- 5e2:	00 c0       	rjmp	.+0      	; 0x5e4 <main+0x552>
- 5e4:	00 00       	nop
-				_delay_ms(200);	
-				Temp_Value=temp[0]*10+temp[1];				
- 5e6:	80 91 d1 01 	lds	r24, 0x01D1
- 5ea:	88 0f       	add	r24, r24
- 5ec:	98 2f       	mov	r25, r24
- 5ee:	99 0f       	add	r25, r25
- 5f0:	99 0f       	add	r25, r25
- 5f2:	89 0f       	add	r24, r25
- 5f4:	90 91 d2 01 	lds	r25, 0x01D2
- 5f8:	89 0f       	add	r24, r25
- 5fa:	80 93 d5 01 	sts	0x01D5, r24
-	}						
+	u8EnterRoonConfig(key_pressed);	
+ 162:	80 91 c6 01 	lds	r24, 0x01C6
+ 166:	0e 94 e4 03 	call	0x7c8	; 0x7c8 <u8EnterRoonConfig>
+	}	*/					
 			
 			
 			
 			
- 5fe:	80 e0       	ldi	r24, 0x00	; 0
- 600:	90 e0       	ldi	r25, 0x00	; 0
- 602:	df 91       	pop	r29
- 604:	cf 91       	pop	r28
- 606:	1f 91       	pop	r17
- 608:	ff 90       	pop	r15
- 60a:	ef 90       	pop	r14
- 60c:	08 95       	ret
-				 pass[pass_count]=(key_pressed-48);
-				 SEND_DATE(key_pressed);
-				 _delay_ms(300);
-				 pass_count++;
-			}
-			EEPROM_vWriteBlockToAddress(ADMIN_PASS_ADD,pass,4);
- 60e:	81 e2       	ldi	r24, 0x21	; 33
- 610:	90 e0       	ldi	r25, 0x00	; 0
- 612:	6d ec       	ldi	r22, 0xCD	; 205
- 614:	71 e0       	ldi	r23, 0x01	; 1
- 616:	44 e0       	ldi	r20, 0x04	; 4
- 618:	50 e0       	ldi	r21, 0x00	; 0
- 61a:	0e 94 50 03 	call	0x6a0	; 0x6a0 <EEPROM_vWriteBlockToAddress>
-			
-			//pass={0};
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
- 61e:	81 e0       	ldi	r24, 0x01	; 1
- 620:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
-			GO_LOC(2,1);
- 624:	82 e0       	ldi	r24, 0x02	; 2
- 626:	61 e0       	ldi	r22, 0x01	; 1
- 628:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("Set Guest Pass");
- 62c:	89 e9       	ldi	r24, 0x99	; 153
- 62e:	90 e0       	ldi	r25, 0x00	; 0
- 630:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
-			GO_LOC(3,1);
- 634:	83 e0       	ldi	r24, 0x03	; 3
- 636:	61 e0       	ldi	r22, 0x01	; 1
- 638:	0e 94 42 04 	call	0x884	; 0x884 <GO_LOC>
-			SEND_STRING("guest Pass:");
- 63c:	88 ea       	ldi	r24, 0xA8	; 168
- 63e:	90 e0       	ldi	r25, 0x00	; 0
- 640:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
+ 16a:	80 e0       	ldi	r24, 0x00	; 0
+ 16c:	90 e0       	ldi	r25, 0x00	; 0
+ 16e:	08 95       	ret
 
-			pass_count=0;
- 644:	10 92 c8 01 	sts	0x01C8, r1
- 648:	a0 cd       	rjmp	.-1216   	; 0x18a <main+0xf8>
-
-0000064a <EEPROM_ui8ReadByteFromAddress>:
+00000170 <EEPROM_ui8ReadByteFromAddress>:
 #include <avr/io.h>
 
 uint8 EEPROM_ui8ReadByteFromAddress(const uint16 u16Address)
 {
 	/* Wait for completion of previous write */
 	while (((EECR & (1 << EEWE))>>EEWE)==1)
- 64a:	e1 99       	sbic	0x1c, 1	; 28
- 64c:	fe cf       	rjmp	.-4      	; 0x64a <EEPROM_ui8ReadByteFromAddress>
+ 170:	e1 99       	sbic	0x1c, 1	; 28
+ 172:	fe cf       	rjmp	.-4      	; 0x170 <EEPROM_ui8ReadByteFromAddress>
 	;
 	/* Set up address register */
 	EEAR = u16Address;
- 64e:	9f bb       	out	0x1f, r25	; 31
- 650:	8e bb       	out	0x1e, r24	; 30
+ 174:	9f bb       	out	0x1f, r25	; 31
+ 176:	8e bb       	out	0x1e, r24	; 30
 	/* Start EEPROM read by writing EERE */
 	EECR |= (1 << EERE);
- 652:	e0 9a       	sbi	0x1c, 0	; 28
+ 178:	e0 9a       	sbi	0x1c, 0	; 28
 	/* Return data from data register */
 	return EEDR;
- 654:	8d b3       	in	r24, 0x1d	; 29
+ 17a:	8d b3       	in	r24, 0x1d	; 29
 }
- 656:	08 95       	ret
+ 17c:	08 95       	ret
 
-00000658 <EEPROM_vReadBlockFromAddress>:
+0000017e <EEPROM_vReadBlockFromAddress>:
 
 void EEPROM_vReadBlockFromAddress(const uint16 uiAddress, uint8* dist,const uint16 size)
 {
- 658:	dc 01       	movw	r26, r24
+ 17e:	dc 01       	movw	r26, r24
 	/* Wait for completion of previous write */
 	while (((EECR & (1 << EEWE))>>EEWE)==1)
- 65a:	e1 99       	sbic	0x1c, 1	; 28
- 65c:	fe cf       	rjmp	.-4      	; 0x65a <EEPROM_vReadBlockFromAddress+0x2>
+ 180:	e1 99       	sbic	0x1c, 1	; 28
+ 182:	fe cf       	rjmp	.-4      	; 0x180 <EEPROM_vReadBlockFromAddress+0x2>
 	;
 
 	uint16 counter = 0;//the counter of bytes that are read
 
 	while (counter < size) //loop until move all bytes to the given array
- 65e:	41 15       	cp	r20, r1
- 660:	51 05       	cpc	r21, r1
- 662:	89 f0       	breq	.+34     	; 0x686 <EEPROM_vReadBlockFromAddress+0x2e>
- 664:	e6 2f       	mov	r30, r22
- 666:	f7 2f       	mov	r31, r23
- 668:	20 e0       	ldi	r18, 0x00	; 0
- 66a:	30 e0       	ldi	r19, 0x00	; 0
+ 184:	41 15       	cp	r20, r1
+ 186:	51 05       	cpc	r21, r1
+ 188:	89 f0       	breq	.+34     	; 0x1ac <EEPROM_vReadBlockFromAddress+0x2e>
+ 18a:	e6 2f       	mov	r30, r22
+ 18c:	f7 2f       	mov	r31, r23
+ 18e:	20 e0       	ldi	r18, 0x00	; 0
+ 190:	30 e0       	ldi	r19, 0x00	; 0
 	EECR |= (1 << EERE);
 	/* Return data from data register */
 	return EEDR;
 }
 
 void EEPROM_vReadBlockFromAddress(const uint16 uiAddress, uint8* dist,const uint16 size)
- 66c:	c9 01       	movw	r24, r18
- 66e:	8a 0f       	add	r24, r26
- 670:	9b 1f       	adc	r25, r27
+ 192:	c9 01       	movw	r24, r18
+ 194:	8a 0f       	add	r24, r26
+ 196:	9b 1f       	adc	r25, r27
 	uint16 counter = 0;//the counter of bytes that are read
 
 	while (counter < size) //loop until move all bytes to the given array
 	{
 		/* Set up address register */
 		EEAR = uiAddress + counter;
- 672:	9f bb       	out	0x1f, r25	; 31
- 674:	8e bb       	out	0x1e, r24	; 30
+ 198:	9f bb       	out	0x1f, r25	; 31
+ 19a:	8e bb       	out	0x1e, r24	; 30
 		/* Start EEPROM read by writing EERE */
 		EECR |= (1 << EERE);
- 676:	e0 9a       	sbi	0x1c, 0	; 28
+ 19c:	e0 9a       	sbi	0x1c, 0	; 28
 		/* move data from data register to the array */
 		*(dist + counter) = EEDR;
- 678:	8d b3       	in	r24, 0x1d	; 29
- 67a:	81 93       	st	Z+, r24
+ 19e:	8d b3       	in	r24, 0x1d	; 29
+ 1a0:	81 93       	st	Z+, r24
 
 		counter++;//increase the bytes counter
- 67c:	2f 5f       	subi	r18, 0xFF	; 255
- 67e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1a2:	2f 5f       	subi	r18, 0xFF	; 255
+ 1a4:	3f 4f       	sbci	r19, 0xFF	; 255
 	while (((EECR & (1 << EEWE))>>EEWE)==1)
 	;
 
 	uint16 counter = 0;//the counter of bytes that are read
 
 	while (counter < size) //loop until move all bytes to the given array
- 680:	24 17       	cp	r18, r20
- 682:	35 07       	cpc	r19, r21
- 684:	99 f7       	brne	.-26     	; 0x66c <EEPROM_vReadBlockFromAddress+0x14>
- 686:	08 95       	ret
+ 1a6:	24 17       	cp	r18, r20
+ 1a8:	35 07       	cpc	r19, r21
+ 1aa:	99 f7       	brne	.-26     	; 0x192 <EEPROM_vReadBlockFromAddress+0x14>
+ 1ac:	08 95       	ret
 
-00000688 <EEPROM_vWriteByteToAddress>:
+000001ae <EEPROM_vWriteByteToAddress>:
 
 void EEPROM_vWriteByteToAddress(const uint16 uiAddress, const uint8 uiData)
 {
 
 	/* Wait for completion of previous write process*/
 	while ( ( (EECR & (1 << EEWE) ) >>EEWE ) == 1)
- 688:	e1 99       	sbic	0x1c, 1	; 28
- 68a:	fe cf       	rjmp	.-4      	; 0x688 <EEPROM_vWriteByteToAddress>
+ 1ae:	e1 99       	sbic	0x1c, 1	; 28
+ 1b0:	fe cf       	rjmp	.-4      	; 0x1ae <EEPROM_vWriteByteToAddress>
 	;
 	/* Set up address register */
 	EEAR = uiAddress;
- 68c:	9f bb       	out	0x1f, r25	; 31
- 68e:	8e bb       	out	0x1e, r24	; 30
+ 1b2:	9f bb       	out	0x1f, r25	; 31
+ 1b4:	8e bb       	out	0x1e, r24	; 30
 
 	/* Read the byte in the address of EEAR */
 	EECR |= (1 << EERE);
- 690:	e0 9a       	sbi	0x1c, 0	; 28
+ 1b6:	e0 9a       	sbi	0x1c, 0	; 28
 	if (EEDR != uiData)//compare the value read to the value to be written
- 692:	8d b3       	in	r24, 0x1d	; 29
- 694:	86 17       	cp	r24, r22
- 696:	19 f0       	breq	.+6      	; 0x69e <EEPROM_vWriteByteToAddress+0x16>
+ 1b8:	8d b3       	in	r24, 0x1d	; 29
+ 1ba:	86 17       	cp	r24, r22
+ 1bc:	19 f0       	breq	.+6      	; 0x1c4 <EEPROM_vWriteByteToAddress+0x16>
 	{//if they are not equal then write the data 
 		EEDR = uiData;//move the data to EEDR
- 698:	6d bb       	out	0x1d, r22	; 29
+ 1be:	6d bb       	out	0x1d, r22	; 29
 
 		/* Write logical one to EEMWE */
 		EECR |= (1 << EEMWE);
- 69a:	e2 9a       	sbi	0x1c, 2	; 28
+ 1c0:	e2 9a       	sbi	0x1c, 2	; 28
 		/* Start EEPROM write by setting EEWE */
 		EECR |= (1 << EEWE);
- 69c:	e1 9a       	sbi	0x1c, 1	; 28
- 69e:	08 95       	ret
+ 1c2:	e1 9a       	sbi	0x1c, 1	; 28
+ 1c4:	08 95       	ret
 
-000006a0 <EEPROM_vWriteBlockToAddress>:
+000001c6 <EEPROM_vWriteBlockToAddress>:
 	}
 
 }
 
 void EEPROM_vWriteBlockToAddress(const uint16 uiAddress, const uint8* uiData,const uint16 size)
 {
- 6a0:	dc 01       	movw	r26, r24
+ 1c6:	dc 01       	movw	r26, r24
 	uint16 counter = 0;//Bytes write counter
 	while (counter < size)
- 6a2:	41 15       	cp	r20, r1
- 6a4:	51 05       	cpc	r21, r1
- 6a6:	c1 f0       	breq	.+48     	; 0x6d8 <EEPROM_vWriteBlockToAddress+0x38>
- 6a8:	e6 2f       	mov	r30, r22
- 6aa:	f7 2f       	mov	r31, r23
+ 1c8:	41 15       	cp	r20, r1
+ 1ca:	51 05       	cpc	r21, r1
+ 1cc:	c1 f0       	breq	.+48     	; 0x1fe <EEPROM_vWriteBlockToAddress+0x38>
+ 1ce:	e6 2f       	mov	r30, r22
+ 1d0:	f7 2f       	mov	r31, r23
 
 }
 
 void EEPROM_vWriteBlockToAddress(const uint16 uiAddress, const uint8* uiData,const uint16 size)
 {
 	uint16 counter = 0;//Bytes write counter
- 6ac:	20 e0       	ldi	r18, 0x00	; 0
- 6ae:	30 e0       	ldi	r19, 0x00	; 0
+ 1d2:	20 e0       	ldi	r18, 0x00	; 0
+ 1d4:	30 e0       	ldi	r19, 0x00	; 0
 	while (counter < size)
 	{
 		/* Wait for completion of previous write process*/
 		while (( (EECR & (1 << EEWE) ) >>EEWE ) == 1)
- 6b0:	e1 99       	sbic	0x1c, 1	; 28
- 6b2:	fe cf       	rjmp	.-4      	; 0x6b0 <EEPROM_vWriteBlockToAddress+0x10>
+ 1d6:	e1 99       	sbic	0x1c, 1	; 28
+ 1d8:	fe cf       	rjmp	.-4      	; 0x1d6 <EEPROM_vWriteBlockToAddress+0x10>
 
 	}
 
 }
 
 void EEPROM_vWriteBlockToAddress(const uint16 uiAddress, const uint8* uiData,const uint16 size)
- 6b4:	c9 01       	movw	r24, r18
- 6b6:	8a 0f       	add	r24, r26
- 6b8:	9b 1f       	adc	r25, r27
+ 1da:	c9 01       	movw	r24, r18
+ 1dc:	8a 0f       	add	r24, r26
+ 1de:	9b 1f       	adc	r25, r27
 	{
 		/* Wait for completion of previous write process*/
 		while (( (EECR & (1 << EEWE) ) >>EEWE ) == 1)
 		;
 		/* Set up address register */
 		EEAR = uiAddress + counter;
- 6ba:	9f bb       	out	0x1f, r25	; 31
- 6bc:	8e bb       	out	0x1e, r24	; 30
+ 1e0:	9f bb       	out	0x1f, r25	; 31
+ 1e2:	8e bb       	out	0x1e, r24	; 30
 
 		/* Read the byte in the address of EEAR */
 		EECR |= (1 << EERE);
- 6be:	e0 9a       	sbi	0x1c, 0	; 28
+ 1e4:	e0 9a       	sbi	0x1c, 0	; 28
 		if (EEDR != (*(uiData + counter)))//compare the value read to the value to be written
- 6c0:	9d b3       	in	r25, 0x1d	; 29
- 6c2:	81 91       	ld	r24, Z+
- 6c4:	98 17       	cp	r25, r24
- 6c6:	19 f0       	breq	.+6      	; 0x6ce <EEPROM_vWriteBlockToAddress+0x2e>
+ 1e6:	9d b3       	in	r25, 0x1d	; 29
+ 1e8:	81 91       	ld	r24, Z+
+ 1ea:	98 17       	cp	r25, r24
+ 1ec:	19 f0       	breq	.+6      	; 0x1f4 <EEPROM_vWriteBlockToAddress+0x2e>
 		{//if they are not equal then write the data 
 			EEDR = *(uiData + counter);//move the data to EEDR
- 6c8:	8d bb       	out	0x1d, r24	; 29
+ 1ee:	8d bb       	out	0x1d, r24	; 29
 
 			/* Write logical one to EEMWE */
 			EECR |= (1 << EEMWE);
- 6ca:	e2 9a       	sbi	0x1c, 2	; 28
+ 1f0:	e2 9a       	sbi	0x1c, 2	; 28
 			/* Start EEPROM write by setting EEWE */
 			EECR |= (1 << EEWE);
- 6cc:	e1 9a       	sbi	0x1c, 1	; 28
+ 1f2:	e1 9a       	sbi	0x1c, 1	; 28
 		}
 		else
 		{
 
 		}
 		counter++;//increase bytes counter
- 6ce:	2f 5f       	subi	r18, 0xFF	; 255
- 6d0:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1f4:	2f 5f       	subi	r18, 0xFF	; 255
+ 1f6:	3f 4f       	sbci	r19, 0xFF	; 255
 }
 
 void EEPROM_vWriteBlockToAddress(const uint16 uiAddress, const uint8* uiData,const uint16 size)
 {
 	uint16 counter = 0;//Bytes write counter
 	while (counter < size)
- 6d2:	24 17       	cp	r18, r20
- 6d4:	35 07       	cpc	r19, r21
- 6d6:	61 f7       	brne	.-40     	; 0x6b0 <EEPROM_vWriteBlockToAddress+0x10>
- 6d8:	08 95       	ret
+ 1f8:	24 17       	cp	r18, r20
+ 1fa:	35 07       	cpc	r19, r21
+ 1fc:	61 f7       	brne	.-40     	; 0x1d6 <EEPROM_vWriteBlockToAddress+0x10>
+ 1fe:	08 95       	ret
 
-000006da <keyfind>:
+00000200 <keyfind>:
 
 char keyfind()
 {
 	while(1)
 	{
 		KEY_DDR = 0xF0;            //set port direction as input-output
- 6da:	40 ef       	ldi	r20, 0xF0	; 240
+ 200:	40 ef       	ldi	r20, 0xF0	; 240
 		KEY_PRT = 0xFF;         //ROW OUT HUGH AND COLLOUM INPUT PULLUP 
- 6dc:	3f ef       	ldi	r19, 0xFF	; 255
+ 202:	3f ef       	ldi	r19, 0xFF	; 255
 		_delay_ms (40);	            // 20 ms key debounce time
 			colloc = (KEY_PIN & 0x0F);
 		}while(colloc == 0x0F);   
 
 		//	now check for rows
 		KEY_PRT = 0xEF;             //check for pressed key in 1st row
- 6de:	2f ee       	ldi	r18, 0xEF	; 239
+ 204:	2f ee       	ldi	r18, 0xEF	; 239
 		{
 			rowloc = 0;
 			break;
 		}
 
 		KEY_PRT = 0xDF;		 //check for pressed key in 2nd row
- 6e0:	9f ed       	ldi	r25, 0xDF	; 223
+ 206:	9f ed       	ldi	r25, 0xDF	; 223
 		{
 			rowloc = 1;
 			break;
 		}
 		
 		KEY_PRT = 0xBF;		 //check for pressed key in 3rd row
- 6e2:	6f eb       	ldi	r22, 0xBF	; 191
+ 208:	6f eb       	ldi	r22, 0xBF	; 191
 		{
 			rowloc = 2;
 			break;
 		}
 
 		KEY_PRT = 0x7F;		 //check for pressed key in 4th row
- 6e4:	5f e7       	ldi	r21, 0x7F	; 127
+ 20a:	5f e7       	ldi	r21, 0x7F	; 127
 
 char keyfind()
 {
 	while(1)
 	{
 		KEY_DDR = 0xF0;            //set port direction as input-output
- 6e6:	41 bb       	out	0x11, r20	; 17
+ 20c:	41 bb       	out	0x11, r20	; 17
 		KEY_PRT = 0xFF;         //ROW OUT HUGH AND COLLOUM INPUT PULLUP 
- 6e8:	32 bb       	out	0x12, r19	; 18
+ 20e:	32 bb       	out	0x12, r19	; 18
 
 		do
 		{
 				
 			KEY_PRT &= 0x0F;      //  ROW OUT LOW // mask PORT for column read only
- 6ea:	82 b3       	in	r24, 0x12	; 18
- 6ec:	8f 70       	andi	r24, 0x0F	; 15
- 6ee:	82 bb       	out	0x12, r24	; 18
+ 210:	82 b3       	in	r24, 0x12	; 18
+ 212:	8f 70       	andi	r24, 0x0F	; 15
+ 214:	82 bb       	out	0x12, r24	; 18
 			asm("NOP");
- 6f0:	00 00       	nop
+ 216:	00 00       	nop
 			colloc = (KEY_PIN & 0x0F);//  read status of column
- 6f2:	80 b3       	in	r24, 0x10	; 16
- 6f4:	8f 70       	andi	r24, 0x0F	; 15
- 6f6:	80 93 d6 01 	sts	0x01D6, r24
+ 218:	80 b3       	in	r24, 0x10	; 16
+ 21a:	8f 70       	andi	r24, 0x0F	; 15
+ 21c:	80 93 c4 01 	sts	0x01C4, r24
 		}while(colloc != 0x0F);
- 6fa:	8f 30       	cpi	r24, 0x0F	; 15
- 6fc:	b1 f7       	brne	.-20     	; 0x6ea <keyfind+0x10>
- 6fe:	e7 e8       	ldi	r30, 0x87	; 135
- 700:	f3 e1       	ldi	r31, 0x13	; 19
- 702:	31 97       	sbiw	r30, 0x01	; 1
- 704:	f1 f7       	brne	.-4      	; 0x702 <keyfind+0x28>
- 706:	00 c0       	rjmp	.+0      	; 0x708 <keyfind+0x2e>
- 708:	00 00       	nop
+ 220:	8f 30       	cpi	r24, 0x0F	; 15
+ 222:	b1 f7       	brne	.-20     	; 0x210 <keyfind+0x10>
+ 224:	e7 e8       	ldi	r30, 0x87	; 135
+ 226:	f3 e1       	ldi	r31, 0x13	; 19
+ 228:	31 97       	sbiw	r30, 0x01	; 1
+ 22a:	f1 f7       	brne	.-4      	; 0x228 <keyfind+0x28>
+ 22c:	00 c0       	rjmp	.+0      	; 0x22e <keyfind+0x2e>
+ 22e:	00 00       	nop
 		do
 		{
 			do
 			{
 				_delay_ms(20);            //  20ms key debounce time
 				colloc = (KEY_PIN & 0x0F);  //read status of column
- 70a:	80 b3       	in	r24, 0x10	; 16
- 70c:	8f 70       	andi	r24, 0x0F	; 15
- 70e:	80 93 d6 01 	sts	0x01D6, r24
+ 230:	80 b3       	in	r24, 0x10	; 16
+ 232:	8f 70       	andi	r24, 0x0F	; 15
+ 234:	80 93 c4 01 	sts	0x01C4, r24
 			}while(colloc == 0x0F);         //check for any key press
- 712:	8f 30       	cpi	r24, 0x0F	; 15
- 714:	a1 f3       	breq	.-24     	; 0x6fe <keyfind+0x24>
- 716:	ef e0       	ldi	r30, 0x0F	; 15
- 718:	f7 e2       	ldi	r31, 0x27	; 39
- 71a:	31 97       	sbiw	r30, 0x01	; 1
- 71c:	f1 f7       	brne	.-4      	; 0x71a <keyfind+0x40>
- 71e:	00 c0       	rjmp	.+0      	; 0x720 <keyfind+0x46>
- 720:	00 00       	nop
+ 238:	8f 30       	cpi	r24, 0x0F	; 15
+ 23a:	a1 f3       	breq	.-24     	; 0x224 <keyfind+0x24>
+ 23c:	ef e0       	ldi	r30, 0x0F	; 15
+ 23e:	f7 e2       	ldi	r31, 0x27	; 39
+ 240:	31 97       	sbiw	r30, 0x01	; 1
+ 242:	f1 f7       	brne	.-4      	; 0x240 <keyfind+0x40>
+ 244:	00 c0       	rjmp	.+0      	; 0x246 <keyfind+0x46>
+ 246:	00 00       	nop
 			
 		_delay_ms (40);	            // 20 ms key debounce time
 			colloc = (KEY_PIN & 0x0F);
- 722:	80 b3       	in	r24, 0x10	; 16
- 724:	8f 70       	andi	r24, 0x0F	; 15
- 726:	80 93 d6 01 	sts	0x01D6, r24
+ 248:	80 b3       	in	r24, 0x10	; 16
+ 24a:	8f 70       	andi	r24, 0x0F	; 15
+ 24c:	80 93 c4 01 	sts	0x01C4, r24
 		}while(colloc == 0x0F);   
- 72a:	8f 30       	cpi	r24, 0x0F	; 15
- 72c:	41 f3       	breq	.-48     	; 0x6fe <keyfind+0x24>
+ 250:	8f 30       	cpi	r24, 0x0F	; 15
+ 252:	41 f3       	breq	.-48     	; 0x224 <keyfind+0x24>
 
 		//	now check for rows
 		KEY_PRT = 0xEF;             //check for pressed key in 1st row
- 72e:	22 bb       	out	0x12, r18	; 18
+ 254:	22 bb       	out	0x12, r18	; 18
 		asm("NOP");
- 730:	00 00       	nop
+ 256:	00 00       	nop
 		colloc = (KEY_PIN & 0x0F);
- 732:	80 b3       	in	r24, 0x10	; 16
- 734:	8f 70       	andi	r24, 0x0F	; 15
- 736:	80 93 d6 01 	sts	0x01D6, r24
+ 258:	80 b3       	in	r24, 0x10	; 16
+ 25a:	8f 70       	andi	r24, 0x0F	; 15
+ 25c:	80 93 c4 01 	sts	0x01C4, r24
 		if(colloc != 0x0F)
- 73a:	8f 30       	cpi	r24, 0x0F	; 15
- 73c:	19 f0       	breq	.+6      	; 0x744 <keyfind+0x6a>
+ 260:	8f 30       	cpi	r24, 0x0F	; 15
+ 262:	19 f0       	breq	.+6      	; 0x26a <keyfind+0x6a>
 		{
 			rowloc = 0;
- 73e:	10 92 d7 01 	sts	0x01D7, r1
+ 264:	10 92 c5 01 	sts	0x01C5, r1
 			break;
- 742:	24 c0       	rjmp	.+72     	; 0x78c <keyfind+0xb2>
+ 268:	24 c0       	rjmp	.+72     	; 0x2b2 <keyfind+0xb2>
 		}
 
 		KEY_PRT = 0xDF;		 //check for pressed key in 2nd row
- 744:	92 bb       	out	0x12, r25	; 18
+ 26a:	92 bb       	out	0x12, r25	; 18
 		asm("NOP");
- 746:	00 00       	nop
+ 26c:	00 00       	nop
 		colloc = (KEY_PIN & 0x0F);
- 748:	80 b3       	in	r24, 0x10	; 16
- 74a:	8f 70       	andi	r24, 0x0F	; 15
- 74c:	80 93 d6 01 	sts	0x01D6, r24
+ 26e:	80 b3       	in	r24, 0x10	; 16
+ 270:	8f 70       	andi	r24, 0x0F	; 15
+ 272:	80 93 c4 01 	sts	0x01C4, r24
 		if(colloc != 0x0F)
- 750:	8f 30       	cpi	r24, 0x0F	; 15
- 752:	21 f0       	breq	.+8      	; 0x75c <keyfind+0x82>
+ 276:	8f 30       	cpi	r24, 0x0F	; 15
+ 278:	21 f0       	breq	.+8      	; 0x282 <keyfind+0x82>
 		{
 			rowloc = 1;
- 754:	81 e0       	ldi	r24, 0x01	; 1
- 756:	80 93 d7 01 	sts	0x01D7, r24
+ 27a:	81 e0       	ldi	r24, 0x01	; 1
+ 27c:	80 93 c5 01 	sts	0x01C5, r24
 			break;
- 75a:	18 c0       	rjmp	.+48     	; 0x78c <keyfind+0xb2>
+ 280:	18 c0       	rjmp	.+48     	; 0x2b2 <keyfind+0xb2>
 		}
 		
 		KEY_PRT = 0xBF;		 //check for pressed key in 3rd row
- 75c:	62 bb       	out	0x12, r22	; 18
+ 282:	62 bb       	out	0x12, r22	; 18
 		asm("NOP");
- 75e:	00 00       	nop
+ 284:	00 00       	nop
 		colloc = (KEY_PIN & 0x0F);
- 760:	80 b3       	in	r24, 0x10	; 16
- 762:	8f 70       	andi	r24, 0x0F	; 15
- 764:	80 93 d6 01 	sts	0x01D6, r24
+ 286:	80 b3       	in	r24, 0x10	; 16
+ 288:	8f 70       	andi	r24, 0x0F	; 15
+ 28a:	80 93 c4 01 	sts	0x01C4, r24
 		if(colloc != 0x0F)
- 768:	8f 30       	cpi	r24, 0x0F	; 15
- 76a:	21 f0       	breq	.+8      	; 0x774 <keyfind+0x9a>
+ 28e:	8f 30       	cpi	r24, 0x0F	; 15
+ 290:	21 f0       	breq	.+8      	; 0x29a <keyfind+0x9a>
 		{
 			rowloc = 2;
- 76c:	82 e0       	ldi	r24, 0x02	; 2
- 76e:	80 93 d7 01 	sts	0x01D7, r24
+ 292:	82 e0       	ldi	r24, 0x02	; 2
+ 294:	80 93 c5 01 	sts	0x01C5, r24
 			break;
- 772:	0c c0       	rjmp	.+24     	; 0x78c <keyfind+0xb2>
+ 298:	0c c0       	rjmp	.+24     	; 0x2b2 <keyfind+0xb2>
 		}
 
 		KEY_PRT = 0x7F;		 //check for pressed key in 4th row
- 774:	52 bb       	out	0x12, r21	; 18
+ 29a:	52 bb       	out	0x12, r21	; 18
 		asm("NOP");
- 776:	00 00       	nop
+ 29c:	00 00       	nop
 		colloc = (KEY_PIN & 0x0F);
- 778:	80 b3       	in	r24, 0x10	; 16
- 77a:	8f 70       	andi	r24, 0x0F	; 15
- 77c:	80 93 d6 01 	sts	0x01D6, r24
+ 29e:	80 b3       	in	r24, 0x10	; 16
+ 2a0:	8f 70       	andi	r24, 0x0F	; 15
+ 2a2:	80 93 c4 01 	sts	0x01C4, r24
 		if(colloc != 0x0F)
- 780:	8f 30       	cpi	r24, 0x0F	; 15
- 782:	09 f4       	brne	.+2      	; 0x786 <keyfind+0xac>
- 784:	b0 cf       	rjmp	.-160    	; 0x6e6 <keyfind+0xc>
+ 2a6:	8f 30       	cpi	r24, 0x0F	; 15
+ 2a8:	09 f4       	brne	.+2      	; 0x2ac <keyfind+0xac>
+ 2aa:	b0 cf       	rjmp	.-160    	; 0x20c <keyfind+0xc>
 		{
 			rowloc = 3;
- 786:	83 e0       	ldi	r24, 0x03	; 3
- 788:	80 93 d7 01 	sts	0x01D7, r24
+ 2ac:	83 e0       	ldi	r24, 0x03	; 3
+ 2ae:	80 93 c5 01 	sts	0x01C5, r24
 			break;
 		}
 	}
 
 	if(colloc == 0x0E)
- 78c:	80 91 d6 01 	lds	r24, 0x01D6
- 790:	8e 30       	cpi	r24, 0x0E	; 14
- 792:	59 f4       	brne	.+22     	; 0x7aa <keyfind+0xd0>
+ 2b2:	80 91 c4 01 	lds	r24, 0x01C4
+ 2b6:	8e 30       	cpi	r24, 0x0E	; 14
+ 2b8:	59 f4       	brne	.+22     	; 0x2d0 <keyfind+0xd0>
 	return(keypad[rowloc][0]);
- 794:	e0 91 d7 01 	lds	r30, 0x01D7
- 798:	f0 e0       	ldi	r31, 0x00	; 0
- 79a:	ee 0f       	add	r30, r30
- 79c:	ff 1f       	adc	r31, r31
- 79e:	ee 0f       	add	r30, r30
- 7a0:	ff 1f       	adc	r31, r31
- 7a2:	ed 54       	subi	r30, 0x4D	; 77
- 7a4:	fe 4f       	sbci	r31, 0xFE	; 254
- 7a6:	80 81       	ld	r24, Z
- 7a8:	08 95       	ret
+ 2ba:	e0 91 c5 01 	lds	r30, 0x01C5
+ 2be:	f0 e0       	ldi	r31, 0x00	; 0
+ 2c0:	ee 0f       	add	r30, r30
+ 2c2:	ff 1f       	adc	r31, r31
+ 2c4:	ee 0f       	add	r30, r30
+ 2c6:	ff 1f       	adc	r31, r31
+ 2c8:	e2 53       	subi	r30, 0x32	; 50
+ 2ca:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2cc:	80 81       	ld	r24, Z
+ 2ce:	08 95       	ret
 	else if(colloc == 0x0D)
- 7aa:	8d 30       	cpi	r24, 0x0D	; 13
- 7ac:	59 f4       	brne	.+22     	; 0x7c4 <keyfind+0xea>
+ 2d0:	8d 30       	cpi	r24, 0x0D	; 13
+ 2d2:	59 f4       	brne	.+22     	; 0x2ea <keyfind+0xea>
 	return(keypad[rowloc][1]);
- 7ae:	e0 91 d7 01 	lds	r30, 0x01D7
- 7b2:	f0 e0       	ldi	r31, 0x00	; 0
- 7b4:	ee 0f       	add	r30, r30
- 7b6:	ff 1f       	adc	r31, r31
- 7b8:	ee 0f       	add	r30, r30
- 7ba:	ff 1f       	adc	r31, r31
- 7bc:	ed 54       	subi	r30, 0x4D	; 77
- 7be:	fe 4f       	sbci	r31, 0xFE	; 254
- 7c0:	81 81       	ldd	r24, Z+1	; 0x01
- 7c2:	08 95       	ret
+ 2d4:	e0 91 c5 01 	lds	r30, 0x01C5
+ 2d8:	f0 e0       	ldi	r31, 0x00	; 0
+ 2da:	ee 0f       	add	r30, r30
+ 2dc:	ff 1f       	adc	r31, r31
+ 2de:	ee 0f       	add	r30, r30
+ 2e0:	ff 1f       	adc	r31, r31
+ 2e2:	e2 53       	subi	r30, 0x32	; 50
+ 2e4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2e6:	81 81       	ldd	r24, Z+1	; 0x01
+ 2e8:	08 95       	ret
 	else if(colloc == 0x0B)
- 7c4:	8b 30       	cpi	r24, 0x0B	; 11
- 7c6:	59 f4       	brne	.+22     	; 0x7de <keyfind+0x104>
+ 2ea:	8b 30       	cpi	r24, 0x0B	; 11
+ 2ec:	59 f4       	brne	.+22     	; 0x304 <keyfind+0x104>
 	return(keypad[rowloc][2]);
- 7c8:	e0 91 d7 01 	lds	r30, 0x01D7
- 7cc:	f0 e0       	ldi	r31, 0x00	; 0
- 7ce:	ee 0f       	add	r30, r30
- 7d0:	ff 1f       	adc	r31, r31
- 7d2:	ee 0f       	add	r30, r30
- 7d4:	ff 1f       	adc	r31, r31
- 7d6:	ed 54       	subi	r30, 0x4D	; 77
- 7d8:	fe 4f       	sbci	r31, 0xFE	; 254
- 7da:	82 81       	ldd	r24, Z+2	; 0x02
- 7dc:	08 95       	ret
+ 2ee:	e0 91 c5 01 	lds	r30, 0x01C5
+ 2f2:	f0 e0       	ldi	r31, 0x00	; 0
+ 2f4:	ee 0f       	add	r30, r30
+ 2f6:	ff 1f       	adc	r31, r31
+ 2f8:	ee 0f       	add	r30, r30
+ 2fa:	ff 1f       	adc	r31, r31
+ 2fc:	e2 53       	subi	r30, 0x32	; 50
+ 2fe:	ff 4f       	sbci	r31, 0xFF	; 255
+ 300:	82 81       	ldd	r24, Z+2	; 0x02
+ 302:	08 95       	ret
 	else
 	return(keypad[rowloc][3]);
- 7de:	e0 91 d7 01 	lds	r30, 0x01D7
- 7e2:	f0 e0       	ldi	r31, 0x00	; 0
- 7e4:	ee 0f       	add	r30, r30
- 7e6:	ff 1f       	adc	r31, r31
- 7e8:	ee 0f       	add	r30, r30
- 7ea:	ff 1f       	adc	r31, r31
- 7ec:	ed 54       	subi	r30, 0x4D	; 77
- 7ee:	fe 4f       	sbci	r31, 0xFE	; 254
- 7f0:	83 81       	ldd	r24, Z+3	; 0x03
+ 304:	e0 91 c5 01 	lds	r30, 0x01C5
+ 308:	f0 e0       	ldi	r31, 0x00	; 0
+ 30a:	ee 0f       	add	r30, r30
+ 30c:	ff 1f       	adc	r31, r31
+ 30e:	ee 0f       	add	r30, r30
+ 310:	ff 1f       	adc	r31, r31
+ 312:	e2 53       	subi	r30, 0x32	; 50
+ 314:	ff 4f       	sbci	r31, 0xFF	; 255
+ 316:	83 81       	ldd	r24, Z+3	; 0x03
 }
- 7f2:	08 95       	ret
+ 318:	08 95       	ret
 
-000007f4 <HI_LO_PULS_EN>:
+0000031a <HI_LO_PULS_EN>:
 	HI_LO_PULS_EN();
 }
 
 void HI_LO_PULS_EN(void)
 {
 	CONTRLO_PINS_HI_LO|=(1<<ENABLE);
- 7f4:	c1 9a       	sbi	0x18, 1	; 24
+ 31a:	c1 9a       	sbi	0x18, 1	; 24
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 7f6:	00 00       	nop
+ 31c:	00 00       	nop
 	_delay_us(1);
 	CONTRLO_PINS_HI_LO&=~(1<<ENABLE);
- 7f8:	c1 98       	cbi	0x18, 1	; 24
- 7fa:	81 e2       	ldi	r24, 0x21	; 33
- 7fc:	8a 95       	dec	r24
- 7fe:	f1 f7       	brne	.-4      	; 0x7fc <HI_LO_PULS_EN+0x8>
- 800:	00 00       	nop
+ 31e:	c1 98       	cbi	0x18, 1	; 24
+ 320:	81 e2       	ldi	r24, 0x21	; 33
+ 322:	8a 95       	dec	r24
+ 324:	f1 f7       	brne	.-4      	; 0x322 <HI_LO_PULS_EN+0x8>
+ 326:	00 00       	nop
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 802:	83 ed       	ldi	r24, 0xD3	; 211
- 804:	90 e3       	ldi	r25, 0x30	; 48
- 806:	01 97       	sbiw	r24, 0x01	; 1
- 808:	f1 f7       	brne	.-4      	; 0x806 <HI_LO_PULS_EN+0x12>
- 80a:	00 c0       	rjmp	.+0      	; 0x80c <HI_LO_PULS_EN+0x18>
- 80c:	00 00       	nop
+ 328:	83 ed       	ldi	r24, 0xD3	; 211
+ 32a:	90 e3       	ldi	r25, 0x30	; 48
+ 32c:	01 97       	sbiw	r24, 0x01	; 1
+ 32e:	f1 f7       	brne	.-4      	; 0x32c <HI_LO_PULS_EN+0x12>
+ 330:	00 c0       	rjmp	.+0      	; 0x332 <HI_LO_PULS_EN+0x18>
+ 332:	00 00       	nop
 	_delay_us(100);
 	_delay_ms(50);
 }
- 80e:	08 95       	ret
+ 334:	08 95       	ret
 
-00000810 <SEND_COMND>:
+00000336 <SEND_COMND>:
 
 }
 
 void SEND_COMND(unsigned char CMD)
 {
 	CONTRLO_PINS_HI_LO&=~((1<<RE_WR)|(1<<REG_SEL)) ;
- 810:	98 b3       	in	r25, 0x18	; 24
- 812:	93 7f       	andi	r25, 0xF3	; 243
- 814:	98 bb       	out	0x18, r25	; 24
+ 336:	98 b3       	in	r25, 0x18	; 24
+ 338:	93 7f       	andi	r25, 0xF3	; 243
+ 33a:	98 bb       	out	0x18, r25	; 24
 	DATE_HI_LO=CMD;
- 816:	8b bb       	out	0x1b, r24	; 27
+ 33c:	8b bb       	out	0x1b, r24	; 27
 	HI_LO_PULS_EN();
- 818:	0e 94 fa 03 	call	0x7f4	; 0x7f4 <HI_LO_PULS_EN>
+ 33e:	0e 94 8d 01 	call	0x31a	; 0x31a <HI_LO_PULS_EN>
 }
- 81c:	08 95       	ret
+ 342:	08 95       	ret
 
-0000081e <LCD_INISTIALIZATION>:
+00000344 <LCD_INISTIALIZATION>:
  */ 
 #include "lcd.h"
 
 void LCD_INISTIALIZATION(void)
 {
 	DATE_IN_OUT =0xFF;
- 81e:	8f ef       	ldi	r24, 0xFF	; 255
- 820:	8a bb       	out	0x1a, r24	; 26
+ 344:	8f ef       	ldi	r24, 0xFF	; 255
+ 346:	8a bb       	out	0x1a, r24	; 26
 	CONTRLO_PINS_IN_OUT|=((1<<ENABLE)|(1<<RE_WR)|(1<<REG_SEL));
- 822:	87 b3       	in	r24, 0x17	; 23
- 824:	8e 60       	ori	r24, 0x0E	; 14
- 826:	87 bb       	out	0x17, r24	; 23
- 828:	87 e8       	ldi	r24, 0x87	; 135
- 82a:	93 e1       	ldi	r25, 0x13	; 19
- 82c:	01 97       	sbiw	r24, 0x01	; 1
- 82e:	f1 f7       	brne	.-4      	; 0x82c <LCD_INISTIALIZATION+0xe>
- 830:	00 c0       	rjmp	.+0      	; 0x832 <LCD_INISTIALIZATION+0x14>
- 832:	00 00       	nop
+ 348:	87 b3       	in	r24, 0x17	; 23
+ 34a:	8e 60       	ori	r24, 0x0E	; 14
+ 34c:	87 bb       	out	0x17, r24	; 23
+ 34e:	87 e8       	ldi	r24, 0x87	; 135
+ 350:	93 e1       	ldi	r25, 0x13	; 19
+ 352:	01 97       	sbiw	r24, 0x01	; 1
+ 354:	f1 f7       	brne	.-4      	; 0x352 <LCD_INISTIALIZATION+0xe>
+ 356:	00 c0       	rjmp	.+0      	; 0x358 <LCD_INISTIALIZATION+0x14>
+ 358:	00 00       	nop
 	//CONTRLO_PINS_HI_LO&=~(1<<ENABLE);
 	
 	_delay_ms(20);       //wait for start initialization
 	SEND_COMND(0x38);   //8bit mode
- 834:	88 e3       	ldi	r24, 0x38	; 56
- 836:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
+ 35a:	88 e3       	ldi	r24, 0x38	; 56
+ 35c:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
 	SEND_COMND(0x0E);   //curser not be blinking
- 83a:	8e e0       	ldi	r24, 0x0E	; 14
- 83c:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
+ 360:	8e e0       	ldi	r24, 0x0E	; 14
+ 362:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
 	SEND_COMND(0x01);   // clear display
- 840:	81 e0       	ldi	r24, 0x01	; 1
- 842:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
- 846:	83 ef       	ldi	r24, 0xF3	; 243
- 848:	91 e0       	ldi	r25, 0x01	; 1
- 84a:	01 97       	sbiw	r24, 0x01	; 1
- 84c:	f1 f7       	brne	.-4      	; 0x84a <LCD_INISTIALIZATION+0x2c>
- 84e:	00 c0       	rjmp	.+0      	; 0x850 <LCD_INISTIALIZATION+0x32>
- 850:	00 00       	nop
+ 366:	81 e0       	ldi	r24, 0x01	; 1
+ 368:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+ 36c:	83 ef       	ldi	r24, 0xF3	; 243
+ 36e:	91 e0       	ldi	r25, 0x01	; 1
+ 370:	01 97       	sbiw	r24, 0x01	; 1
+ 372:	f1 f7       	brne	.-4      	; 0x370 <LCD_INISTIALIZATION+0x2c>
+ 374:	00 c0       	rjmp	.+0      	; 0x376 <LCD_INISTIALIZATION+0x32>
+ 376:	00 00       	nop
 	_delay_ms(2);
 	SEND_COMND(0x06);   //INCREAMENT CURSOR TO RIGHT
- 852:	86 e0       	ldi	r24, 0x06	; 6
- 854:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
+ 378:	86 e0       	ldi	r24, 0x06	; 6
+ 37a:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
 
 }
- 858:	08 95       	ret
+ 37e:	08 95       	ret
 
-0000085a <SEND_DATE>:
+00000380 <SEND_DATE>:
 	_delay_ms(50);
 }
 
 void SEND_DATE(unsigned char DATE)
 {
 	CONTRLO_PINS_HI_LO &=~(1<<RE_WR);
- 85a:	c2 98       	cbi	0x18, 2	; 24
+ 380:	c2 98       	cbi	0x18, 2	; 24
 	CONTRLO_PINS_HI_LO |=(1<<REG_SEL);
- 85c:	c3 9a       	sbi	0x18, 3	; 24
+ 382:	c3 9a       	sbi	0x18, 3	; 24
 	DATE_HI_LO=DATE;
- 85e:	8b bb       	out	0x1b, r24	; 27
+ 384:	8b bb       	out	0x1b, r24	; 27
 	HI_LO_PULS_EN();
- 860:	0e 94 fa 03 	call	0x7f4	; 0x7f4 <HI_LO_PULS_EN>
+ 386:	0e 94 8d 01 	call	0x31a	; 0x31a <HI_LO_PULS_EN>
 }
- 864:	08 95       	ret
+ 38a:	08 95       	ret
 
-00000866 <SEND_STRING>:
+0000038c <SEND_STRING>:
 void SEND_STRING(unsigned char *STR)
 {
- 866:	cf 93       	push	r28
- 868:	df 93       	push	r29
- 86a:	ec 01       	movw	r28, r24
+ 38c:	cf 93       	push	r28
+ 38e:	df 93       	push	r29
+ 390:	ec 01       	movw	r28, r24
 	while(*STR>0)
- 86c:	88 81       	ld	r24, Y
- 86e:	88 23       	and	r24, r24
- 870:	31 f0       	breq	.+12     	; 0x87e <SEND_STRING+0x18>
+ 392:	88 81       	ld	r24, Y
+ 394:	88 23       	and	r24, r24
+ 396:	31 f0       	breq	.+12     	; 0x3a4 <SEND_STRING+0x18>
 	CONTRLO_PINS_HI_LO &=~(1<<RE_WR);
 	CONTRLO_PINS_HI_LO |=(1<<REG_SEL);
 	DATE_HI_LO=DATE;
 	HI_LO_PULS_EN();
 }
 void SEND_STRING(unsigned char *STR)
- 872:	21 96       	adiw	r28, 0x01	; 1
+ 398:	21 96       	adiw	r28, 0x01	; 1
 {
 	while(*STR>0)
 	{
 		
 		SEND_DATE(*STR++);  //first send and then increament
- 874:	0e 94 2d 04 	call	0x85a	; 0x85a <SEND_DATE>
+ 39a:	0e 94 c0 01 	call	0x380	; 0x380 <SEND_DATE>
 	DATE_HI_LO=DATE;
 	HI_LO_PULS_EN();
 }
 void SEND_STRING(unsigned char *STR)
 {
 	while(*STR>0)
- 878:	89 91       	ld	r24, Y+
- 87a:	88 23       	and	r24, r24
- 87c:	d9 f7       	brne	.-10     	; 0x874 <SEND_STRING+0xe>
+ 39e:	89 91       	ld	r24, Y+
+ 3a0:	88 23       	and	r24, r24
+ 3a2:	d9 f7       	brne	.-10     	; 0x39a <SEND_STRING+0xe>
 	{
 		
 		SEND_DATE(*STR++);  //first send and then increament
 		
 	}
 }
- 87e:	df 91       	pop	r29
- 880:	cf 91       	pop	r28
- 882:	08 95       	ret
+ 3a4:	df 91       	pop	r29
+ 3a6:	cf 91       	pop	r28
+ 3a8:	08 95       	ret
 
-00000884 <GO_LOC>:
+000003aa <GO_LOC>:
 char ARR_LOC_ROWS[]={0x80,0xC0,0x94,0xD4};
 void GO_LOC(uint8_t x,uint8_t y)
 {
 	//char ARR_LOC_ROWS[]={0x80,0xC0,0x94,0xD4};
 	
 	SEND_COMND(ARR_LOC_ROWS[x-1]+(y-1));
- 884:	61 50       	subi	r22, 0x01	; 1
- 886:	e8 2f       	mov	r30, r24
- 888:	f0 e0       	ldi	r31, 0x00	; 0
- 88a:	ee 53       	subi	r30, 0x3E	; 62
- 88c:	fe 4f       	sbci	r31, 0xFE	; 254
- 88e:	80 81       	ld	r24, Z
- 890:	86 0f       	add	r24, r22
- 892:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
+ 3aa:	61 50       	subi	r22, 0x01	; 1
+ 3ac:	e8 2f       	mov	r30, r24
+ 3ae:	f0 e0       	ldi	r31, 0x00	; 0
+ 3b0:	e3 52       	subi	r30, 0x23	; 35
+ 3b2:	ff 4f       	sbci	r31, 0xFF	; 255
+ 3b4:	80 81       	ld	r24, Z
+ 3b6:	86 0f       	add	r24, r22
+ 3b8:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
 }
- 896:	08 95       	ret
+ 3bc:	08 95       	ret
 
-00000898 <SEND_LONG_NUM>:
+000003be <SEND_LONG_NUM>:
 
 void SEND_LONG_NUM(char *p,int siz)
 {
- 898:	cf 92       	push	r12
- 89a:	df 92       	push	r13
- 89c:	ef 92       	push	r14
- 89e:	ff 92       	push	r15
- 8a0:	0f 93       	push	r16
- 8a2:	1f 93       	push	r17
- 8a4:	cf 93       	push	r28
- 8a6:	df 93       	push	r29
- 8a8:	ec 01       	movw	r28, r24
- 8aa:	6b 01       	movw	r12, r22
+ 3be:	cf 92       	push	r12
+ 3c0:	df 92       	push	r13
+ 3c2:	ef 92       	push	r14
+ 3c4:	ff 92       	push	r15
+ 3c6:	0f 93       	push	r16
+ 3c8:	1f 93       	push	r17
+ 3ca:	cf 93       	push	r28
+ 3cc:	df 93       	push	r29
+ 3ce:	ec 01       	movw	r28, r24
+ 3d0:	6b 01       	movw	r12, r22
 	static char NUM_ST[4];
 	for (int i=0;i<siz;i++)
- 8ac:	16 16       	cp	r1, r22
- 8ae:	17 06       	cpc	r1, r23
- 8b0:	b4 f4       	brge	.+44     	; 0x8de <SEND_LONG_NUM+0x46>
+ 3d2:	16 16       	cp	r1, r22
+ 3d4:	17 06       	cpc	r1, r23
+ 3d6:	b4 f4       	brge	.+44     	; 0x404 <SEND_LONG_NUM+0x46>
 	//char ARR_LOC_ROWS[]={0x80,0xC0,0x94,0xD4};
 	
 	SEND_COMND(ARR_LOC_ROWS[x-1]+(y-1));
 }
 
 void SEND_LONG_NUM(char *p,int siz)
- 8b2:	8c 01       	movw	r16, r24
- 8b4:	06 0f       	add	r16, r22
- 8b6:	17 1f       	adc	r17, r23
+ 3d8:	8c 01       	movw	r16, r24
+ 3da:	06 0f       	add	r16, r22
+ 3dc:	17 1f       	adc	r17, r23
 {
 	static char NUM_ST[4];
 	for (int i=0;i<siz;i++)
 	{
 		itoa(*p,NUM_ST,10);
- 8b8:	0f 2e       	mov	r0, r31
- 8ba:	f9 ec       	ldi	r31, 0xC9	; 201
- 8bc:	ef 2e       	mov	r14, r31
- 8be:	f1 e0       	ldi	r31, 0x01	; 1
- 8c0:	ff 2e       	mov	r15, r31
- 8c2:	f0 2d       	mov	r31, r0
- 8c4:	89 91       	ld	r24, Y+
- 8c6:	90 e0       	ldi	r25, 0x00	; 0
- 8c8:	b7 01       	movw	r22, r14
- 8ca:	4a e0       	ldi	r20, 0x0A	; 10
- 8cc:	50 e0       	ldi	r21, 0x00	; 0
- 8ce:	0e 94 dd 04 	call	0x9ba	; 0x9ba <itoa>
+ 3de:	0f 2e       	mov	r0, r31
+ 3e0:	f6 eb       	ldi	r31, 0xB6	; 182
+ 3e2:	ef 2e       	mov	r14, r31
+ 3e4:	f1 e0       	ldi	r31, 0x01	; 1
+ 3e6:	ff 2e       	mov	r15, r31
+ 3e8:	f0 2d       	mov	r31, r0
+ 3ea:	89 91       	ld	r24, Y+
+ 3ec:	90 e0       	ldi	r25, 0x00	; 0
+ 3ee:	b7 01       	movw	r22, r14
+ 3f0:	4a e0       	ldi	r20, 0x0A	; 10
+ 3f2:	50 e0       	ldi	r21, 0x00	; 0
+ 3f4:	0e 94 83 04 	call	0x906	; 0x906 <itoa>
 		SEND_STRING(NUM_ST);
- 8d2:	c7 01       	movw	r24, r14
- 8d4:	0e 94 33 04 	call	0x866	; 0x866 <SEND_STRING>
+ 3f8:	c7 01       	movw	r24, r14
+ 3fa:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
 }
 
 void SEND_LONG_NUM(char *p,int siz)
 {
 	static char NUM_ST[4];
 	for (int i=0;i<siz;i++)
- 8d8:	c0 17       	cp	r28, r16
- 8da:	d1 07       	cpc	r29, r17
- 8dc:	99 f7       	brne	.-26     	; 0x8c4 <SEND_LONG_NUM+0x2c>
+ 3fe:	c0 17       	cp	r28, r16
+ 400:	d1 07       	cpc	r29, r17
+ 402:	99 f7       	brne	.-26     	; 0x3ea <SEND_LONG_NUM+0x2c>
 		SEND_STRING(NUM_ST);
 		p++;
 		//itoa(*p,NUM_ST,10);
 		//	SEND_STRING(NUM_ST);
 	}
 	int sift=(20+(20-siz)/2);
- 8de:	c4 e1       	ldi	r28, 0x14	; 20
- 8e0:	d0 e0       	ldi	r29, 0x00	; 0
- 8e2:	cc 19       	sub	r28, r12
- 8e4:	dd 09       	sbc	r29, r13
- 8e6:	0a f4       	brpl	.+2      	; 0x8ea <SEND_LONG_NUM+0x52>
- 8e8:	21 96       	adiw	r28, 0x01	; 1
- 8ea:	d5 95       	asr	r29
- 8ec:	c7 95       	ror	r28
- 8ee:	64 96       	adiw	r28, 0x14	; 20
+ 404:	c4 e1       	ldi	r28, 0x14	; 20
+ 406:	d0 e0       	ldi	r29, 0x00	; 0
+ 408:	cc 19       	sub	r28, r12
+ 40a:	dd 09       	sbc	r29, r13
+ 40c:	0a f4       	brpl	.+2      	; 0x410 <SEND_LONG_NUM+0x52>
+ 40e:	21 96       	adiw	r28, 0x01	; 1
+ 410:	d5 95       	asr	r29
+ 412:	c7 95       	ror	r28
+ 414:	64 96       	adiw	r28, 0x14	; 20
 	for (int i=0;i<sift;i++)
- 8f0:	1c 16       	cp	r1, r28
- 8f2:	1d 06       	cpc	r1, r29
- 8f4:	54 f4       	brge	.+20     	; 0x90a <SEND_LONG_NUM+0x72>
- 8f6:	00 e0       	ldi	r16, 0x00	; 0
- 8f8:	10 e0       	ldi	r17, 0x00	; 0
+ 416:	1c 16       	cp	r1, r28
+ 418:	1d 06       	cpc	r1, r29
+ 41a:	54 f4       	brge	.+20     	; 0x430 <SEND_LONG_NUM+0x72>
+ 41c:	00 e0       	ldi	r16, 0x00	; 0
+ 41e:	10 e0       	ldi	r17, 0x00	; 0
 	{
 		SEND_COMND(0x1C);
- 8fa:	8c e1       	ldi	r24, 0x1C	; 28
- 8fc:	0e 94 08 04 	call	0x810	; 0x810 <SEND_COMND>
+ 420:	8c e1       	ldi	r24, 0x1C	; 28
+ 422:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
 		p++;
 		//itoa(*p,NUM_ST,10);
 		//	SEND_STRING(NUM_ST);
 	}
 	int sift=(20+(20-siz)/2);
 	for (int i=0;i<sift;i++)
- 900:	0f 5f       	subi	r16, 0xFF	; 255
- 902:	1f 4f       	sbci	r17, 0xFF	; 255
- 904:	0c 17       	cp	r16, r28
- 906:	1d 07       	cpc	r17, r29
- 908:	c4 f3       	brlt	.-16     	; 0x8fa <SEND_LONG_NUM+0x62>
+ 426:	0f 5f       	subi	r16, 0xFF	; 255
+ 428:	1f 4f       	sbci	r17, 0xFF	; 255
+ 42a:	0c 17       	cp	r16, r28
+ 42c:	1d 07       	cpc	r17, r29
+ 42e:	c4 f3       	brlt	.-16     	; 0x420 <SEND_LONG_NUM+0x62>
 	{
 		SEND_COMND(0x1C);
 	}
 	
- 90a:	df 91       	pop	r29
- 90c:	cf 91       	pop	r28
- 90e:	1f 91       	pop	r17
- 910:	0f 91       	pop	r16
- 912:	ff 90       	pop	r15
- 914:	ef 90       	pop	r14
- 916:	df 90       	pop	r13
- 918:	cf 90       	pop	r12
- 91a:	08 95       	ret
+ 430:	df 91       	pop	r29
+ 432:	cf 91       	pop	r28
+ 434:	1f 91       	pop	r17
+ 436:	0f 91       	pop	r16
+ 438:	ff 90       	pop	r15
+ 43a:	ef 90       	pop	r14
+ 43c:	df 90       	pop	r13
+ 43e:	cf 90       	pop	r12
+ 440:	08 95       	ret
 
-0000091c <OUTPUT_MODE>:
+00000442 <vEnterFirstTime>:
+uint8 pass_count=0;
+volatile char key_pressed;
+uint8 Mode;
+vEnterFirstTime()
+{
+			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 442:	81 e0       	ldi	r24, 0x01	; 1
+ 444:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+			GO_LOC(2,1);
+ 448:	82 e0       	ldi	r24, 0x02	; 2
+ 44a:	61 e0       	ldi	r22, 0x01	; 1
+ 44c:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+			SEND_STRING("login for first time");
+ 450:	82 ee       	ldi	r24, 0xE2	; 226
+ 452:	90 e0       	ldi	r25, 0x00	; 0
+ 454:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 458:	81 e0       	ldi	r24, 0x01	; 1
+ 45a:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+			GO_LOC(2,1);
+ 45e:	82 e0       	ldi	r24, 0x02	; 2
+ 460:	61 e0       	ldi	r22, 0x01	; 1
+ 462:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+			SEND_STRING("Set Admin Pass");
+ 466:	87 ef       	ldi	r24, 0xF7	; 247
+ 468:	90 e0       	ldi	r25, 0x00	; 0
+ 46a:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+			GO_LOC(3,1);
+ 46e:	83 e0       	ldi	r24, 0x03	; 3
+ 470:	61 e0       	ldi	r22, 0x01	; 1
+ 472:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+			SEND_STRING("Admin Pass:");
+ 476:	86 e0       	ldi	r24, 0x06	; 6
+ 478:	91 e0       	ldi	r25, 0x01	; 1
+ 47a:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+			
+			while (pass_count<4)
+ 47e:	80 91 ba 01 	lds	r24, 0x01BA
+ 482:	84 30       	cpi	r24, 0x04	; 4
+ 484:	08 f0       	brcs	.+2      	; 0x488 <vEnterFirstTime+0x46>
+ 486:	61 c0       	rjmp	.+194    	; 0x54a <vEnterFirstTime+0x108>
+			{
+				key_pressed =keyfind();
+ 488:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 48c:	80 93 c6 01 	sts	0x01C6, r24
+				pass[pass_count]=(key_pressed-48);
+ 490:	80 91 c6 01 	lds	r24, 0x01C6
+ 494:	e0 91 ba 01 	lds	r30, 0x01BA
+ 498:	f0 e0       	ldi	r31, 0x00	; 0
+ 49a:	e4 54       	subi	r30, 0x44	; 68
+ 49c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 49e:	80 53       	subi	r24, 0x30	; 48
+ 4a0:	80 83       	st	Z, r24
+				SEND_DATE(key_pressed);
+ 4a2:	80 91 c6 01 	lds	r24, 0x01C6
+ 4a6:	0e 94 c0 01 	call	0x380	; 0x380 <SEND_DATE>
+				_delay_ms(00);
+				pass_count++;
+ 4aa:	80 91 ba 01 	lds	r24, 0x01BA
+ 4ae:	8f 5f       	subi	r24, 0xFF	; 255
+ 4b0:	80 93 ba 01 	sts	0x01BA, r24
+			GO_LOC(2,1);
+			SEND_STRING("Set Admin Pass");
+			GO_LOC(3,1);
+			SEND_STRING("Admin Pass:");
+			
+			while (pass_count<4)
+ 4b4:	84 30       	cpi	r24, 0x04	; 4
+ 4b6:	40 f3       	brcs	.-48     	; 0x488 <vEnterFirstTime+0x46>
+				pass[pass_count]=(key_pressed-48);
+				SEND_DATE(key_pressed);
+				_delay_ms(00);
+				pass_count++;
+			}
+			EEPROM_vWriteBlockToAddress(ADMIN_PASS_ADD,pass,4);
+ 4b8:	81 e2       	ldi	r24, 0x21	; 33
+ 4ba:	90 e0       	ldi	r25, 0x00	; 0
+ 4bc:	6c eb       	ldi	r22, 0xBC	; 188
+ 4be:	71 e0       	ldi	r23, 0x01	; 1
+ 4c0:	44 e0       	ldi	r20, 0x04	; 4
+ 4c2:	50 e0       	ldi	r21, 0x00	; 0
+ 4c4:	0e 94 e3 00 	call	0x1c6	; 0x1c6 <EEPROM_vWriteBlockToAddress>
+			
+		//pass={0};
+		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 4c8:	81 e0       	ldi	r24, 0x01	; 1
+ 4ca:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+		GO_LOC(2,1);
+ 4ce:	82 e0       	ldi	r24, 0x02	; 2
+ 4d0:	61 e0       	ldi	r22, 0x01	; 1
+ 4d2:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("Set Guest Pass");
+ 4d6:	82 e1       	ldi	r24, 0x12	; 18
+ 4d8:	91 e0       	ldi	r25, 0x01	; 1
+ 4da:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		GO_LOC(3,1);
+ 4de:	83 e0       	ldi	r24, 0x03	; 3
+ 4e0:	61 e0       	ldi	r22, 0x01	; 1
+ 4e2:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("guest Pass:");
+ 4e6:	81 e2       	ldi	r24, 0x21	; 33
+ 4e8:	91 e0       	ldi	r25, 0x01	; 1
+ 4ea:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		pass_count=0;
+ 4ee:	10 92 ba 01 	sts	0x01BA, r1
+		while (pass_count<4)
+		{
+			key_pressed=keyfind();
+ 4f2:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 4f6:	80 93 c6 01 	sts	0x01C6, r24
+			pass[pass_count]=(key_pressed-48);
+ 4fa:	80 91 c6 01 	lds	r24, 0x01C6
+ 4fe:	e0 91 ba 01 	lds	r30, 0x01BA
+ 502:	f0 e0       	ldi	r31, 0x00	; 0
+ 504:	e4 54       	subi	r30, 0x44	; 68
+ 506:	fe 4f       	sbci	r31, 0xFE	; 254
+ 508:	80 53       	subi	r24, 0x30	; 48
+ 50a:	80 83       	st	Z, r24
+			SEND_DATE(key_pressed);
+ 50c:	80 91 c6 01 	lds	r24, 0x01C6
+ 510:	0e 94 c0 01 	call	0x380	; 0x380 <SEND_DATE>
+ 514:	87 ea       	ldi	r24, 0xA7	; 167
+ 516:	91 e6       	ldi	r25, 0x61	; 97
+ 518:	01 97       	sbiw	r24, 0x01	; 1
+ 51a:	f1 f7       	brne	.-4      	; 0x518 <vEnterFirstTime+0xd6>
+ 51c:	00 c0       	rjmp	.+0      	; 0x51e <vEnterFirstTime+0xdc>
+ 51e:	00 00       	nop
+			_delay_ms(100);
+			pass_count++;
+ 520:	80 91 ba 01 	lds	r24, 0x01BA
+ 524:	8f 5f       	subi	r24, 0xFF	; 255
+ 526:	80 93 ba 01 	sts	0x01BA, r24
+		GO_LOC(2,1);
+		SEND_STRING("Set Guest Pass");
+		GO_LOC(3,1);
+		SEND_STRING("guest Pass:");
+		pass_count=0;
+		while (pass_count<4)
+ 52a:	84 30       	cpi	r24, 0x04	; 4
+ 52c:	10 f3       	brcs	.-60     	; 0x4f2 <vEnterFirstTime+0xb0>
+			pass[pass_count]=(key_pressed-48);
+			SEND_DATE(key_pressed);
+			_delay_ms(100);
+			pass_count++;
+		}
+		EEPROM_vWriteBlockToAddress(Guest_PASS_ADD,pass,4);
+ 52e:	85 e2       	ldi	r24, 0x25	; 37
+ 530:	90 e0       	ldi	r25, 0x00	; 0
+ 532:	6c eb       	ldi	r22, 0xBC	; 188
+ 534:	71 e0       	ldi	r23, 0x01	; 1
+ 536:	44 e0       	ldi	r20, 0x04	; 4
+ 538:	50 e0       	ldi	r21, 0x00	; 0
+ 53a:	0e 94 e3 00 	call	0x1c6	; 0x1c6 <EEPROM_vWriteBlockToAddress>
+		EEPROM_vWriteByteToAddress(Login_status,0x00);
+ 53e:	80 e2       	ldi	r24, 0x20	; 32
+ 540:	90 e0       	ldi	r25, 0x00	; 0
+ 542:	60 e0       	ldi	r22, 0x00	; 0
+ 544:	0e 94 d7 00 	call	0x1ae	; 0x1ae <EEPROM_vWriteByteToAddress>
+}
+ 548:	08 95       	ret
+				pass[pass_count]=(key_pressed-48);
+				SEND_DATE(key_pressed);
+				_delay_ms(00);
+				pass_count++;
+			}
+			EEPROM_vWriteBlockToAddress(ADMIN_PASS_ADD,pass,4);
+ 54a:	81 e2       	ldi	r24, 0x21	; 33
+ 54c:	90 e0       	ldi	r25, 0x00	; 0
+ 54e:	6c eb       	ldi	r22, 0xBC	; 188
+ 550:	71 e0       	ldi	r23, 0x01	; 1
+ 552:	44 e0       	ldi	r20, 0x04	; 4
+ 554:	50 e0       	ldi	r21, 0x00	; 0
+ 556:	0e 94 e3 00 	call	0x1c6	; 0x1c6 <EEPROM_vWriteBlockToAddress>
+			
+		//pass={0};
+		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 55a:	81 e0       	ldi	r24, 0x01	; 1
+ 55c:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+		GO_LOC(2,1);
+ 560:	82 e0       	ldi	r24, 0x02	; 2
+ 562:	61 e0       	ldi	r22, 0x01	; 1
+ 564:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("Set Guest Pass");
+ 568:	82 e1       	ldi	r24, 0x12	; 18
+ 56a:	91 e0       	ldi	r25, 0x01	; 1
+ 56c:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		GO_LOC(3,1);
+ 570:	83 e0       	ldi	r24, 0x03	; 3
+ 572:	61 e0       	ldi	r22, 0x01	; 1
+ 574:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("guest Pass:");
+ 578:	81 e2       	ldi	r24, 0x21	; 33
+ 57a:	91 e0       	ldi	r25, 0x01	; 1
+ 57c:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		pass_count=0;
+ 580:	10 92 ba 01 	sts	0x01BA, r1
+ 584:	b6 cf       	rjmp	.-148    	; 0x4f2 <vEnterFirstTime+0xb0>
+
+00000586 <u8CheckPass>:
+}
+
+}
+
+uint8 u8CheckPass(uint8 u8Mode_Add )
+{
+ 586:	df 92       	push	r13
+ 588:	ef 92       	push	r14
+ 58a:	ff 92       	push	r15
+ 58c:	0f 93       	push	r16
+ 58e:	1f 93       	push	r17
+ 590:	cf 93       	push	r28
+ 592:	df 93       	push	r29
+ 594:	e8 2e       	mov	r14, r24
+			i++;
+			
+		}
+		else
+		{
+			pass_count=FALSE;
+ 596:	cc eb       	ldi	r28, 0xBC	; 188
+ 598:	d1 e0       	ldi	r29, 0x01	; 1
+	}
+}
+
+}
+
+uint8 u8CheckPass(uint8 u8Mode_Add )
+ 59a:	8e 01       	movw	r16, r28
+ 59c:	0c 5f       	subi	r16, 0xFC	; 252
+ 59e:	1f 4f       	sbci	r17, 0xFF	; 255
+{
+//uint8 Mode;
+	uint8 pass_count=0;
+	while (pass_count<4)
+	{
+		key_pressed=keyfind();
+ 5a0:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 5a4:	80 93 c6 01 	sts	0x01C6, r24
+		pass[pass_count]=(key_pressed);
+ 5a8:	80 91 c6 01 	lds	r24, 0x01C6
+ 5ac:	89 93       	st	Y+, r24
+		SEND_DATE(key_pressed);
+ 5ae:	80 91 c6 01 	lds	r24, 0x01C6
+ 5b2:	0e 94 c0 01 	call	0x380	; 0x380 <SEND_DATE>
+ 5b6:	87 ea       	ldi	r24, 0xA7	; 167
+ 5b8:	91 e6       	ldi	r25, 0x61	; 97
+ 5ba:	01 97       	sbiw	r24, 0x01	; 1
+ 5bc:	f1 f7       	brne	.-4      	; 0x5ba <u8CheckPass+0x34>
+ 5be:	00 c0       	rjmp	.+0      	; 0x5c0 <u8CheckPass+0x3a>
+ 5c0:	00 00       	nop
+
+uint8 u8CheckPass(uint8 u8Mode_Add )
+{
+//uint8 Mode;
+	uint8 pass_count=0;
+	while (pass_count<4)
+ 5c2:	c0 17       	cp	r28, r16
+ 5c4:	d1 07       	cpc	r29, r17
+ 5c6:	61 f7       	brne	.-40     	; 0x5a0 <u8CheckPass+0x1a>
+ 5c8:	10 e0       	ldi	r17, 0x00	; 0
+	{
+		key_pressed=keyfind();
+		pass[pass_count]=(key_pressed);
+		SEND_DATE(key_pressed);
+		_delay_ms(100);
+		pass_count++;
+ 5ca:	04 e0       	ldi	r16, 0x04	; 4
+	uint8 EEPROM_Pass;
+	uint8 i=0;
+	while(i<4)
+	{
+		
+		EEPROM_Pass = EEPROM_ui8ReadByteFromAddress(u8Mode_Add+i);
+ 5cc:	ff 24       	eor	r15, r15
+			pass_count=FALSE;
+			break;
+		}
+		if(i==3)
+		{
+			pass_count=TRUE;
+ 5ce:	dd 24       	eor	r13, r13
+ 5d0:	d3 94       	inc	r13
+ 5d2:	01 c0       	rjmp	.+2      	; 0x5d6 <u8CheckPass+0x50>
+ 5d4:	0d 2d       	mov	r16, r13
+	uint8 EEPROM_Pass;
+	uint8 i=0;
+	while(i<4)
+	{
+		
+		EEPROM_Pass = EEPROM_ui8ReadByteFromAddress(u8Mode_Add+i);
+ 5d6:	c1 2f       	mov	r28, r17
+ 5d8:	d0 e0       	ldi	r29, 0x00	; 0
+ 5da:	c7 01       	movw	r24, r14
+ 5dc:	8c 0f       	add	r24, r28
+ 5de:	9d 1f       	adc	r25, r29
+ 5e0:	0e 94 b8 00 	call	0x170	; 0x170 <EEPROM_ui8ReadByteFromAddress>
+		if (EEPROM_Pass==(pass[i]-48))
+ 5e4:	90 e0       	ldi	r25, 0x00	; 0
+ 5e6:	c4 54       	subi	r28, 0x44	; 68
+ 5e8:	de 4f       	sbci	r29, 0xFE	; 254
+ 5ea:	28 81       	ld	r18, Y
+ 5ec:	30 e0       	ldi	r19, 0x00	; 0
+ 5ee:	20 53       	subi	r18, 0x30	; 48
+ 5f0:	30 40       	sbci	r19, 0x00	; 0
+ 5f2:	82 17       	cp	r24, r18
+ 5f4:	93 07       	cpc	r25, r19
+ 5f6:	31 f4       	brne	.+12     	; 0x604 <u8CheckPass+0x7e>
+		{
+			i++;
+ 5f8:	1f 5f       	subi	r17, 0xFF	; 255
+		else
+		{
+			pass_count=FALSE;
+			break;
+		}
+		if(i==3)
+ 5fa:	13 30       	cpi	r17, 0x03	; 3
+ 5fc:	59 f3       	breq	.-42     	; 0x5d4 <u8CheckPass+0x4e>
+		_delay_ms(100);
+		pass_count++;
+	}
+	uint8 EEPROM_Pass;
+	uint8 i=0;
+	while(i<4)
+ 5fe:	14 30       	cpi	r17, 0x04	; 4
+ 600:	50 f3       	brcs	.-44     	; 0x5d6 <u8CheckPass+0x50>
+ 602:	01 c0       	rjmp	.+2      	; 0x606 <u8CheckPass+0x80>
+			i++;
+			
+		}
+		else
+		{
+			pass_count=FALSE;
+ 604:	00 e0       	ldi	r16, 0x00	; 0
+		{
+			pass_count=TRUE;
+		}
+	}	
+	return pass_count;	
+}	
+ 606:	80 2f       	mov	r24, r16
+ 608:	df 91       	pop	r29
+ 60a:	cf 91       	pop	r28
+ 60c:	1f 91       	pop	r17
+ 60e:	0f 91       	pop	r16
+ 610:	ff 90       	pop	r15
+ 612:	ef 90       	pop	r14
+ 614:	df 90       	pop	r13
+ 616:	08 95       	ret
+
+00000618 <SelectModePass>:
+}
+
+void SelectModePass(char Mode_Key)
+{
+int pass;
+if (Mode_Key=='0')
+ 618:	80 33       	cpi	r24, 0x30	; 48
+ 61a:	c9 f5       	brne	.+114    	; 0x68e <SelectModePass+0x76>
+{
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 61c:	81 e0       	ldi	r24, 0x01	; 1
+ 61e:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+	GO_LOC(2,1);
+ 622:	82 e0       	ldi	r24, 0x02	; 2
+ 624:	61 e0       	ldi	r22, 0x01	; 1
+ 626:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("OWNER mode");
+ 62a:	8d e2       	ldi	r24, 0x2D	; 45
+ 62c:	91 e0       	ldi	r25, 0x01	; 1
+ 62e:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	GO_LOC(3,1);
+ 632:	83 e0       	ldi	r24, 0x03	; 3
+ 634:	61 e0       	ldi	r22, 0x01	; 1
+ 636:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("Enter Pass:");
+ 63a:	88 e3       	ldi	r24, 0x38	; 56
+ 63c:	91 e0       	ldi	r25, 0x01	; 1
+ 63e:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+ 642:	87 ea       	ldi	r24, 0xA7	; 167
+ 644:	91 e6       	ldi	r25, 0x61	; 97
+ 646:	01 97       	sbiw	r24, 0x01	; 1
+ 648:	f1 f7       	brne	.-4      	; 0x646 <SelectModePass+0x2e>
+ 64a:	00 c0       	rjmp	.+0      	; 0x64c <SelectModePass+0x34>
+ 64c:	00 00       	nop
+	_delay_ms(100);
+	pass = u8CheckPass(ADMIN_PASS_ADD);
+ 64e:	81 e2       	ldi	r24, 0x21	; 33
+ 650:	0e 94 c3 02 	call	0x586	; 0x586 <u8CheckPass>
+ 654:	90 e0       	ldi	r25, 0x00	; 0
+	if (pass==TRUE)
+ 656:	81 30       	cpi	r24, 0x01	; 1
+ 658:	91 05       	cpc	r25, r1
+ 65a:	31 f4       	brne	.+12     	; 0x668 <SelectModePass+0x50>
+	{
+		Mode=OWNER_MODE;
+ 65c:	81 e0       	ldi	r24, 0x01	; 1
+ 65e:	80 93 c2 01 	sts	0x01C2, r24
+		DDRC|=(1<<OWNER_PIN);
+ 662:	a0 9a       	sbi	0x14, 0	; 20
+		PORTC|=(1<<OWNER_PIN);
+ 664:	a8 9a       	sbi	0x15, 0	; 21
+ 666:	08 95       	ret
+	}
+	else if(pass==FALSE)
+ 668:	00 97       	sbiw	r24, 0x00	; 0
+ 66a:	09 f0       	breq	.+2      	; 0x66e <SelectModePass+0x56>
+ 66c:	4b c0       	rjmp	.+150    	; 0x704 <SelectModePass+0xec>
+	{
+		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 66e:	81 e0       	ldi	r24, 0x01	; 1
+ 670:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+		GO_LOC(2,1);
+ 674:	82 e0       	ldi	r24, 0x02	; 2
+ 676:	61 e0       	ldi	r22, 0x01	; 1
+ 678:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("Owner Rong Pass");
+ 67c:	84 e4       	ldi	r24, 0x44	; 68
+ 67e:	91 e0       	ldi	r25, 0x01	; 1
+ 680:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		GO_LOC(3,1);
+ 684:	83 e0       	ldi	r24, 0x03	; 3
+ 686:	61 e0       	ldi	r22, 0x01	; 1
+ 688:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+ 68c:	08 95       	ret
+	}
+}
+else if(key_pressed=='1')
+ 68e:	80 91 c6 01 	lds	r24, 0x01C6
+ 692:	81 33       	cpi	r24, 0x31	; 49
+ 694:	b9 f5       	brne	.+110    	; 0x704 <SelectModePass+0xec>
+{	
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 696:	81 e0       	ldi	r24, 0x01	; 1
+ 698:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+	GO_LOC(2,1);
+ 69c:	82 e0       	ldi	r24, 0x02	; 2
+ 69e:	61 e0       	ldi	r22, 0x01	; 1
+ 6a0:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("Guest mode");
+ 6a4:	84 e5       	ldi	r24, 0x54	; 84
+ 6a6:	91 e0       	ldi	r25, 0x01	; 1
+ 6a8:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	GO_LOC(3,1);
+ 6ac:	83 e0       	ldi	r24, 0x03	; 3
+ 6ae:	61 e0       	ldi	r22, 0x01	; 1
+ 6b0:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("Enter Pass:");
+ 6b4:	88 e3       	ldi	r24, 0x38	; 56
+ 6b6:	91 e0       	ldi	r25, 0x01	; 1
+ 6b8:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+ 6bc:	87 ea       	ldi	r24, 0xA7	; 167
+ 6be:	91 e6       	ldi	r25, 0x61	; 97
+ 6c0:	01 97       	sbiw	r24, 0x01	; 1
+ 6c2:	f1 f7       	brne	.-4      	; 0x6c0 <SelectModePass+0xa8>
+ 6c4:	00 c0       	rjmp	.+0      	; 0x6c6 <SelectModePass+0xae>
+ 6c6:	00 00       	nop
+	_delay_ms(100);
+	pass = u8CheckPass(Guest_PASS_ADD);
+ 6c8:	85 e2       	ldi	r24, 0x25	; 37
+ 6ca:	0e 94 c3 02 	call	0x586	; 0x586 <u8CheckPass>
+ 6ce:	90 e0       	ldi	r25, 0x00	; 0
+	if (pass==TRUE)
+ 6d0:	81 30       	cpi	r24, 0x01	; 1
+ 6d2:	91 05       	cpc	r25, r1
+ 6d4:	31 f4       	brne	.+12     	; 0x6e2 <SelectModePass+0xca>
+	{
+		Mode=GUEST_MODE;
+ 6d6:	82 e0       	ldi	r24, 0x02	; 2
+ 6d8:	80 93 c2 01 	sts	0x01C2, r24
+		DDRC|=(1<<GUEST_PIN);
+ 6dc:	a1 9a       	sbi	0x14, 1	; 20
+		PORTC|=(1<<GUEST_PIN);
+ 6de:	a9 9a       	sbi	0x15, 1	; 21
+ 6e0:	08 95       	ret
+	}
+	else if(pass==FALSE)
+ 6e2:	00 97       	sbiw	r24, 0x00	; 0
+ 6e4:	79 f4       	brne	.+30     	; 0x704 <SelectModePass+0xec>
+	{
+		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 6e6:	81 e0       	ldi	r24, 0x01	; 1
+ 6e8:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+		GO_LOC(2,1);
+ 6ec:	82 e0       	ldi	r24, 0x02	; 2
+ 6ee:	61 e0       	ldi	r22, 0x01	; 1
+ 6f0:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("GUEST Rong Pass");
+ 6f4:	8f e5       	ldi	r24, 0x5F	; 95
+ 6f6:	91 e0       	ldi	r25, 0x01	; 1
+ 6f8:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		GO_LOC(3,1);
+ 6fc:	83 e0       	ldi	r24, 0x03	; 3
+ 6fe:	61 e0       	ldi	r22, 0x01	; 1
+ 700:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+ 704:	08 95       	ret
+
+00000706 <vShowState>:
+	}
+	
+}
+
+void vShowState(uint8 State,char Num)
+{
+ 706:	cf 93       	push	r28
+ 708:	df 93       	push	r29
+ 70a:	d8 2f       	mov	r29, r24
+ 70c:	c6 2f       	mov	r28, r22
+	uint8 SPI_RESPONSE;	
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+ 70e:	81 e0       	ldi	r24, 0x01	; 1
+ 710:	0e 94 9b 01 	call	0x336	; 0x336 <SEND_COMND>
+	GO_LOC(2,1);
+ 714:	82 e0       	ldi	r24, 0x02	; 2
+ 716:	61 e0       	ldi	r22, 0x01	; 1
+ 718:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	if (Num==TV_CNFG)
+ 71c:	c4 33       	cpi	r28, 0x34	; 52
+ 71e:	49 f4       	brne	.+18     	; 0x732 <vShowState+0x2c>
+	{
+	SEND_STRING("TV:");
+ 720:	8f e6       	ldi	r24, 0x6F	; 111
+ 722:	91 e0       	ldi	r25, 0x01	; 1
+ 724:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	SEND_STRING(" State:");		
+ 728:	83 e7       	ldi	r24, 0x73	; 115
+ 72a:	91 e0       	ldi	r25, 0x01	; 1
+ 72c:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+ 730:	0b c0       	rjmp	.+22     	; 0x748 <vShowState+0x42>
+	}
+	if (Num==AIRCOND_CNFG)
+ 732:	c5 33       	cpi	r28, 0x35	; 53
+ 734:	49 f4       	brne	.+18     	; 0x748 <vShowState+0x42>
+	{
+		SEND_STRING("AIR_COND:");
+ 736:	8b e7       	ldi	r24, 0x7B	; 123
+ 738:	91 e0       	ldi	r25, 0x01	; 1
+ 73a:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+		SEND_STRING(" State:");
+ 73e:	83 e7       	ldi	r24, 0x73	; 115
+ 740:	91 e0       	ldi	r25, 0x01	; 1
+ 742:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+ 746:	0b c0       	rjmp	.+22     	; 0x75e <vShowState+0x58>
+	}
+	else
+	{
+	SEND_STRING("ROOM:");
+ 748:	85 e8       	ldi	r24, 0x85	; 133
+ 74a:	91 e0       	ldi	r25, 0x01	; 1
+ 74c:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	SEND_DATE(Num);
+ 750:	8c 2f       	mov	r24, r28
+ 752:	0e 94 c0 01 	call	0x380	; 0x380 <SEND_DATE>
+	SEND_STRING(" State:");
+ 756:	83 e7       	ldi	r24, 0x73	; 115
+ 758:	91 e0       	ldi	r25, 0x01	; 1
+ 75a:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	}	
+	SPI_ui8TransmitRecive(State);	
+ 75e:	8d 2f       	mov	r24, r29
+ 760:	0e 94 7e 04 	call	0x8fc	; 0x8fc <SPI_ui8TransmitRecive>
+	SPI_RESPONSE = SPI_ui8TransmitRecive(DEMAND_RESPONSE);	
+ 764:	8f ef       	ldi	r24, 0xFF	; 255
+ 766:	0e 94 7e 04 	call	0x8fc	; 0x8fc <SPI_ui8TransmitRecive>
+	if(SPI_RESPONSE == ON_STATUS)//if the response from the slave was on status
+ 76a:	81 30       	cpi	r24, 0x01	; 1
+ 76c:	29 f4       	brne	.+10     	; 0x778 <vShowState+0x72>
+	{
+		SEND_STRING("ON");//print the status on
+ 76e:	8b e8       	ldi	r24, 0x8B	; 139
+ 770:	91 e0       	ldi	r25, 0x01	; 1
+ 772:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+ 776:	04 c0       	rjmp	.+8      	; 0x780 <vShowState+0x7a>
+	}
+	else//if the response from the slave was off status
+	{
+		SEND_STRING("OFF");//print the status off
+ 778:	8e e8       	ldi	r24, 0x8E	; 142
+ 77a:	91 e0       	ldi	r25, 0x01	; 1
+ 77c:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	}
+	GO_LOC(3,1);
+ 780:	83 e0       	ldi	r24, 0x03	; 3
+ 782:	61 e0       	ldi	r22, 0x01	; 1
+ 784:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+	SEND_STRING("ON:1   OFF:2  RET:0");
+ 788:	82 e9       	ldi	r24, 0x92	; 146
+ 78a:	91 e0       	ldi	r25, 0x01	; 1
+ 78c:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+	if (Num==AIRCOND_CNFG)
+ 790:	c5 33       	cpi	r28, 0x35	; 53
+ 792:	41 f4       	brne	.+16     	; 0x7a4 <vShowState+0x9e>
+	{
+		GO_LOC(4,1);
+ 794:	84 e0       	ldi	r24, 0x04	; 4
+ 796:	61 e0       	ldi	r22, 0x01	; 1
+ 798:	0e 94 d5 01 	call	0x3aa	; 0x3aa <GO_LOC>
+		SEND_STRING("control temp:3");
+ 79c:	86 ea       	ldi	r24, 0xA6	; 166
+ 79e:	91 e0       	ldi	r25, 0x01	; 1
+ 7a0:	0e 94 c6 01 	call	0x38c	; 0x38c <SEND_STRING>
+
+	}
+		
+}	
+ 7a4:	df 91       	pop	r29
+ 7a6:	cf 91       	pop	r28
+ 7a8:	08 95       	ret
+
+000007aa <vTurnOnOf>:
+
+void vTurnOnOf(char key,uint8 MESSAGE)
+{	
+	if (key==TURN_ON)
+ 7aa:	81 33       	cpi	r24, 0x31	; 49
+ 7ac:	21 f4       	brne	.+8      	; 0x7b6 <vTurnOnOf+0xc>
+	{
+		SPI_ui8TransmitRecive(MESSAGE);
+ 7ae:	86 2f       	mov	r24, r22
+ 7b0:	0e 94 7e 04 	call	0x8fc	; 0x8fc <SPI_ui8TransmitRecive>
+ 7b4:	08 95       	ret
+	}
+	else if(key_pressed==TURN_OFF)
+ 7b6:	80 91 c6 01 	lds	r24, 0x01C6
+ 7ba:	82 33       	cpi	r24, 0x32	; 50
+ 7bc:	21 f4       	brne	.+8      	; 0x7c6 <vTurnOnOf+0x1c>
+	{
+		SPI_ui8TransmitRecive(MESSAGE+1);
+ 7be:	86 2f       	mov	r24, r22
+ 7c0:	8f 5f       	subi	r24, 0xFF	; 255
+ 7c2:	0e 94 7e 04 	call	0x8fc	; 0x8fc <SPI_ui8TransmitRecive>
+ 7c6:	08 95       	ret
+
+000007c8 <u8EnterRoonConfig>:
+}	
+
+uint8 u8EnterRoonConfig(char Key)
+{
+	
+	switch (Key)
+ 7c8:	83 33       	cpi	r24, 0x33	; 51
+ 7ca:	51 f1       	breq	.+84     	; 0x820 <u8EnterRoonConfig+0x58>
+ 7cc:	84 33       	cpi	r24, 0x34	; 52
+ 7ce:	30 f4       	brcc	.+12     	; 0x7dc <u8EnterRoonConfig+0x14>
+ 7d0:	81 33       	cpi	r24, 0x31	; 49
+ 7d2:	51 f0       	breq	.+20     	; 0x7e8 <u8EnterRoonConfig+0x20>
+ 7d4:	82 33       	cpi	r24, 0x32	; 50
+ 7d6:	09 f0       	breq	.+2      	; 0x7da <u8EnterRoonConfig+0x12>
+ 7d8:	4c c0       	rjmp	.+152    	; 0x872 <__stack+0x13>
+ 7da:	14 c0       	rjmp	.+40     	; 0x804 <u8EnterRoonConfig+0x3c>
+ 7dc:	84 33       	cpi	r24, 0x34	; 52
+ 7de:	71 f1       	breq	.+92     	; 0x83c <u8EnterRoonConfig+0x74>
+ 7e0:	85 33       	cpi	r24, 0x35	; 53
+ 7e2:	09 f0       	breq	.+2      	; 0x7e6 <u8EnterRoonConfig+0x1e>
+ 7e4:	46 c0       	rjmp	.+140    	; 0x872 <__stack+0x13>
+ 7e6:	38 c0       	rjmp	.+112    	; 0x858 <u8EnterRoonConfig+0x90>
+	{
+	case ROOM1_CNFG:
+		vShowState(ROOM1_STATUS,ROOM1_CNFG);
+ 7e8:	81 e1       	ldi	r24, 0x11	; 17
+ 7ea:	61 e3       	ldi	r22, 0x31	; 49
+ 7ec:	0e 94 83 03 	call	0x706	; 0x706 <vShowState>
+		key_pressed=keyfind();
+ 7f0:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 7f4:	80 93 c6 01 	sts	0x01C6, r24
+		vTurnOnOf(key_pressed,OFFSET_MESSAGE+ROOM1_OFFSET);	
+ 7f8:	80 91 c6 01 	lds	r24, 0x01C6
+ 7fc:	61 e2       	ldi	r22, 0x21	; 33
+ 7fe:	0e 94 d5 03 	call	0x7aa	; 0x7aa <vTurnOnOf>
+		break;
+ 802:	08 95       	ret
+	case ROOM2_CNFG:
+		vShowState(ROOM2_STATUS,ROOM2_CNFG);
+ 804:	82 e1       	ldi	r24, 0x12	; 18
+ 806:	62 e3       	ldi	r22, 0x32	; 50
+ 808:	0e 94 83 03 	call	0x706	; 0x706 <vShowState>
+		key_pressed=keyfind();
+ 80c:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 810:	80 93 c6 01 	sts	0x01C6, r24
+		vTurnOnOf(key_pressed,OFFSET_MESSAGE+ROOM2_OFFSET);
+ 814:	80 91 c6 01 	lds	r24, 0x01C6
+ 818:	63 e2       	ldi	r22, 0x23	; 35
+ 81a:	0e 94 d5 03 	call	0x7aa	; 0x7aa <vTurnOnOf>
+		break;	
+ 81e:	08 95       	ret
+	case ROOM3_CNFG:
+		vShowState(ROOM3_STATUS,ROOM3_CNFG);
+ 820:	83 e1       	ldi	r24, 0x13	; 19
+ 822:	63 e3       	ldi	r22, 0x33	; 51
+ 824:	0e 94 83 03 	call	0x706	; 0x706 <vShowState>
+		key_pressed=keyfind();
+ 828:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 82c:	80 93 c6 01 	sts	0x01C6, r24
+		vTurnOnOf(key_pressed,OFFSET_MESSAGE+ROOM3_OFFSET);
+ 830:	80 91 c6 01 	lds	r24, 0x01C6
+ 834:	65 e2       	ldi	r22, 0x25	; 37
+ 836:	0e 94 d5 03 	call	0x7aa	; 0x7aa <vTurnOnOf>
+		break;
+ 83a:	08 95       	ret
+	case TV_CNFG:
+		vShowState(TV_STATUS,TV_CNFG);
+ 83c:	85 e1       	ldi	r24, 0x15	; 21
+ 83e:	64 e3       	ldi	r22, 0x34	; 52
+ 840:	0e 94 83 03 	call	0x706	; 0x706 <vShowState>
+		key_pressed=keyfind();
+ 844:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 848:	80 93 c6 01 	sts	0x01C6, r24
+		vTurnOnOf(key_pressed,OFFSET_MESSAGE+TV_OFFSET);
+ 84c:	80 91 c6 01 	lds	r24, 0x01C6
+ 850:	67 e2       	ldi	r22, 0x27	; 39
+ 852:	0e 94 d5 03 	call	0x7aa	; 0x7aa <vTurnOnOf>
+		break;	
+ 856:	08 95       	ret
+	case AIRCOND_CNFG:
+		vShowState(AIR_COND,AIRCOND_CNFG);
+ 858:	86 e0       	ldi	r24, 0x06	; 6
+ 85a:	65 e3       	ldi	r22, 0x35	; 53
+ 85c:	0e 94 83 03 	call	0x706	; 0x706 <vShowState>
+		key_pressed=keyfind();
+ 860:	0e 94 00 01 	call	0x200	; 0x200 <keyfind>
+ 864:	80 93 c6 01 	sts	0x01C6, r24
+		vTurnOnOf(key_pressed,OFFSET_MESSAGE+AIRCOND_OFFSET);
+ 868:	80 91 c6 01 	lds	r24, 0x01C6
+ 86c:	69 e2       	ldi	r22, 0x29	; 41
+ 86e:	0e 94 d5 03 	call	0x7aa	; 0x7aa <vTurnOnOf>
+		break;			
+		
+	}
+	
+}
+ 872:	08 95       	ret
+
+00000874 <OUTPUT_MODE>:
 
 #include "microconf.h"
 
 void OUTPUT_MODE(volatile uint8 *DIR_ADRESSS,volatile uint8 *INPUT_TRISTATE_ADRESS,uint8 PIN_NO,IO_MODE PIN_MODE)
 
 {
- 91c:	fc 01       	movw	r30, r24
- 91e:	db 01       	movw	r26, r22
+ 874:	fc 01       	movw	r30, r24
+ 876:	db 01       	movw	r26, r22
 	SET_BIT(*DIR_ADRESSS,PIN_NO);
- 920:	30 81       	ld	r19, Z
- 922:	81 e0       	ldi	r24, 0x01	; 1
- 924:	90 e0       	ldi	r25, 0x00	; 0
- 926:	bc 01       	movw	r22, r24
- 928:	02 c0       	rjmp	.+4      	; 0x92e <OUTPUT_MODE+0x12>
- 92a:	66 0f       	add	r22, r22
- 92c:	77 1f       	adc	r23, r23
- 92e:	4a 95       	dec	r20
- 930:	e2 f7       	brpl	.-8      	; 0x92a <OUTPUT_MODE+0xe>
- 932:	ab 01       	movw	r20, r22
- 934:	86 2f       	mov	r24, r22
- 936:	96 2f       	mov	r25, r22
- 938:	93 2b       	or	r25, r19
- 93a:	90 83       	st	Z, r25
+ 878:	30 81       	ld	r19, Z
+ 87a:	81 e0       	ldi	r24, 0x01	; 1
+ 87c:	90 e0       	ldi	r25, 0x00	; 0
+ 87e:	bc 01       	movw	r22, r24
+ 880:	02 c0       	rjmp	.+4      	; 0x886 <OUTPUT_MODE+0x12>
+ 882:	66 0f       	add	r22, r22
+ 884:	77 1f       	adc	r23, r23
+ 886:	4a 95       	dec	r20
+ 888:	e2 f7       	brpl	.-8      	; 0x882 <OUTPUT_MODE+0xe>
+ 88a:	ab 01       	movw	r20, r22
+ 88c:	86 2f       	mov	r24, r22
+ 88e:	96 2f       	mov	r25, r22
+ 890:	93 2b       	or	r25, r19
+ 892:	90 83       	st	Z, r25
 	
 	switch (PIN_MODE)
- 93c:	22 23       	and	r18, r18
- 93e:	39 f0       	breq	.+14     	; 0x94e <OUTPUT_MODE+0x32>
- 940:	21 30       	cpi	r18, 0x01	; 1
- 942:	41 f4       	brne	.+16     	; 0x954 <OUTPUT_MODE+0x38>
+ 894:	22 23       	and	r18, r18
+ 896:	39 f0       	breq	.+14     	; 0x8a6 <OUTPUT_MODE+0x32>
+ 898:	21 30       	cpi	r18, 0x01	; 1
+ 89a:	41 f4       	brne	.+16     	; 0x8ac <OUTPUT_MODE+0x38>
 	{
 			case INPUT_FLOAT:
 			CLEAR_BIT(*INPUT_TRISTATE_ADRESS,PIN_NO);
- 944:	8c 91       	ld	r24, X
- 946:	40 95       	com	r20
- 948:	48 23       	and	r20, r24
- 94a:	4c 93       	st	X, r20
+ 89c:	8c 91       	ld	r24, X
+ 89e:	40 95       	com	r20
+ 8a0:	48 23       	and	r20, r24
+ 8a2:	4c 93       	st	X, r20
 			break;
- 94c:	08 95       	ret
+ 8a4:	08 95       	ret
 			
 			case INPUT_PULLUP:
 			SET_BIT(*INPUT_TRISTATE_ADRESS,PIN_NO);
- 94e:	9c 91       	ld	r25, X
- 950:	89 2b       	or	r24, r25
- 952:	8c 93       	st	X, r24
- 954:	08 95       	ret
+ 8a6:	9c 91       	ld	r25, X
+ 8a8:	89 2b       	or	r24, r25
+ 8aa:	8c 93       	st	X, r24
+ 8ac:	08 95       	ret
 
-00000956 <INPUT_MODE>:
+000008ae <INPUT_MODE>:
 
 
 
 void INPUT_MODE(volatile uint8 *DIR_ADRESSS,volatile uint8 *OUT_FLOATORPULL_ADRESS,uint8 PIN_NO,IO_MODE PIN_MODE)
 
 {
- 956:	fc 01       	movw	r30, r24
- 958:	db 01       	movw	r26, r22
+ 8ae:	fc 01       	movw	r30, r24
+ 8b0:	db 01       	movw	r26, r22
 	CLEAR_BIT(*DIR_ADRESSS,PIN_NO);
- 95a:	30 81       	ld	r19, Z
- 95c:	81 e0       	ldi	r24, 0x01	; 1
- 95e:	90 e0       	ldi	r25, 0x00	; 0
- 960:	bc 01       	movw	r22, r24
- 962:	02 c0       	rjmp	.+4      	; 0x968 <INPUT_MODE+0x12>
- 964:	66 0f       	add	r22, r22
- 966:	77 1f       	adc	r23, r23
- 968:	4a 95       	dec	r20
- 96a:	e2 f7       	brpl	.-8      	; 0x964 <INPUT_MODE+0xe>
- 96c:	ab 01       	movw	r20, r22
- 96e:	86 2f       	mov	r24, r22
- 970:	80 95       	com	r24
- 972:	98 2f       	mov	r25, r24
- 974:	93 23       	and	r25, r19
- 976:	90 83       	st	Z, r25
+ 8b2:	30 81       	ld	r19, Z
+ 8b4:	81 e0       	ldi	r24, 0x01	; 1
+ 8b6:	90 e0       	ldi	r25, 0x00	; 0
+ 8b8:	bc 01       	movw	r22, r24
+ 8ba:	02 c0       	rjmp	.+4      	; 0x8c0 <INPUT_MODE+0x12>
+ 8bc:	66 0f       	add	r22, r22
+ 8be:	77 1f       	adc	r23, r23
+ 8c0:	4a 95       	dec	r20
+ 8c2:	e2 f7       	brpl	.-8      	; 0x8bc <INPUT_MODE+0xe>
+ 8c4:	ab 01       	movw	r20, r22
+ 8c6:	86 2f       	mov	r24, r22
+ 8c8:	80 95       	com	r24
+ 8ca:	98 2f       	mov	r25, r24
+ 8cc:	93 23       	and	r25, r19
+ 8ce:	90 83       	st	Z, r25
 	
 	switch(PIN_MODE)
- 978:	22 30       	cpi	r18, 0x02	; 2
- 97a:	31 f0       	breq	.+12     	; 0x988 <INPUT_MODE+0x32>
- 97c:	23 30       	cpi	r18, 0x03	; 3
- 97e:	39 f4       	brne	.+14     	; 0x98e <INPUT_MODE+0x38>
+ 8d0:	22 30       	cpi	r18, 0x02	; 2
+ 8d2:	31 f0       	breq	.+12     	; 0x8e0 <INPUT_MODE+0x32>
+ 8d4:	23 30       	cpi	r18, 0x03	; 3
+ 8d6:	39 f4       	brne	.+14     	; 0x8e6 <INPUT_MODE+0x38>
 {
 	
 	case OUTPUT_BLOCK:
 	SET_BIT(*OUT_FLOATORPULL_ADRESS,PIN_NO);
- 980:	8c 91       	ld	r24, X
- 982:	48 2b       	or	r20, r24
- 984:	4c 93       	st	X, r20
+ 8d8:	8c 91       	ld	r24, X
+ 8da:	48 2b       	or	r20, r24
+ 8dc:	4c 93       	st	X, r20
 	break;
- 986:	08 95       	ret
+ 8de:	08 95       	ret
 	
 	case OUTPUT_PASS:
 	CLEAR_BIT(*OUT_FLOATORPULL_ADRESS,PIN_NO);
- 988:	9c 91       	ld	r25, X
- 98a:	89 23       	and	r24, r25
- 98c:	8c 93       	st	X, r24
- 98e:	08 95       	ret
+ 8e0:	9c 91       	ld	r25, X
+ 8e2:	89 23       	and	r24, r25
+ 8e4:	8c 93       	st	X, r24
+ 8e6:	08 95       	ret
 
-00000990 <SPI_vInitMaster>:
+000008e8 <SPI_vInitMaster>:
 #include "SPI.h"
 
 
 void SPI_vInitMaster (void)
 {
 	DDRB |=(1<<SPI_MOSI) |(1<<SPI_SS)|(1<<SPI_SCK);//Set the port B mosi(master out slave in ) ,port B ss(slave select),sck(spi clock)  pins as output
- 990:	87 b3       	in	r24, 0x17	; 23
- 992:	80 6b       	ori	r24, 0xB0	; 176
- 994:	87 bb       	out	0x17, r24	; 23
+ 8e8:	87 b3       	in	r24, 0x17	; 23
+ 8ea:	80 6b       	ori	r24, 0xB0	; 176
+ 8ec:	87 bb       	out	0x17, r24	; 23
 	SPCR |= (1<<SPE)|(1<<MSTR)|(1<<SPR0);//Enable the SPI,master mode ,Set the clock speed to F/16
- 996:	8d b1       	in	r24, 0x0d	; 13
- 998:	81 65       	ori	r24, 0x51	; 81
- 99a:	8d b9       	out	0x0d, r24	; 13
+ 8ee:	8d b1       	in	r24, 0x0d	; 13
+ 8f0:	81 65       	ori	r24, 0x51	; 81
+ 8f2:	8d b9       	out	0x0d, r24	; 13
 }
- 99c:	08 95       	ret
+ 8f4:	08 95       	ret
 
-0000099e <SPI_vInitSlave>:
+000008f6 <SPI_vInitSlave>:
 
 void SPI_vInitSlave (void)
 {
 	DDRB |= (1<<SPI_MISO) ;//Set the port B miso(master in slave out ) pin as output
- 99e:	be 9a       	sbi	0x17, 6	; 23
+ 8f6:	be 9a       	sbi	0x17, 6	; 23
 	SPCR |= (1<<SPE);//Enable the SPI
- 9a0:	6e 9a       	sbi	0x0d, 6	; 13
+ 8f8:	6e 9a       	sbi	0x0d, 6	; 13
 }
- 9a2:	08 95       	ret
+ 8fa:	08 95       	ret
 
-000009a4 <SPI_ui8TransmitRecive>:
+000008fc <SPI_ui8TransmitRecive>:
 
 uint8 SPI_ui8TransmitRecive (uint8 data)
 {
 	SPDR = data;//move the given data to SPI Data register
- 9a4:	8f b9       	out	0x0f, r24	; 15
+ 8fc:	8f b9       	out	0x0f, r24	; 15
 	
 	//in case of master send data and wait till the data are fully transmitted
 	//in case of slave wait the data to be transmitted by the master
 	while (((SPSR&(1<<SPIF))>>SPIF)==0)	//wait till the transmitting is done
- 9a6:	77 9b       	sbis	0x0e, 7	; 14
- 9a8:	fe cf       	rjmp	.-4      	; 0x9a6 <SPI_ui8TransmitRecive+0x2>
+ 8fe:	77 9b       	sbis	0x0e, 7	; 14
+ 900:	fe cf       	rjmp	.-4      	; 0x8fe <SPI_ui8TransmitRecive+0x2>
 	;									//SPI flag is set to one if the transmission is done
 	
 	return SPDR;//return the value of SPI Data register after the transmission or receiving is done
- 9aa:	8f b1       	in	r24, 0x0f	; 15
- 9ac:	08 95       	ret
+ 902:	8f b1       	in	r24, 0x0f	; 15
+ 904:	08 95       	ret
 
-000009ae <Timer0_Intialization>:
- */ 
-#include "TIMER0.h"
+00000906 <itoa>:
+ 906:	fb 01       	movw	r30, r22
+ 908:	9f 01       	movw	r18, r30
+ 90a:	e8 94       	clt
+ 90c:	42 30       	cpi	r20, 0x02	; 2
+ 90e:	c4 f0       	brlt	.+48     	; 0x940 <itoa+0x3a>
+ 910:	45 32       	cpi	r20, 0x25	; 37
+ 912:	b4 f4       	brge	.+44     	; 0x940 <itoa+0x3a>
+ 914:	4a 30       	cpi	r20, 0x0A	; 10
+ 916:	29 f4       	brne	.+10     	; 0x922 <itoa+0x1c>
+ 918:	97 fb       	bst	r25, 7
+ 91a:	1e f4       	brtc	.+6      	; 0x922 <itoa+0x1c>
+ 91c:	90 95       	com	r25
+ 91e:	81 95       	neg	r24
+ 920:	9f 4f       	sbci	r25, 0xFF	; 255
+ 922:	64 2f       	mov	r22, r20
+ 924:	77 27       	eor	r23, r23
+ 926:	0e 94 b4 04 	call	0x968	; 0x968 <__udivmodhi4>
+ 92a:	80 5d       	subi	r24, 0xD0	; 208
+ 92c:	8a 33       	cpi	r24, 0x3A	; 58
+ 92e:	0c f0       	brlt	.+2      	; 0x932 <itoa+0x2c>
+ 930:	89 5d       	subi	r24, 0xD9	; 217
+ 932:	81 93       	st	Z+, r24
+ 934:	cb 01       	movw	r24, r22
+ 936:	00 97       	sbiw	r24, 0x00	; 0
+ 938:	a1 f7       	brne	.-24     	; 0x922 <itoa+0x1c>
+ 93a:	16 f4       	brtc	.+4      	; 0x940 <itoa+0x3a>
+ 93c:	5d e2       	ldi	r21, 0x2D	; 45
+ 93e:	51 93       	st	Z+, r21
+ 940:	10 82       	st	Z, r1
+ 942:	c9 01       	movw	r24, r18
+ 944:	0c 94 a4 04 	jmp	0x948	; 0x948 <strrev>
 
-void Timer0_Intialization(void)
-{
-	sei();
- 9ae:	78 94       	sei
-	TCNT0=156;
- 9b0:	8c e9       	ldi	r24, 0x9C	; 156
- 9b2:	82 bf       	out	0x32, r24	; 50
-	TCCR0=0x01;
- 9b4:	81 e0       	ldi	r24, 0x01	; 1
- 9b6:	83 bf       	out	0x33, r24	; 51
-//	TIMSK |=(1<<TOIE0);
- 9b8:	08 95       	ret
+00000948 <strrev>:
+ 948:	dc 01       	movw	r26, r24
+ 94a:	fc 01       	movw	r30, r24
+ 94c:	67 2f       	mov	r22, r23
+ 94e:	71 91       	ld	r23, Z+
+ 950:	77 23       	and	r23, r23
+ 952:	e1 f7       	brne	.-8      	; 0x94c <strrev+0x4>
+ 954:	32 97       	sbiw	r30, 0x02	; 2
+ 956:	04 c0       	rjmp	.+8      	; 0x960 <strrev+0x18>
+ 958:	7c 91       	ld	r23, X
+ 95a:	6d 93       	st	X+, r22
+ 95c:	70 83       	st	Z, r23
+ 95e:	62 91       	ld	r22, -Z
+ 960:	ae 17       	cp	r26, r30
+ 962:	bf 07       	cpc	r27, r31
+ 964:	c8 f3       	brcs	.-14     	; 0x958 <strrev+0x10>
+ 966:	08 95       	ret
 
-000009ba <itoa>:
- 9ba:	fb 01       	movw	r30, r22
- 9bc:	9f 01       	movw	r18, r30
- 9be:	e8 94       	clt
- 9c0:	42 30       	cpi	r20, 0x02	; 2
- 9c2:	c4 f0       	brlt	.+48     	; 0x9f4 <itoa+0x3a>
- 9c4:	45 32       	cpi	r20, 0x25	; 37
- 9c6:	b4 f4       	brge	.+44     	; 0x9f4 <itoa+0x3a>
- 9c8:	4a 30       	cpi	r20, 0x0A	; 10
- 9ca:	29 f4       	brne	.+10     	; 0x9d6 <itoa+0x1c>
- 9cc:	97 fb       	bst	r25, 7
- 9ce:	1e f4       	brtc	.+6      	; 0x9d6 <itoa+0x1c>
- 9d0:	90 95       	com	r25
- 9d2:	81 95       	neg	r24
- 9d4:	9f 4f       	sbci	r25, 0xFF	; 255
- 9d6:	64 2f       	mov	r22, r20
- 9d8:	77 27       	eor	r23, r23
- 9da:	0e 94 0e 05 	call	0xa1c	; 0xa1c <__udivmodhi4>
- 9de:	80 5d       	subi	r24, 0xD0	; 208
- 9e0:	8a 33       	cpi	r24, 0x3A	; 58
- 9e2:	0c f0       	brlt	.+2      	; 0x9e6 <itoa+0x2c>
- 9e4:	89 5d       	subi	r24, 0xD9	; 217
- 9e6:	81 93       	st	Z+, r24
- 9e8:	cb 01       	movw	r24, r22
- 9ea:	00 97       	sbiw	r24, 0x00	; 0
- 9ec:	a1 f7       	brne	.-24     	; 0x9d6 <itoa+0x1c>
- 9ee:	16 f4       	brtc	.+4      	; 0x9f4 <itoa+0x3a>
- 9f0:	5d e2       	ldi	r21, 0x2D	; 45
- 9f2:	51 93       	st	Z+, r21
- 9f4:	10 82       	st	Z, r1
- 9f6:	c9 01       	movw	r24, r18
- 9f8:	0c 94 fe 04 	jmp	0x9fc	; 0x9fc <strrev>
+00000968 <__udivmodhi4>:
+ 968:	aa 1b       	sub	r26, r26
+ 96a:	bb 1b       	sub	r27, r27
+ 96c:	51 e1       	ldi	r21, 0x11	; 17
+ 96e:	07 c0       	rjmp	.+14     	; 0x97e <__udivmodhi4_ep>
 
-000009fc <strrev>:
- 9fc:	dc 01       	movw	r26, r24
- 9fe:	fc 01       	movw	r30, r24
- a00:	67 2f       	mov	r22, r23
- a02:	71 91       	ld	r23, Z+
- a04:	77 23       	and	r23, r23
- a06:	e1 f7       	brne	.-8      	; 0xa00 <strrev+0x4>
- a08:	32 97       	sbiw	r30, 0x02	; 2
- a0a:	04 c0       	rjmp	.+8      	; 0xa14 <strrev+0x18>
- a0c:	7c 91       	ld	r23, X
- a0e:	6d 93       	st	X+, r22
- a10:	70 83       	st	Z, r23
- a12:	62 91       	ld	r22, -Z
- a14:	ae 17       	cp	r26, r30
- a16:	bf 07       	cpc	r27, r31
- a18:	c8 f3       	brcs	.-14     	; 0xa0c <strrev+0x10>
- a1a:	08 95       	ret
+00000970 <__udivmodhi4_loop>:
+ 970:	aa 1f       	adc	r26, r26
+ 972:	bb 1f       	adc	r27, r27
+ 974:	a6 17       	cp	r26, r22
+ 976:	b7 07       	cpc	r27, r23
+ 978:	10 f0       	brcs	.+4      	; 0x97e <__udivmodhi4_ep>
+ 97a:	a6 1b       	sub	r26, r22
+ 97c:	b7 0b       	sbc	r27, r23
 
-00000a1c <__udivmodhi4>:
- a1c:	aa 1b       	sub	r26, r26
- a1e:	bb 1b       	sub	r27, r27
- a20:	51 e1       	ldi	r21, 0x11	; 17
- a22:	07 c0       	rjmp	.+14     	; 0xa32 <__udivmodhi4_ep>
+0000097e <__udivmodhi4_ep>:
+ 97e:	88 1f       	adc	r24, r24
+ 980:	99 1f       	adc	r25, r25
+ 982:	5a 95       	dec	r21
+ 984:	a9 f7       	brne	.-22     	; 0x970 <__udivmodhi4_loop>
+ 986:	80 95       	com	r24
+ 988:	90 95       	com	r25
+ 98a:	bc 01       	movw	r22, r24
+ 98c:	cd 01       	movw	r24, r26
+ 98e:	08 95       	ret
 
-00000a24 <__udivmodhi4_loop>:
- a24:	aa 1f       	adc	r26, r26
- a26:	bb 1f       	adc	r27, r27
- a28:	a6 17       	cp	r26, r22
- a2a:	b7 07       	cpc	r27, r23
- a2c:	10 f0       	brcs	.+4      	; 0xa32 <__udivmodhi4_ep>
- a2e:	a6 1b       	sub	r26, r22
- a30:	b7 0b       	sbc	r27, r23
+00000990 <_exit>:
+ 990:	f8 94       	cli
 
-00000a32 <__udivmodhi4_ep>:
- a32:	88 1f       	adc	r24, r24
- a34:	99 1f       	adc	r25, r25
- a36:	5a 95       	dec	r21
- a38:	a9 f7       	brne	.-22     	; 0xa24 <__udivmodhi4_loop>
- a3a:	80 95       	com	r24
- a3c:	90 95       	com	r25
- a3e:	bc 01       	movw	r22, r24
- a40:	cd 01       	movw	r24, r26
- a42:	08 95       	ret
-
-00000a44 <_exit>:
- a44:	f8 94       	cli
-
-00000a46 <__stop_program>:
- a46:	ff cf       	rjmp	.-2      	; 0xa46 <__stop_program>
+00000992 <__stop_program>:
+ 992:	ff cf       	rjmp	.-2      	; 0x992 <__stop_program>

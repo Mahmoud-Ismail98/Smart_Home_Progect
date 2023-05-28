@@ -9,179 +9,41 @@
 #include "keypad.h"
 #include "lcd.h"
 #include "EEPROM.h"
+#include "STD_MESSAGES.h"
 #include "smart_home_cofig.h"
-
+#include "Master_MainFun.h"
 
 uint8 pass[4];
 uint8 temp[2];
 uint8 Temp_Value;
-uint8 pass_count=0;
-volatile char key_pressed;
+extern uint8 pass_count;
+extern volatile char key_pressed;
 uint8 Mode;
-#define	OWNER_MODE 0
-#define	GUEST_MODE 1
+uint8 SPI_RESPONSE;
+
 int main(void)
 {
-	// Start_Message();
-	//Device_Drive();
-   // Start_Message();
    	LCD_INISTIALIZATION();
 	SPI_vInitMaster();//initializes the communication protocol of SPI
-   	//GO_LOC(2,1);
+	
    	SEND_STRING("wellcome to smart");
    	_delay_ms(500);
    	GO_LOC(2,3);
    	SEND_STRING("home system");
-   	//_delay_ms(3000);
-   	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-   	
-	
+
 	if (EEPROM_ui8ReadByteFromAddress(Login_status)==0xFF)
-	{
-
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-			GO_LOC(2,1);
-			SEND_STRING("Set Admin Pass");
-			GO_LOC(3,1);
-			SEND_STRING("Admin Pass:");
-			
-
-
-			while (pass_count<4)
-			{
-				key_pressed =keyfind();
-				 pass[pass_count]=(key_pressed-48);
-				 SEND_DATE(key_pressed);
-				 _delay_ms(300);
-				 pass_count++;
-			}
-			EEPROM_vWriteBlockToAddress(ADMIN_PASS_ADD,pass,4);
-			
-			//pass={0};
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-			GO_LOC(2,1);
-			SEND_STRING("Set Guest Pass");
-			GO_LOC(3,1);
-			SEND_STRING("guest Pass:");
-
-			pass_count=0;
-			while (pass_count<4)
-			{
-				key_pressed=keyfind();
-				pass[pass_count]=(key_pressed-48);
-				SEND_DATE(key_pressed);
-				_delay_ms(300);
-				pass_count++;
-			}
-			EEPROM_vWriteBlockToAddress(Guest_PASS_ADD,pass,4);
-		   EEPROM_vWriteByteToAddress(Login_status,0x00);
+	{		
+		vEnterFirstTime();
 	} 
-	//else
-	//{
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-			GO_LOC(2,1);
-			SEND_STRING("selec mode");
-			GO_LOC(3,1);
-			SEND_STRING("0:Owner 1:Guest");
-			_delay_ms(2000);
-			
-			key_pressed=keyfind();
-			if (key_pressed=='0')
-			{
-				
-			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-			GO_LOC(2,1);
-			SEND_STRING("Owner mode");
-			GO_LOC(3,1);
-			SEND_STRING("Enter Pass:");
-			_delay_ms(2000);
-			pass_count=0;
-			while (pass_count<4)
-			{
-				key_pressed=keyfind();
-				pass[pass_count]=(key_pressed);
-				SEND_DATE(key_pressed);
-				_delay_ms(300);
-				pass_count++;
-			}
-			uint8 EEPROM_Pass;
-			uint8 i=0;
-			while(i<4)
-			{
-				EEPROM_Pass = EEPROM_ui8ReadByteFromAddress(ADMIN_PASS_ADD+i);
-				if (EEPROM_Pass==(pass[i]-48))
-				{
-					i++;
-					
-				} 
-				else
-				{
-					SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-					GO_LOC(2,1);
-					SEND_STRING("Owner Rong Pass");
-					GO_LOC(3,1);					
-					break;
-				}
-				if (i==3)
-				{
-				    SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-				    GO_LOC(2,1);
-				    SEND_STRING("Owner Correct Pass");
-				    Mode=OWNER_MODE;
-				    DDRC|=(1<<OWNER_PIN);
-				    PORTC|=(1<<OWNER_PIN);
-				}
 
-			}
-
-			} 
-			else if(key_pressed=='1')
-			{
-				
-				SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-				GO_LOC(2,1);
-				SEND_STRING("Guest mode");
-				GO_LOC(3,1);
-				SEND_STRING("Enter Pass:");
-				_delay_ms(2000);
-				pass_count=0;
-				while (pass_count<4)
-				{
-					key_pressed=keyfind();
-					pass[pass_count]=(key_pressed);
-					SEND_DATE(key_pressed);
-					_delay_ms(300);
-					pass_count++;
-				}
-				uint8 EEPROM_Pass;
-				uint8 i=0;
-				while(i<4)
-				{
-					EEPROM_Pass = EEPROM_ui8ReadByteFromAddress(Guest_PASS_ADD+i);
-					if (EEPROM_Pass==(pass[i]-48))
-					{
-						i++;
-						
-					}
-					else
-					{
-						SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-						GO_LOC(2,1);
-						SEND_STRING("Guest Rong Pass");
-						GO_LOC(3,1);
-						break;
-					}
-					if(i==3)
-					{
-					SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-					GO_LOC(2,1);
-					SEND_STRING("Guest Correct Pass");
-					Mode=GUEST_MODE;
-					DDRC|=(1<<GUEST_PIN);
-					PORTC|=(1<<GUEST_PIN);
-					}					
-				}				
-			}
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+	GO_LOC(2,1);
+	SEND_STRING("selec mode");
+	GO_LOC(3,1);
+	SEND_STRING("0:Owner 1:Guest");
+	_delay_ms(2000);				
+	key_pressed=keyfind();
+	SelectModePass(key_pressed);
 			
 	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
 	GO_LOC(1,1);
@@ -195,25 +57,38 @@ int main(void)
 	}
 	key_pressed=keyfind();
 	
-	switch(key_pressed)
+	u8EnterRoonConfig(key_pressed);	
+//	key_pressed=keyfind();
+	
+
+	//break;	
+	/*switch(key_pressed)
 	{
 		case '1':
 			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
 			GO_LOC(2,1);
 			SEND_STRING("ROOM State:");
+			SPI_ui8TransmitRecive(ROOM1_STATUS);
+			SPI_RESPONSE = SPI_ui8TransmitRecive(DEMAND_RESPONSE);
+			if(SPI_RESPONSE == ON_STATUS)//if the response from the slave was on status
+			{
+				SEND_STRING("ON");//print the status on
+			}
+			else//if the response from the slave was off status
+			{
+				SEND_STRING("OFF");//print the status off
+			}			
 			GO_LOC(3,1);
 			SEND_STRING("ON:1   OFF:2  RET:0");
 			key_pressed=keyfind();
 			
 			if (key_pressed=='1')
 			{
-				DDRC|=(1<<ROOM1);
-				PORTC|=(1<<ROOM1);
+				SPI_ui8TransmitRecive(ROOM1_TURN_ON);
 			} 
 			else if(key_pressed=='2')
 			{
-				DDRC|=(1<<ROOM1);
-				PORTC|=(0<<ROOM1);
+				SPI_ui8TransmitRecive(ROOM1_TURN_OFF);
 			}
 			else if(key_pressed=='0')
 			{
@@ -279,7 +154,7 @@ int main(void)
 				Temp_Value=temp[0]*10+temp[1];				
 				}
 				break;				
-	}						
+	}	*/					
 			
 			
 			

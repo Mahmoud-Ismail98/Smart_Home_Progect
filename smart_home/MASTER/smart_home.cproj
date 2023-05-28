@@ -91,6 +91,12 @@
     <Compile Include="macros.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Master_MainFun.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Master_MainFun.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="microconf.h">
       <SubType>compile</SubType>
     </Compile>
@@ -106,10 +112,7 @@
     <Compile Include="stand.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TIMER0.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="TIMER0.h">
+    <Compile Include="STD_MESSAGES.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

@@ -23,6 +23,29 @@
 #include "TIMER0.h"
 #include "SPI.h"
 
+#define TRUE  1
+#define FALSE 0
+
+#define TURN_ON	'1'
+#define TURN_OFF '2'
+#define RET '0'
+
+#define	OWNER_MODE 1
+#define	GUEST_MODE 2
+#define	BLOCK_MODE 3
+
+#define	ROOM1_CNFG '1'
+#define	ROOM2_CNFG '2'
+#define	ROOM3_CNFG '3'
+#define TV_CNFG '4'
+#define AIRCOND_CNFG '5'
+
+#define	ROOM1_OFFSET	0x01
+#define	ROOM2_OFFSET	0x03
+#define	ROOM3_OFFSET	0x05
+#define TV_OFFSET		0x07
+#define AIRCOND_OFFSET  0x09
+
 #define  OWNER_PIN 0
 #define  GUEST_PIN 1
 #define  ROOM1 (uint8)2

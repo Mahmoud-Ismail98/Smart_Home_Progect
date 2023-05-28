@@ -39,9 +39,9 @@ C_SRCS +=  \
 ../EEPROM.c \
 ../keypad.c \
 ../lcd.c \
+../Master_MainFun.c \
 ../microconfg.c \
-../SPI.c \
-../TIMER0.c
+../SPI.c
 
 
 PREPROCESSING_SRCS += 
@@ -55,9 +55,9 @@ master.o \
 EEPROM.o \
 keypad.o \
 lcd.o \
+Master_MainFun.o \
 microconfg.o \
-SPI.o \
-TIMER0.o
+SPI.o
 
 
 OBJS_AS_ARGS +=  \
@@ -65,9 +65,9 @@ master.o \
 EEPROM.o \
 keypad.o \
 lcd.o \
+Master_MainFun.o \
 microconfg.o \
-SPI.o \
-TIMER0.o
+SPI.o
 
 
 C_DEPS +=  \
@@ -75,9 +75,9 @@ master.d \
 EEPROM.d \
 keypad.d \
 lcd.d \
+Master_MainFun.d \
 microconfg.d \
-SPI.d \
-TIMER0.d
+SPI.d
 
 
 C_DEPS_AS_ARGS +=  \
@@ -85,9 +85,9 @@ master.d \
 EEPROM.d \
 keypad.d \
 lcd.d \
+Master_MainFun.d \
 microconfg.d \
-SPI.d \
-TIMER0.d
+SPI.d
 
 
 OUTPUT_FILE_PATH +=smart_home.elf
