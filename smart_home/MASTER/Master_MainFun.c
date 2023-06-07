@@ -10,6 +10,7 @@ uint8 pass[4];
 uint8 pass_count=0;
 volatile char key_pressed;
 uint8 Mode;
+						
 vEnterFirstTime()
 {
 			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
@@ -50,58 +51,55 @@ vEnterFirstTime()
 		EEPROM_vWriteByteToAddress(Login_status,0x00);
 }
 
-void SelectModePass(char Mode_Key)
+void SelectModePass(struct_modecnf *ps)
 {
-int pass;
-if (Mode_Key=='0')
-{
-	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-	GO_LOC(2,1);
-	SEND_STRING("OWNER mode");
-	GO_LOC(3,1);
-	SEND_STRING("Enter Pass:");
-	_delay_ms(100);
-	pass = u8CheckPass(ADMIN_PASS_ADD);
-	if (pass==TRUE)
-	{
-		Mode=OWNER_MODE;
-		DDRC|=(1<<OWNER_PIN);
-		PORTC|=(1<<OWNER_PIN);
-	}
-	else if(pass==FALSE)
+	uint8 Wrong_Tries=0;
+	int pass;
+	while (Wrong_Tries < ALLWED_TRIES)
 	{
 		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
 		GO_LOC(2,1);
-		SEND_STRING("Owner Rong Pass");
+		SEND_STRING(ps->ptr_mode);
+		SEND_STRING(" MODE");
 		GO_LOC(3,1);
+		SEND_STRING("Enter Pass:");
+		_delay_ms(100);
+		pass = u8CheckPass(ps->PASS_ADD);
+		if (pass==TRUE)
+		{
+			Mode=ps->mode;
+			DDRC|=(1<<ps->MODE_LED_PIN);
+			PORTC|=(1<<ps->MODE_LED_PIN);
+			break;
+		}
+		else if(pass==FALSE)
+		{
+			Wrong_Tries++;
+			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+			GO_LOC(2,4);
+			//SEND_STRING(ps->mode);
+			SEND_STRING("Rong Pass");
+			GO_LOC(3,4);
+			SEND_STRING("TRY Again");
+			_delay_ms(200);
+		}
 	}
-}
-else if(key_pressed=='1')
-{	
-	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-	GO_LOC(2,1);
-	SEND_STRING("Guest mode");
-	GO_LOC(3,1);
-	SEND_STRING("Enter Pass:");
-	_delay_ms(100);
-	pass = u8CheckPass(Guest_PASS_ADD);
-	if (pass==TRUE)
+	if (Wrong_Tries>=ALLWED_TRIES)
 	{
-		Mode=GUEST_MODE;
-		DDRC|=(1<<GUEST_PIN);
-		PORTC|=(1<<GUEST_PIN);
-	}
-	else if(pass==FALSE)
-	{
+		DDRC|=(1<<BLOCK_BUZ_PIN);
+		PORTC |=(1<<BLOCK_BUZ_PIN);
+		//PORTC|=(1<<3);
 		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-		GO_LOC(2,1);
-		SEND_STRING("GUEST Rong Pass");
-		GO_LOC(3,1);
+		GO_LOC(2,4);
+		Wrong_Tries=0;
+		SEND_STRING("blocked mode");
+		GO_LOC(3,4);
+		SEND_STRING("wait 20 sec");
+		_delay_ms(9000);
+	    PORTC&=(~(1<<BLOCK_BUZ_PIN));
 	}
-}
 
 }
-
 uint8 u8CheckPass(uint8 u8Mode_Add )
 {
 //uint8 Mode;
@@ -111,6 +109,9 @@ uint8 u8CheckPass(uint8 u8Mode_Add )
 		key_pressed=keyfind();
 		pass[pass_count]=(key_pressed);
 		SEND_DATE(key_pressed);
+		_delay_ms(100);
+		GO_LOC(3,12+pass_count);
+		SEND_DATE('*');
 		_delay_ms(100);
 		pass_count++;
 	}
@@ -146,27 +147,39 @@ uint8 u8EnterRoonConfig(char Key)
 	case ROOM1_CNFG:
 		vShowState(ROOM1_STATUS,ROOM1_CNFG);
 		key_pressed=keyfind();
+		if (key_pressed==RET) break;				
 		vTurnOnOf(key_pressed,OFFSET_MESSAGE+ROOM1_OFFSET);	
 		break;
-	case ROOM2_CNFG:
+	case ROOM2_CNFG:	
 		vShowState(ROOM2_STATUS,ROOM2_CNFG);
 		key_pressed=keyfind();
+		if (key_pressed==RET) break;			
 		vTurnOnOf(key_pressed,OFFSET_MESSAGE+ROOM2_OFFSET);
 		break;	
 	case ROOM3_CNFG:
 		vShowState(ROOM3_STATUS,ROOM3_CNFG);
 		key_pressed=keyfind();
+		if (key_pressed==RET) break;			
 		vTurnOnOf(key_pressed,OFFSET_MESSAGE+ROOM3_OFFSET);
 		break;
 	case TV_CNFG:
 		vShowState(TV_STATUS,TV_CNFG);
 		key_pressed=keyfind();
+		if (key_pressed==RET) break;			
 		vTurnOnOf(key_pressed,OFFSET_MESSAGE+TV_OFFSET);
 		break;	
 	case AIRCOND_CNFG:
 		vShowState(AIR_COND,AIRCOND_CNFG);
 		key_pressed=keyfind();
-		vTurnOnOf(key_pressed,OFFSET_MESSAGE+AIRCOND_OFFSET);
+		if (key_pressed==RET) break;	
+		if (key_pressed=='3')  //entering control temperture of air conditioning
+		{
+			vSetTempMenue();
+		} 
+		else
+		{
+		   vTurnOnOf(key_pressed,OFFSET_MESSAGE+AIRCOND_OFFSET);
+		}
 		break;			
 		
 	}
@@ -194,16 +207,22 @@ void vShowState(uint8 State,char Num)
 	SEND_DATE(Num);
 	SEND_STRING(" State:");
 	}	
-	SPI_ui8TransmitRecive(State);	
+
+	SPI_ui8TransmitRecive(State);	//demand the status from the slave
+	_delay_ms(100);//Halt the system for the given time in (ms)	
 	SPI_RESPONSE = SPI_ui8TransmitRecive(DEMAND_RESPONSE);	
 	if(SPI_RESPONSE == ON_STATUS)//if the response from the slave was on status
 	{
 		SEND_STRING("ON");//print the status on
 	}
-	else//if the response from the slave was off status
+	else if(SPI_RESPONSE == OFF_STATUS)//if the response from the slave was off status
 	{
 		SEND_STRING("OFF");//print the status off
 	}
+	else 
+	{
+		SEND_STRING("");//print the status off
+	}	
 	GO_LOC(3,1);
 	SEND_STRING("ON:1   OFF:2  RET:0");
 	if (Num==AIRCOND_CNFG)
@@ -227,3 +246,28 @@ void vTurnOnOf(char key,uint8 MESSAGE)
 	}	
 	
 }	
+
+void vSetTempMenue(void)
+{
+	
+	uint8 temp[2];
+	uint8 Temp_Value;
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+	GO_LOC(2,1);
+	SEND_STRING("enter temp:");
+	key_pressed=keyfind();
+	temp[0]=key_pressed;
+	SEND_DATE(key_pressed);
+	_delay_ms(200);
+	key_pressed=keyfind();
+	temp[1]=key_pressed;
+	SEND_DATE(key_pressed);
+	_delay_ms(200);
+	SPI_ui8TransmitRecive(SET_TEMPERATURE);//Send the code of set temperature
+	_delay_ms(200);//Halt the system to prevent write collision
+	Temp_Value=temp[0]*10+temp[1];
+	SPI_ui8TransmitRecive(Temp_Value);//send the entered temperature
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically//
+	SEND_STRING("Temperature Sent");//show the message
+	_delay_ms(500);//Halt the system for the given time in (ms)
+}

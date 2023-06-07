@@ -20,7 +20,7 @@
 	
 uint8 SPI_RESPONSE;
 volatile uint8 counter=0;
-volatile uint8 required_temperature;
+volatile uint8 required_temperature=24;  //default temp
 volatile uint16	Temp_SensRead=0;
 int main(void)
 {
@@ -162,11 +162,11 @@ ISR(TIMER0_COMP_vect)
 	{	
 		counter=0;
 	Temp_SensRead =(0.25*ADC_u16Read());
-	if (Temp_SensRead<Temp_SensRead)
+	if (Temp_SensRead<required_temperature)
 	{
 		LED_vTurnOff(AIR_COND_PORT,AIR_COND_PIN);
 	}
-	else if (Temp_SensRead>Temp_SensRead)
+	else if (Temp_SensRead>required_temperature)
 	{
 		LED_vTurnOn(AIR_COND_PORT,AIR_COND_PIN);
 	}

@@ -40,7 +40,7 @@ void HI_LO_PULS_EN(void)
 	_delay_us(1);
 	CONTRLO_PINS_HI_LO&=~(1<<ENABLE);
 	_delay_us(100);
-	_delay_ms(50);
+	_delay_ms(10);
 }
 
 void SEND_DATE(unsigned char DATE)

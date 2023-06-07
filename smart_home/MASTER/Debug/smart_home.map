@@ -19,11 +19,8 @@ Common symbol       size              file
 SPI_RESPONSE        0x1               master.o
 pass                0x4               master.o
 colloc              0x1               keypad.o
-temp                0x2               master.o
-Mode                0x1               master.o
 rowloc              0x1               keypad.o
 key_pressed         0x1               Master_MainFun.o
-Temp_Value          0x1               master.o
 
 Memory Configuration
 
@@ -143,7 +140,7 @@ LOAD c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x994
+.text           0x00000000      0xb38
  *(.vectors)
  .vectors       0x00000000       0x54 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5/crtm32a.o
                 0x00000000                __vector_default
@@ -220,61 +217,62 @@ LOAD c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1
                 0x0000008e                __vector_16
                 0x0000008e                __vector_18
                 0x0000008e                __vector_20
- .text          0x00000092       0xde master.o
+ .text          0x00000092      0x14c master.o
                 0x00000092                main
- .text          0x00000170       0x90 EEPROM.o
-                0x00000170                EEPROM_ui8ReadByteFromAddress
-                0x0000017e                EEPROM_vReadBlockFromAddress
-                0x000001ae                EEPROM_vWriteByteToAddress
-                0x000001c6                EEPROM_vWriteBlockToAddress
- .text          0x00000200      0x11a keypad.o
-                0x00000200                keyfind
- .text          0x0000031a      0x128 lcd.o
-                0x0000031a                HI_LO_PULS_EN
-                0x00000336                SEND_COMND
-                0x00000344                LCD_INISTIALIZATION
-                0x00000380                SEND_DATE
-                0x0000038c                SEND_STRING
-                0x000003aa                GO_LOC
-                0x000003be                SEND_LONG_NUM
- .text          0x00000442      0x432 Master_MainFun.o
-                0x00000442                vEnterFirstTime
-                0x00000586                u8CheckPass
-                0x00000618                SelectModePass
-                0x00000706                vShowState
-                0x000007aa                vTurnOnOf
-                0x000007c8                u8EnterRoonConfig
- .text          0x00000874       0x74 microconfg.o
-                0x00000874                OUTPUT_MODE
-                0x000008ae                INPUT_MODE
- .text          0x000008e8       0x1e SPI.o
-                0x000008e8                SPI_vInitMaster
-                0x000008f6                SPI_vInitSlave
-                0x000008fc                SPI_ui8TransmitRecive
- .text          0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .text          0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .text          0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
- .text          0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
- .text          0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
- .text          0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
-                0x00000906                . = ALIGN (0x2)
+ .text          0x000001de       0x90 EEPROM.o
+                0x000001de                EEPROM_ui8ReadByteFromAddress
+                0x000001ec                EEPROM_vReadBlockFromAddress
+                0x0000021c                EEPROM_vWriteByteToAddress
+                0x00000234                EEPROM_vWriteBlockToAddress
+ .text          0x0000026e      0x11a keypad.o
+                0x0000026e                keyfind
+ .text          0x00000388      0x128 lcd.o
+                0x00000388                HI_LO_PULS_EN
+                0x000003a4                SEND_COMND
+                0x000003b2                LCD_INISTIALIZATION
+                0x000003ee                SEND_DATE
+                0x000003fa                SEND_STRING
+                0x00000418                GO_LOC
+                0x0000042c                SEND_LONG_NUM
+ .text          0x000004b0      0x568 Master_MainFun.o
+                0x000004b0                vEnterFirstTime
+                0x000005f4                u8CheckPass
+                0x0000069c                SelectModePass
+                0x000007b2                vShowState
+                0x00000870                vTurnOnOf
+                0x0000088e                vSetTempMenue
+                0x00000932                u8EnterRoonConfig
+ .text          0x00000a18       0x74 microconfg.o
+                0x00000a18                OUTPUT_MODE
+                0x00000a52                INPUT_MODE
+ .text          0x00000a8c       0x1e SPI.o
+                0x00000a8c                SPI_vInitMaster
+                0x00000a9a                SPI_vInitSlave
+                0x00000aa0                SPI_ui8TransmitRecive
+ .text          0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .text          0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .text          0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .text          0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
+ .text          0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .text          0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+                0x00000aaa                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x00000906        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000aaa        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
  .text.avr-libc
-                0x00000906       0x42 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
-                0x00000906                itoa
+                0x00000aaa       0x42 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
+                0x00000aaa                itoa
  .text.avr-libc
-                0x00000948       0x20 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
-                0x00000948                strrev
- .text.libgcc   0x00000968       0x28 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
-                0x00000968                __udivmodhi4
-                0x00000990                . = ALIGN (0x2)
+                0x00000aec       0x20 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
+                0x00000aec                strrev
+ .text.libgcc   0x00000b0c       0x28 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+                0x00000b0c                __udivmodhi4
+                0x00000b34                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000990        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
-                0x00000990                _exit
-                0x00000990                exit
+ .fini9         0x00000b34        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+                0x00000b34                _exit
+                0x00000b34                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -293,79 +291,79 @@ LOAD c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000990        0x4 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000b34        0x4 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000994                _etext = .
+                0x00000b38                _etext = .
 
-.data           0x00800060      0x156 load address 0x00000994
+.data           0x00800060      0x186 load address 0x00000b38
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5/crtm32a.o
- .data          0x00800060       0x6e master.o
- .data          0x008000ce        0x0 EEPROM.o
- .data          0x008000ce       0x10 keypad.o
-                0x008000ce                keypad
- .data          0x008000de        0x4 lcd.o
-                0x008000de                ARR_LOC_ROWS
- .data          0x008000e2       0xd3 Master_MainFun.o
- .data          0x008001b5        0x0 microconfg.o
- .data          0x008001b5        0x0 SPI.o
- .data          0x008001b5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .data          0x008001b5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .data          0x008001b5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
- .data          0x008001b5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
- .data          0x008001b5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
- .data          0x008001b5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+ .data          0x00800060       0x83 master.o
+                0x008000cd                GUEST_MODE_STRUCT
+                0x008000db                OWNER_MODE_STRUCT
+ .data          0x008000e3        0x0 EEPROM.o
+ .data          0x008000e3       0x10 keypad.o
+                0x008000e3                keypad
+ .data          0x008000f3        0x4 lcd.o
+                0x008000f3                ARR_LOC_ROWS
+ .data          0x008000f7       0xee Master_MainFun.o
+ .data          0x008001e5        0x0 microconfg.o
+ .data          0x008001e5        0x0 SPI.o
+ .data          0x008001e5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .data          0x008001e5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .data          0x008001e5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .data          0x008001e5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
+ .data          0x008001e5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .data          0x008001e5        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
  *(.data*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x008001b6                . = ALIGN (0x2)
- *fill*         0x008001b5        0x1 00
-                0x008001b6                _edata = .
-                0x008001b6                PROVIDE (__data_end, .)
+                0x008001e6                . = ALIGN (0x2)
+ *fill*         0x008001e5        0x1 00
+                0x008001e6                _edata = .
+                0x008001e6                PROVIDE (__data_end, .)
 
-.bss            0x008001b6       0x11
-                0x008001b6                PROVIDE (__bss_start, .)
+.bss            0x008001e6        0xe
+                0x008001e6                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x008001b6        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5/crtm32a.o
- .bss           0x008001b6        0x0 master.o
- .bss           0x008001b6        0x0 EEPROM.o
- .bss           0x008001b6        0x0 keypad.o
- .bss           0x008001b6        0x4 lcd.o
- .bss           0x008001ba        0x1 Master_MainFun.o
-                0x008001ba                pass_count
- .bss           0x008001bb        0x0 microconfg.o
- .bss           0x008001bb        0x0 SPI.o
- .bss           0x008001bb        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .bss           0x008001bb        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .bss           0x008001bb        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
- .bss           0x008001bb        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
- .bss           0x008001bb        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
- .bss           0x008001bb        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+ .bss           0x008001e6        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5/crtm32a.o
+ .bss           0x008001e6        0x1 master.o
+                0x008001e6                Mode
+ .bss           0x008001e7        0x0 EEPROM.o
+ .bss           0x008001e7        0x0 keypad.o
+ .bss           0x008001e7        0x4 lcd.o
+ .bss           0x008001eb        0x1 Master_MainFun.o
+                0x008001eb                pass_count
+ .bss           0x008001ec        0x0 microconfg.o
+ .bss           0x008001ec        0x0 SPI.o
+ .bss           0x008001ec        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .bss           0x008001ec        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .bss           0x008001ec        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .bss           0x008001ec        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(itoa.o)
+ .bss           0x008001ec        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .bss           0x008001ec        0x0 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x008001bb        0x9 master.o
-                0x008001bb                SPI_RESPONSE
-                0x008001bc                pass
-                0x008001c0                temp
-                0x008001c2                Mode
-                0x008001c3                Temp_Value
- COMMON         0x008001c4        0x2 keypad.o
-                0x008001c4                colloc
-                0x008001c5                rowloc
- COMMON         0x008001c6        0x1 Master_MainFun.o
-                0x008001c6                key_pressed
-                0x008001c7                PROVIDE (__bss_end, .)
-                0x00000994                __data_load_start = LOADADDR (.data)
-                0x00000aea                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x008001ec        0x5 master.o
+                0x008001ec                SPI_RESPONSE
+                0x008001ed                pass
+ COMMON         0x008001f1        0x2 keypad.o
+                0x008001f1                colloc
+                0x008001f2                rowloc
+ COMMON         0x008001f3        0x1 Master_MainFun.o
+                0x008001f3                key_pressed
+                0x008001f4                PROVIDE (__bss_end, .)
+                0x00000b38                __data_load_start = LOADADDR (.data)
+                0x00000cbe                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008001c7        0x0
-                0x008001c7                PROVIDE (__noinit_start, .)
+.noinit         0x008001f4        0x0
+                0x008001f4                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008001c7                PROVIDE (__noinit_end, .)
-                0x008001c7                _end = .
-                0x008001c7                PROVIDE (__heap_start, .)
+                0x008001f4                PROVIDE (__noinit_end, .)
+                0x008001f4                _end = .
+                0x008001f4                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -450,83 +448,84 @@ LOAD c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x138e
+.debug_info     0x00000000     0x167a
  *(.debug_info)
- .debug_info    0x00000000      0x237 master.o
- .debug_info    0x00000237      0x1d7 EEPROM.o
- .debug_info    0x0000040e      0x1df keypad.o
- .debug_info    0x000005ed      0x40c lcd.o
- .debug_info    0x000009f9      0x3d7 Master_MainFun.o
- .debug_info    0x00000dd0      0x167 microconfg.o
- .debug_info    0x00000f37       0xe3 SPI.o
- .debug_info    0x0000101a       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .debug_info    0x000010f7       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .debug_info    0x000011d4       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
- .debug_info    0x000012b1       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_info    0x00000000      0x2a5 master.o
+ .debug_info    0x000002a5      0x1d7 EEPROM.o
+ .debug_info    0x0000047c      0x1df keypad.o
+ .debug_info    0x0000065b      0x40c lcd.o
+ .debug_info    0x00000a67      0x655 Master_MainFun.o
+ .debug_info    0x000010bc      0x167 microconfg.o
+ .debug_info    0x00001223       0xe3 SPI.o
+ .debug_info    0x00001306       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .debug_info    0x000013e3       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .debug_info    0x000014c0       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .debug_info    0x0000159d       0xdd c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x789
+.debug_abbrev   0x00000000      0x805
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x119 master.o
- .debug_abbrev  0x00000119       0xa4 EEPROM.o
- .debug_abbrev  0x000001bd      0x110 keypad.o
- .debug_abbrev  0x000002cd      0x1a5 lcd.o
- .debug_abbrev  0x00000472      0x1ae Master_MainFun.o
- .debug_abbrev  0x00000620       0xa7 microconfg.o
- .debug_abbrev  0x000006c7       0x72 SPI.o
- .debug_abbrev  0x00000739       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .debug_abbrev  0x0000074d       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .debug_abbrev  0x00000761       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
- .debug_abbrev  0x00000775       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_abbrev  0x00000000      0x150 master.o
+ .debug_abbrev  0x00000150       0xa4 EEPROM.o
+ .debug_abbrev  0x000001f4      0x110 keypad.o
+ .debug_abbrev  0x00000304      0x1a5 lcd.o
+ .debug_abbrev  0x000004a9      0x1f3 Master_MainFun.o
+ .debug_abbrev  0x0000069c       0xa7 microconfg.o
+ .debug_abbrev  0x00000743       0x72 SPI.o
+ .debug_abbrev  0x000007b5       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .debug_abbrev  0x000007c9       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .debug_abbrev  0x000007dd       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .debug_abbrev  0x000007f1       0x14 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
 
-.debug_line     0x00000000      0xc7a
+.debug_line     0x00000000      0xd1e
  *(.debug_line)
- .debug_line    0x00000000      0x1ad master.o
- .debug_line    0x000001ad      0x126 EEPROM.o
- .debug_line    0x000002d3      0x1db keypad.o
- .debug_line    0x000004ae      0x1e4 lcd.o
- .debug_line    0x00000692      0x259 Master_MainFun.o
- .debug_line    0x000008eb       0x65 microconfg.o
- .debug_line    0x00000950       0xe9 SPI.o
- .debug_line    0x00000a39       0x88 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
- .debug_line    0x00000ac1       0x91 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
- .debug_line    0x00000b52       0x8e c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
- .debug_line    0x00000be0       0x9a c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_line    0x00000000      0x1dc master.o
+ .debug_line    0x000001dc      0x126 EEPROM.o
+ .debug_line    0x00000302      0x1db keypad.o
+ .debug_line    0x000004dd      0x1e4 lcd.o
+ .debug_line    0x000006c1      0x2ce Master_MainFun.o
+ .debug_line    0x0000098f       0x65 microconfg.o
+ .debug_line    0x000009f4       0xe9 SPI.o
+ .debug_line    0x00000add       0x88 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_exit.o)
+ .debug_line    0x00000b65       0x91 c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_copy_data.o)
+ .debug_line    0x00000bf6       0x8e c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_clear_bss.o)
+ .debug_line    0x00000c84       0x9a c:/program files (x86)/atmel/atmel studio 6.0/extensions/atmel/avrgcc/3.4.1.95/avrtoolchain/bin/../lib/gcc/avr/4.6.2/avr5\libgcc.a(_udivmodhi4.o)
 
-.debug_frame    0x00000000      0x270
+.debug_frame    0x00000000      0x2ac
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 master.o
  .debug_frame   0x00000024       0x54 EEPROM.o
  .debug_frame   0x00000078       0x24 keypad.o
  .debug_frame   0x0000009c       0xb8 lcd.o
- .debug_frame   0x00000154       0xa4 Master_MainFun.o
- .debug_frame   0x000001f8       0x34 microconfg.o
- .debug_frame   0x0000022c       0x44 SPI.o
+ .debug_frame   0x00000154       0xe0 Master_MainFun.o
+ .debug_frame   0x00000234       0x34 microconfg.o
+ .debug_frame   0x00000268       0x44 SPI.o
 
-.debug_str      0x00000000      0x467
+.debug_str      0x00000000      0x4d8
  *(.debug_str)
- .debug_str     0x00000000      0x16a master.o
-                                0x1a3 (size before relaxing)
- .debug_str     0x0000016a       0xb6 EEPROM.o
+ .debug_str     0x00000000      0x1ba master.o
+                                0x1f8 (size before relaxing)
+ .debug_str     0x000001ba       0xb6 EEPROM.o
                                 0x1c2 (size before relaxing)
- .debug_str     0x00000220       0x2b keypad.o
+ .debug_str     0x00000270       0x2b keypad.o
                                 0x160 (size before relaxing)
- .debug_str     0x0000024b       0x90 lcd.o
+ .debug_str     0x0000029b       0x90 lcd.o
                                 0x1ca (size before relaxing)
- .debug_str     0x000002db       0x9b Master_MainFun.o
-                                0x229 (size before relaxing)
- .debug_str     0x00000376       0xac microconfg.o
+ .debug_str     0x0000032b       0xbc Master_MainFun.o
+                                0x28b (size before relaxing)
+ .debug_str     0x000003e7       0xac microconfg.o
                                 0x1ad (size before relaxing)
- .debug_str     0x00000422       0x45 SPI.o
+ .debug_str     0x00000493       0x45 SPI.o
                                 0x149 (size before relaxing)
 
-.debug_loc      0x00000000      0x6f0
+.debug_loc      0x00000000      0x83b
  *(.debug_loc)
- .debug_loc     0x00000000       0xe0 EEPROM.o
- .debug_loc     0x000000e0      0x1ea lcd.o
- .debug_loc     0x000002ca      0x341 Master_MainFun.o
- .debug_loc     0x0000060b       0xc6 microconfg.o
- .debug_loc     0x000006d1       0x1f SPI.o
+ .debug_loc     0x00000000       0x48 master.o
+ .debug_loc     0x00000048       0xe0 EEPROM.o
+ .debug_loc     0x00000128      0x1ea lcd.o
+ .debug_loc     0x00000312      0x444 Master_MainFun.o
+ .debug_loc     0x00000756       0xc6 microconfg.o
+ .debug_loc     0x0000081c       0x1f SPI.o
 
 .debug_macinfo
  *(.debug_macinfo)

@@ -11,11 +11,11 @@
 #define OFFSET_MESSAGE   0x20 
 
 #define ROOM1_TURN_ON    0x21
-#define ROOM1_TURN_OFF   0x21
-#define ROOM2_TURN_ON    0x22
-#define ROOM2_TURN_OFF   0x23
-#define ROOM3_TURN_ON    0x24
-#define ROOM3_TURN_OFF   0x25
+#define ROOM1_TURN_OFF   0x22
+#define ROOM2_TURN_ON    0x23
+#define ROOM2_TURN_OFF   0x24
+#define ROOM3_TURN_ON    0x25
+#define ROOM3_TURN_OFF   0x26
 #define TV_TURN_ON 		 0x27
 #define TV_TURN_OFF 	 0x28
 #define AIR_COND_TURN_ON 0x29
