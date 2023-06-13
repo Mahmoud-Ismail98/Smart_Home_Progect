@@ -30,7 +30,7 @@
 #define TURN_OFF '2'
 #define RET '0'
 
-#define ALLWED_TRIES  (uint8)1
+#define ALLWED_TRIES  (uint8)3
 #define NO_MODE 0
 #define	OWNER_MODE 1
 #define	GUEST_MODE 2
@@ -55,11 +55,11 @@
 #define  OWNER_PIN		(uint8)0
 #define  GUEST_PIN		(uint8)1
 #define BLOCK_BUZ_PIN	(uint8)2
-#define  ROOM1 (uint8)2
-#define  ROOM2 (uint8)3
-#define  ROOM3 (uint8)4
-#define  TV (uint8)5
-#define  AIR_COND (uint8)6
+#define  ROOM1    (uint8)1
+#define  ROOM2    (uint8)2
+#define  ROOM3	  (uint8)3
+#define  TV		  (uint8)4
+#define  AIR_COND (uint8)5
 
 #define Login_status (uint16)0x20
 #define ADMIN_PASS_ADD (uint16)0x21

@@ -34,13 +34,17 @@ uint8 SPI_RESPONSE;
 
 int main(void)
 {
-   	LCD_INISTIALIZATION();
+	
+	LCD_INISTIALIZATION();
 	SPI_vInitMaster();//initializes the communication protocol of SPI
+while (1)
+{
 	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
+	GO_LOC(2,2);
 	SEND_STRING("wellcome to smart");
-	_delay_ms(500);
-	GO_LOC(2,3);
+	GO_LOC(3,5);
 	SEND_STRING("home system");
+	_delay_ms(1000);
 while (1)
 {
 	if (EEPROM_ui8ReadByteFromAddress(Login_status)==0xFF)
@@ -50,9 +54,9 @@ while (1)
 	while (Mode==NO_MODE)
 	{
 	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-	GO_LOC(2,1);
-	SEND_STRING("selec mode");
-	GO_LOC(3,1);
+	GO_LOC(2,5);
+	SEND_STRING("select mode");
+	GO_LOC(3,3);
 	SEND_STRING("0:Owner 1:Guest");
 	_delay_ms(2000);				
 	key_pressed=keyfind();
@@ -66,9 +70,9 @@ while (1)
 	}
 	}			
 	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-	GO_LOC(1,1);	
+	GO_LOC(1,3);	
 	SEND_STRING("1:ROOM1 2:ROOM2");
-	GO_LOC(2,1);
+	GO_LOC(2,3);
 	SEND_STRING("3:ROOM3 ");	
 	
 	if (Mode==OWNER_MODE)
@@ -77,10 +81,29 @@ while (1)
 			GO_LOC(3,3);
 			SEND_STRING("5:AIR_Condition");
 	}
-	key_pressed=keyfind();
-	
-	u8EnterRoonConfig(key_pressed);				
-			
-			
-	}			
+	if (Mode==OWNER_MODE)
+	{
+		GO_LOC(4,4);
+	} 
+	else
+	{
+		GO_LOC(3,4);
 	}
+
+	SEND_STRING("EXIT PRESS:* ");
+		
+	key_pressed=keyfind();
+	if (key_pressed=='*')
+	{
+		Mode=NO_MODE;
+		PORTC&=(~(1<<OWNER_PIN));
+		PORTC&=(~(1<<GUEST_PIN));
+		break;
+	}
+	else
+	{
+	u8EnterRoonConfig(key_pressed);		
+	}										
+}
+	}			
+}

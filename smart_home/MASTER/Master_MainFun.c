@@ -10,7 +10,8 @@ uint8 pass[4];
 uint8 pass_count=0;
 volatile char key_pressed;
 uint8 Mode;
-						
+uint8 temp[2];
+uint8 Temp_Value;						
 vEnterFirstTime()
 {
 			SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
@@ -27,7 +28,7 @@ vEnterFirstTime()
 				key_pressed =keyfind();
 				pass[pass_count]=(key_pressed-48);
 				SEND_DATE(key_pressed);
-				_delay_ms(00);
+				_delay_ms(100);
 				pass_count++;
 			}
 			EEPROM_vWriteBlockToAddress(ADMIN_PASS_ADD,pass,4);
@@ -58,7 +59,7 @@ void SelectModePass(struct_modecnf *ps)
 	while (Wrong_Tries < ALLWED_TRIES)
 	{
 		SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-		GO_LOC(2,1);
+		GO_LOC(2,5);
 		SEND_STRING(ps->ptr_mode);
 		SEND_STRING(" MODE");
 		GO_LOC(3,1);
@@ -95,8 +96,9 @@ void SelectModePass(struct_modecnf *ps)
 		SEND_STRING("blocked mode");
 		GO_LOC(3,4);
 		SEND_STRING("wait 20 sec");
-		_delay_ms(9000);
+		_delay_ms(3000);
 	    PORTC&=(~(1<<BLOCK_BUZ_PIN));
+	    _delay_ms(7000);
 	}
 
 }
@@ -109,7 +111,7 @@ uint8 u8CheckPass(uint8 u8Mode_Add )
 		key_pressed=keyfind();
 		pass[pass_count]=(key_pressed);
 		SEND_DATE(key_pressed);
-		_delay_ms(100);
+		_delay_ms(300);
 		GO_LOC(3,12+pass_count);
 		SEND_DATE('*');
 		_delay_ms(100);
@@ -169,7 +171,7 @@ uint8 u8EnterRoonConfig(char Key)
 		vTurnOnOf(key_pressed,OFFSET_MESSAGE+TV_OFFSET);
 		break;	
 	case AIRCOND_CNFG:
-		vShowState(AIR_COND,AIRCOND_CNFG);
+		vShowState(AIR_COND_STATUS,AIRCOND_CNFG);
 		key_pressed=keyfind();
 		if (key_pressed==RET) break;	
 		if (key_pressed=='3')  //entering control temperture of air conditioning
@@ -196,7 +198,7 @@ void vShowState(uint8 State,char Num)
 	SEND_STRING("TV:");
 	SEND_STRING(" State:");		
 	}
-	if (Num==AIRCOND_CNFG)
+	else if (Num==AIRCOND_CNFG)
 	{
 		SEND_STRING("AIR_COND:");
 		SEND_STRING(" State:");
@@ -219,10 +221,7 @@ void vShowState(uint8 State,char Num)
 	{
 		SEND_STRING("OFF");//print the status off
 	}
-	else 
-	{
-		SEND_STRING("");//print the status off
-	}	
+
 	GO_LOC(3,1);
 	SEND_STRING("ON:1   OFF:2  RET:0");
 	if (Num==AIRCOND_CNFG)
@@ -249,18 +248,29 @@ void vTurnOnOf(char key,uint8 MESSAGE)
 
 void vSetTempMenue(void)
 {
-	
-	uint8 temp[2];
-	uint8 Temp_Value;
-	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically
-	GO_LOC(2,1);
-	SEND_STRING("enter temp:");
+	SEND_COMND(0x01); //clear lcd and curser goto loc(1.1) automatically	
+	SPI_ui8TransmitRecive(TEMP_STATUS);	//demand the status from the slave
+	_delay_ms(100);//Halt the system for the given time in (ms)	
+	//uint8 temp[2];
+	//uint8 Temp_Value;
+	Temp_Value = SPI_ui8TransmitRecive(DEMAND_RESPONSE);
+	temp[0]=Temp_Value/10;
+	temp[1]=Temp_Value%10;	
+	GO_LOC(2,1);	
+	SEND_STRING("old required temp:");
+	SEND_DATE(temp[0]+48);
+	SEND_DATE(temp[1]+48);		
+	Temp_Value=0;
+	temp[0]=0;
+	temp[1]=0;
+	GO_LOC(3,1);
+	SEND_STRING("enter new temp:");
 	key_pressed=keyfind();
-	temp[0]=key_pressed;
+	temp[0]=key_pressed-48;
 	SEND_DATE(key_pressed);
 	_delay_ms(200);
 	key_pressed=keyfind();
-	temp[1]=key_pressed;
+	temp[1]=key_pressed-48;
 	SEND_DATE(key_pressed);
 	_delay_ms(200);
 	SPI_ui8TransmitRecive(SET_TEMPERATURE);//Send the code of set temperature

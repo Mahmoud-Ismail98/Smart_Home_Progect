@@ -7,7 +7,7 @@
 #define ROOM4_STATUS    0x14
 #define TV_STATUS 		0x15
 #define AIR_COND_STATUS 0x16
-
+#define TEMP_STATUS		0x17
 #define OFFSET_MESSAGE   0x20
 
 #define ROOM1_TURN_ON    0x21

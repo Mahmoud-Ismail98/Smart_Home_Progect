@@ -22,10 +22,11 @@ uint8 SPI_RESPONSE;
 volatile uint8 counter=0;
 volatile uint8 required_temperature=24;  //default temp
 volatile uint16	Temp_SensRead=0;
+//uint8 AIR_COND_POS=OFF_STATUS;
 int main(void)
 {
 	ADC_vinit();//initialize the ADC of the micro controller
-	timer0_initializeCTC();//Initialize the timer zero of the micro controller
+//	timer0_initializeCTC();//Initialize the timer zero of the micro controller
 	SPI_vInitSlave();//initialize the SPI as a slave
 	
 
@@ -79,75 +80,74 @@ int main(void)
 		
 		SPI_ui8TransmitRecive(SPI_RESPONSE);
 		break;	
-			case AIR_COND_STATUS:
-			if (LED_u8ReadStatus(AIR_COND_PORT,AIR_COND_PIN)==0)//if the led is turned off
-			{
-				SPI_RESPONSE = OFF_STATUS;//set the response as off status
-			}
-			else if (LED_u8ReadStatus(AIR_COND_PORT,AIR_COND_PIN)==1)//if the led is turned on
-			{
-				SPI_RESPONSE = ON_STATUS;//set the response as on status
-			}
-			else
-			{
-			}
+		case AIR_COND_STATUS:
+		if (LED_u8ReadStatus(AIR_COND_PORT,AIR_COND_PIN)==0)//if the led is turned off
+		{
+			SPI_RESPONSE = OFF_STATUS;//set the response as off status
+		}
+		else if (LED_u8ReadStatus(AIR_COND_PORT,AIR_COND_PIN)==1)//if the led is turned on
+		{
+			SPI_RESPONSE = ON_STATUS;//set the response as on status
+		}
+		SPI_ui8TransmitRecive(SPI_RESPONSE);//response to the transmitter with the status
+		break;
+		case TEMP_STATUS:
+
+			SPI_RESPONSE = required_temperature;
 			SPI_ui8TransmitRecive(SPI_RESPONSE);//response to the transmitter with the status
-			break;
-			case TV_STATUS:
-			if (LED_u8ReadStatus(TV_PORT,TV_PIN)==0)//if the led is turned off
-			{
-				SPI_RESPONSE = OFF_STATUS;//set the response as off status
-			}
-			else if (LED_u8ReadStatus(TV_PORT,TV_PIN)==1)//if the led is turned on
-			{
-				SPI_RESPONSE = ON_STATUS;//set the response as on status
-			}
-			else
-			{
-			}
-			SPI_ui8TransmitRecive(SPI_RESPONSE);//response to the transmitter with the status
-			break;//break the switch case
-				
-			/*********************************   TURN ON COMMANDS ********************************/
-			case ROOM1_TURN_ON:
-			LED_vTurnOn(ROOM1_PORT,ROOM1_PIN);//turn on the led of room 1
-			break;//break the switch case
-			case ROOM2_TURN_ON:
-			LED_vTurnOn(ROOM1_PORT,ROOM2_PIN);//turn on the led of room 2
-			break;//break the switch case
-			case ROOM3_TURN_ON:
-			LED_vTurnOn(ROOM3_PORT,ROOM3_PIN);//turn on the led of room 3
-			break;//break the switch case
-			case AIR_COND_TURN_ON:
-			timer0_initializeCTC();
-			LED_vTurnOn(AIR_COND_PORT,AIR_COND_PIN);//turn on the led of air conditioning
-			break;//break the switch case
-			case TV_TURN_ON:
-			LED_vTurnOn(TV_PORT,TV_PIN);//turn on the led of the TV
-			break;//break the switch case
+		break;
+		case TV_STATUS:
+		if (LED_u8ReadStatus(TV_PORT,TV_PIN)==0)//if the led is turned off
+		{
+			SPI_RESPONSE = OFF_STATUS;//set the response as off status
+		}
+		else if (LED_u8ReadStatus(TV_PORT,TV_PIN)==1)//if the led is turned on
+		{
+			SPI_RESPONSE = ON_STATUS;//set the response as on status
+		}
+		SPI_ui8TransmitRecive(SPI_RESPONSE);//response to the transmitter with the status
+		break;//break the switch case
 			
-			/*********************************   TURN OFF COMMANDS ********************************/
-			case ROOM1_TURN_OFF:
-			LED_vTurnOff(ROOM1_PORT,ROOM1_PIN);//turn off the led of room 1
-			break;//break the switch case
-			case ROOM2_TURN_OFF:
-			LED_vTurnOff(ROOM2_PORT,ROOM2_PIN);//turn off the led of room 2
-			break;//break the switch case
-			case ROOM3_TURN_OFF:
-			LED_vTurnOff(ROOM3_PORT,ROOM3_PIN);//turn off the led of room 3
-			break;//break the switch case
-			case AIR_COND_TURN_OFF:
-			timer0_stop();
-			LED_vTurnOff(AIR_COND_PORT,AIR_COND_PIN);//turn off the led of air conditioning
-			break;//break the switch case
-			case TV_TURN_OFF:
-			LED_vTurnOff(TV_PORT,TV_PIN);//turn off the led of the TV
-			break;//break the switch case
+		/*********************************   TURN ON COMMANDS ********************************/
+		case ROOM1_TURN_ON:
+		LED_vTurnOn(ROOM1_PORT,ROOM1_PIN);//turn on the led of room 1
+		break;//break the switch case
+		case ROOM2_TURN_ON:
+		LED_vTurnOn(ROOM1_PORT,ROOM2_PIN);//turn on the led of room 2
+		break;//break the switch case
+		case ROOM3_TURN_ON:
+		LED_vTurnOn(ROOM3_PORT,ROOM3_PIN);//turn on the led of room 3
+		break;//break the switch case
+		case AIR_COND_TURN_ON:
+		timer0_initializeCTC();		
+		//LED_vTurnOn(AIR_COND_PORT,AIR_COND_PIN);//turn on the led of air conditioning
+		break;//break the switch case
+		case TV_TURN_ON:
+		LED_vTurnOn(TV_PORT,TV_PIN);//turn on the led of the TV
+		break;//break the switch case
 			
-			/*********************************   Set temperature   ********************************/
-			case SET_TEMPERATURE:
-			required_temperature = SPI_ui8TransmitRecive(DEFAULT_ACK);//get the temperature from the master and store the temperature in required temperature
-			break;//break the switch case		
+		/*********************************   TURN OFF COMMANDS ********************************/
+		case ROOM1_TURN_OFF:
+		LED_vTurnOff(ROOM1_PORT,ROOM1_PIN);//turn off the led of room 1
+		break;//break the switch case
+		case ROOM2_TURN_OFF:
+		LED_vTurnOff(ROOM2_PORT,ROOM2_PIN);//turn off the led of room 2
+		break;//break the switch case
+		case ROOM3_TURN_OFF:
+		LED_vTurnOff(ROOM3_PORT,ROOM3_PIN);//turn off the led of room 3
+		break;//break the switch case
+		case AIR_COND_TURN_OFF:
+		timer0_stop();
+		LED_vTurnOff(AIR_COND_PORT,AIR_COND_PIN);//turn off the led of air conditioning
+		break;//break the switch case
+		case TV_TURN_OFF:
+		LED_vTurnOff(TV_PORT,TV_PIN);//turn off the led of the TV
+		break;//break the switch case
+		
+		/*********************************   Set temperature   ********************************/
+		case SET_TEMPERATURE:
+		required_temperature = SPI_ui8TransmitRecive(DEFAULT_ACK);//get the temperature from the master and store the temperature in required temperature
+		break;//break the switch case		
 		
 		
         //TODO:: Please write your application code 
